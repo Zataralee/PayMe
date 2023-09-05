@@ -121,8 +121,9 @@ namespace PayMe
         {
             var token = discordToken.Text;
             var channelID = ulong.Parse(channelDiscordID.Text); // Convert the channel ID from string to ulong
+            //Console.WriteLine(ulong.Parse(channelDiscordID.Text));
             var message = discordTestMessage.Text;
-
+                        
             var client = new DiscordSocketClient();
             client.Log += LogAsync;
 

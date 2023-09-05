@@ -101,7 +101,7 @@
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(2654, 1404);
             this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Payouts";
+            this.tabPage3.Text = "Ledger";
             // 
             // tabPage4
             // 
