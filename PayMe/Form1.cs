@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.IO;
 using Discord;
 using Discord.WebSocket;
+using PayMe.Services;
+using System.Configuration;
 
 namespace PayMe
 {
@@ -17,10 +19,15 @@ namespace PayMe
     {
         private string defaultConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PayMe", "SaveData", "PayMe.cfg");
 
+        DiscordService discordService = new DiscordService();
+
         public Form1()
         {
             InitializeComponent();
             LoadConfiguration();
+
+            discordService.GetDiscordBotConfig();
+
             this.Load += Form1_Load;  // Register the Load event
         }
 
