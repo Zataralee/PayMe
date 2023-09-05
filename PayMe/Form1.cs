@@ -13,36 +13,35 @@ namespace PayMe
 {
     public partial class Form1 : Form
     {
-        private string defaultConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PayMe", "PayMe.cfg");
+        private string defaultConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PayMe", "SaveData", "PayMe.cfg");
 
         public Form1()
         {
             InitializeComponent();
-            LoadDefaultSaveLocation();
+            LoadConfiguration();
         }
 
-        private void LoadDefaultSaveLocation()
+        private void LoadConfiguration()
         {
-            //MessageBox.Show("LoadDefaultSaveLocation method executed"); 
-
-            string defaultLocation;
-
             if (File.Exists(defaultConfigPath))
             {
-                defaultLocation = File.ReadAllText(defaultConfigPath).Trim();
-                if (string.IsNullOrWhiteSpace(defaultLocation))
+                string[] configLines = File.ReadAllLines(defaultConfigPath);
+                if (configLines.Length >= 3)
                 {
-                    defaultLocation = GetDefaultSaveLocation();
-                    SaveDefaultLocation(defaultLocation);
+                    discordToken.Text = configLines[0].Trim();
+                    channelDiscordID.Text = configLines[1].Trim();
+                    saveLocation.Text = configLines[2].Trim();
+                }
+                else
+                {
+                    MessageBox.Show("The configuration file has an unexpected format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
             {
-                defaultLocation = GetDefaultSaveLocation();
-                SaveDefaultLocation(defaultLocation);
+                saveLocation.Text = GetDefaultSaveLocation();
+                SaveConfiguration();
             }
-
-            textBox4.Text = defaultLocation;
         }
 
         private string GetDefaultSaveLocation()
@@ -50,16 +49,17 @@ namespace PayMe
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PayMe", "SaveData");
         }
 
-        private void SaveDefaultLocation(string location)
+        private void SaveConfiguration()
         {
             try
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(defaultConfigPath));
-                File.WriteAllText(defaultConfigPath, location);
+                string configData = $"{discordToken.Text}\n{channelDiscordID.Text}\n{saveLocation.Text}";
+                File.WriteAllText(defaultConfigPath, configData);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error saving the default location: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error saving the configuration: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -67,22 +67,27 @@ namespace PayMe
         {
             using (FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog())
             {
-                folderBrowserDialog.SelectedPath = textBox4.Text;
+                folderBrowserDialog.SelectedPath = saveLocation.Text;
 
                 if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
                 {
                     string selectedFolderPath = folderBrowserDialog.SelectedPath;
-                    textBox4.Text = selectedFolderPath;
-
-                    SaveDefaultLocation(selectedFolderPath);
+                    saveLocation.Text = selectedFolderPath;
+                    SaveConfiguration();
                 }
             }
+        }
+
+        private void btnSave_Click_1(object sender, EventArgs e)
+        {
+            SaveConfiguration();
+            MessageBox.Show("Configuration saved successfully!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void tabPage4_Click(object sender, EventArgs e)
         {
             // Your logic for this event goes here.
         }
-    }
 
+    }
 }

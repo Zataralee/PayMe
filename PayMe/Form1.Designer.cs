@@ -33,20 +33,26 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.saveLocation = new System.Windows.Forms.TextBox();
+            this.configSaveLocation = new System.Windows.Forms.Button();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.discordMSGSend = new System.Windows.Forms.Button();
+            this.discrodBotConnect = new System.Windows.Forms.Button();
+            this.discordTestMessage = new System.Windows.Forms.TextBox();
+            this.channelDiscordID = new System.Windows.Forms.TextBox();
+            this.discordToken = new System.Windows.Forms.TextBox();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.tabPage5.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,17 +68,18 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(2038, 1160);
+            this.tabControl1.Size = new System.Drawing.Size(2662, 1437);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.DimGray;
             this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage1.Controls.Add(this.button6);
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(2030, 1127);
+            this.tabPage1.Size = new System.Drawing.Size(2654, 1404);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Rewards";
             // 
@@ -82,7 +89,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(2030, 1127);
+            this.tabPage2.Size = new System.Drawing.Size(2654, 1404);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Users";
             // 
@@ -91,105 +98,67 @@
             this.tabPage3.BackColor = System.Drawing.Color.DimGray;
             this.tabPage3.Location = new System.Drawing.Point(4, 29);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(2030, 1127);
+            this.tabPage3.Size = new System.Drawing.Size(2654, 1404);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Payouts";
             // 
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.Color.DimGray;
-            this.tabPage4.Controls.Add(this.textBox4);
-            this.tabPage4.Controls.Add(this.button3);
+            this.tabPage4.Controls.Add(this.button5);
+            this.tabPage4.Controls.Add(this.saveLocation);
+            this.tabPage4.Controls.Add(this.configSaveLocation);
             this.tabPage4.Location = new System.Drawing.Point(4, 29);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(2030, 1127);
+            this.tabPage4.Size = new System.Drawing.Size(2654, 1404);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Settings";
             this.tabPage4.Click += new System.EventHandler(this.tabPage4_Click);
             // 
+            // saveLocation
+            // 
+            this.saveLocation.Location = new System.Drawing.Point(163, 27);
+            this.saveLocation.Name = "saveLocation";
+            this.saveLocation.Size = new System.Drawing.Size(964, 26);
+            this.saveLocation.TabIndex = 1;
+            // 
+            // configSaveLocation
+            // 
+            this.configSaveLocation.Location = new System.Drawing.Point(21, 20);
+            this.configSaveLocation.Name = "configSaveLocation";
+            this.configSaveLocation.Size = new System.Drawing.Size(136, 40);
+            this.configSaveLocation.TabIndex = 0;
+            this.configSaveLocation.Text = "Save Location";
+            this.configSaveLocation.UseVisualStyleBackColor = true;
+            this.configSaveLocation.Click += new System.EventHandler(this.button3_Click);
+            // 
             // tabPage5
             // 
             this.tabPage5.BackColor = System.Drawing.Color.DimGray;
+            this.tabPage5.Controls.Add(this.button4);
             this.tabPage5.Location = new System.Drawing.Point(4, 29);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(2030, 1127);
+            this.tabPage5.Size = new System.Drawing.Size(2654, 1404);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "SQL";
             // 
             // tabPage6
             // 
             this.tabPage6.BackColor = System.Drawing.Color.DimGray;
+            this.tabPage6.Controls.Add(this.btnSave);
             this.tabPage6.Controls.Add(this.label3);
             this.tabPage6.Controls.Add(this.label2);
             this.tabPage6.Controls.Add(this.label1);
-            this.tabPage6.Controls.Add(this.button2);
-            this.tabPage6.Controls.Add(this.button1);
-            this.tabPage6.Controls.Add(this.textBox3);
-            this.tabPage6.Controls.Add(this.textBox2);
-            this.tabPage6.Controls.Add(this.textBox1);
+            this.tabPage6.Controls.Add(this.discordMSGSend);
+            this.tabPage6.Controls.Add(this.discrodBotConnect);
+            this.tabPage6.Controls.Add(this.discordTestMessage);
+            this.tabPage6.Controls.Add(this.channelDiscordID);
+            this.tabPage6.Controls.Add(this.discordToken);
             this.tabPage6.Location = new System.Drawing.Point(4, 29);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(2030, 1127);
+            this.tabPage6.Size = new System.Drawing.Size(2654, 1404);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Discord";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(205, 42);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(440, 26);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.UseSystemPasswordChar = true;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(205, 84);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(440, 26);
-            this.textBox2.TabIndex = 1;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(205, 125);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(440, 26);
-            this.textBox3.TabIndex = 2;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(666, 38);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(111, 34);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Connect";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(666, 121);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(111, 34);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "Send";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(53, 45);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(140, 20);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Discord Bot Token";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(53, 87);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(147, 20);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Discord Channel ID";
             // 
             // label3
             // 
@@ -200,36 +169,122 @@
             this.label3.TabIndex = 7;
             this.label3.Text = "Test Message";
             // 
-            // button3
+            // label2
             // 
-            this.button3.Location = new System.Drawing.Point(111, 81);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(136, 40);
-            this.button3.TabIndex = 0;
-            this.button3.Text = "Save Location";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(53, 87);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(147, 20);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Discord Channel ID";
             // 
-            // textBox4
+            // label1
             // 
-            this.textBox4.Location = new System.Drawing.Point(253, 88);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(964, 26);
-            this.textBox4.TabIndex = 1;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(53, 45);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(140, 20);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Discord Bot Token";
+            // 
+            // discordMSGSend
+            // 
+            this.discordMSGSend.Location = new System.Drawing.Point(666, 121);
+            this.discordMSGSend.Name = "discordMSGSend";
+            this.discordMSGSend.Size = new System.Drawing.Size(111, 34);
+            this.discordMSGSend.TabIndex = 4;
+            this.discordMSGSend.Text = "Send";
+            this.discordMSGSend.UseVisualStyleBackColor = true;
+            // 
+            // discrodBotConnect
+            // 
+            this.discrodBotConnect.Location = new System.Drawing.Point(666, 38);
+            this.discrodBotConnect.Name = "discrodBotConnect";
+            this.discrodBotConnect.Size = new System.Drawing.Size(111, 34);
+            this.discrodBotConnect.TabIndex = 3;
+            this.discrodBotConnect.Text = "Connect";
+            this.discrodBotConnect.UseVisualStyleBackColor = true;
+            // 
+            // discordTestMessage
+            // 
+            this.discordTestMessage.Location = new System.Drawing.Point(205, 125);
+            this.discordTestMessage.Name = "discordTestMessage";
+            this.discordTestMessage.Size = new System.Drawing.Size(440, 26);
+            this.discordTestMessage.TabIndex = 2;
+            // 
+            // channelDiscordID
+            // 
+            this.channelDiscordID.Location = new System.Drawing.Point(205, 84);
+            this.channelDiscordID.Name = "channelDiscordID";
+            this.channelDiscordID.Size = new System.Drawing.Size(440, 26);
+            this.channelDiscordID.TabIndex = 1;
+            // 
+            // discordToken
+            // 
+            this.discordToken.Location = new System.Drawing.Point(205, 42);
+            this.discordToken.Name = "discordToken";
+            this.discordToken.Size = new System.Drawing.Size(440, 26);
+            this.discordToken.TabIndex = 0;
+            this.discordToken.UseSystemPasswordChar = true;
+            // 
+            // btnSave
+            // 
+            this.btnSave.AutoSize = true;
+            this.btnSave.Location = new System.Drawing.Point(205, 157);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(133, 37);
+            this.btnSave.TabIndex = 1;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click_1);
+            // 
+            // button4
+            // 
+            this.button4.AutoSize = true;
+            this.button4.Location = new System.Drawing.Point(8, 451);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(133, 37);
+            this.button4.TabIndex = 2;
+            this.button4.Text = "Save";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            this.button5.AutoSize = true;
+            this.button5.Location = new System.Drawing.Point(24, 653);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(133, 37);
+            this.button5.TabIndex = 2;
+            this.button5.Text = "Save";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
+            // button6
+            // 
+            this.button6.AutoSize = true;
+            this.button6.Location = new System.Drawing.Point(7, 760);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(133, 37);
+            this.button6.TabIndex = 2;
+            this.button6.Text = "Save";
+            this.button6.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(2038, 1160);
+            this.ClientSize = new System.Drawing.Size(2662, 1437);
             this.Controls.Add(this.tabControl1);
             this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Name = "Form1";
             this.Text = "Form1";
             this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
             this.ResumeLayout(false);
@@ -248,13 +303,17 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button discordMSGSend;
+        private System.Windows.Forms.Button discrodBotConnect;
+        private System.Windows.Forms.TextBox discordTestMessage;
+        private System.Windows.Forms.TextBox channelDiscordID;
+        private System.Windows.Forms.TextBox discordToken;
+        private System.Windows.Forms.TextBox saveLocation;
+        private System.Windows.Forms.Button configSaveLocation;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button btnSave;
     }
 }
 
