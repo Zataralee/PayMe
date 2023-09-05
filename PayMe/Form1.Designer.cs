@@ -41,7 +41,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.discordMSGSend = new System.Windows.Forms.Button();
-            this.discrodBotConnect = new System.Windows.Forms.Button();
+            this.discordBotConnect = new System.Windows.Forms.Button();
             this.discordTestMessage = new System.Windows.Forms.TextBox();
             this.channelDiscordID = new System.Windows.Forms.TextBox();
             this.discordToken = new System.Windows.Forms.TextBox();
@@ -49,6 +49,7 @@
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.discordAutoConnect = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -145,12 +146,13 @@
             // tabPage6
             // 
             this.tabPage6.BackColor = System.Drawing.Color.DimGray;
+            this.tabPage6.Controls.Add(this.discordAutoConnect);
             this.tabPage6.Controls.Add(this.btnSave);
             this.tabPage6.Controls.Add(this.label3);
             this.tabPage6.Controls.Add(this.label2);
             this.tabPage6.Controls.Add(this.label1);
             this.tabPage6.Controls.Add(this.discordMSGSend);
-            this.tabPage6.Controls.Add(this.discrodBotConnect);
+            this.tabPage6.Controls.Add(this.discordBotConnect);
             this.tabPage6.Controls.Add(this.discordTestMessage);
             this.tabPage6.Controls.Add(this.channelDiscordID);
             this.tabPage6.Controls.Add(this.discordToken);
@@ -196,14 +198,14 @@
             this.discordMSGSend.Text = "Send";
             this.discordMSGSend.UseVisualStyleBackColor = true;
             // 
-            // discrodBotConnect
+            // discordBotConnect
             // 
-            this.discrodBotConnect.Location = new System.Drawing.Point(666, 38);
-            this.discrodBotConnect.Name = "discrodBotConnect";
-            this.discrodBotConnect.Size = new System.Drawing.Size(111, 34);
-            this.discrodBotConnect.TabIndex = 3;
-            this.discrodBotConnect.Text = "Connect";
-            this.discrodBotConnect.UseVisualStyleBackColor = true;
+            this.discordBotConnect.Location = new System.Drawing.Point(666, 38);
+            this.discordBotConnect.Name = "discordBotConnect";
+            this.discordBotConnect.Size = new System.Drawing.Size(111, 34);
+            this.discordBotConnect.TabIndex = 3;
+            this.discordBotConnect.Text = "Connect";
+            this.discordBotConnect.UseVisualStyleBackColor = true;
             // 
             // discordTestMessage
             // 
@@ -268,6 +270,17 @@
             this.button6.Text = "Save";
             this.button6.UseVisualStyleBackColor = true;
             // 
+            // discordAutoConnect
+            // 
+            this.discordAutoConnect.AutoSize = true;
+            this.discordAutoConnect.Location = new System.Drawing.Point(826, 43);
+            this.discordAutoConnect.Name = "discordAutoConnect";
+            this.discordAutoConnect.Size = new System.Drawing.Size(159, 24);
+            this.discordAutoConnect.TabIndex = 8;
+            this.discordAutoConnect.Text = "Connect On Start";
+            this.discordAutoConnect.UseVisualStyleBackColor = true;
+            this.discordAutoConnect.CheckedChanged += new System.EventHandler(this.discordAutoConnect_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -304,7 +317,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button discordMSGSend;
-        private System.Windows.Forms.Button discrodBotConnect;
+        private System.Windows.Forms.Button discordBotConnect;
         private System.Windows.Forms.TextBox discordTestMessage;
         private System.Windows.Forms.TextBox channelDiscordID;
         private System.Windows.Forms.TextBox discordToken;
@@ -314,6 +327,7 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.CheckBox discordAutoConnect;
     }
 }
 
