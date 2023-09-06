@@ -14,12 +14,16 @@ using Discord.Net;
 
 namespace PayMe
 {
+
     public partial class Form1 : Form
     {
         private string defaultConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PayMe", "SaveData", "PayMe.cfg");
 
         private DiscordSocketClient _client;
-                        
+
+        private readonly PaymentDatabase _paymentDatabase;
+        private DataTable _ledgerDataTable;
+
         private void LoadConfiguration()
         {
             if (File.Exists(defaultConfigPath))
@@ -46,6 +50,16 @@ namespace PayMe
                         {
                             discordAutoConnect.Checked = bool.Parse(line.Split('=')[1].Trim());
                         }
+                        else if (line.Contains("Payment Database Host"))
+                            paymentsDatabaseHost.Text = line.Split('=')[1].Trim();
+                        else if (line.Contains($"Payment Database Port"))
+                            paymentsDatabasePort.Text = line.Split('=')[1].Trim();
+                        else if (line.Contains("Payment Database User"))
+                            paymentsDatabaseUser.Text= line.Split('=')[1].Trim();
+                        else if (line.Contains("Payment Database Password"))
+                            paymentsDatabasePassword.Text= line.Split('=')[1].Trim();
+                        else if (line.Contains("Payment Database Name"))
+                            paymentsDatabaseDatabase.Text= line.Split('=')[1].Trim();
                     }
                 }
                 else
@@ -69,6 +83,24 @@ namespace PayMe
             _client = new DiscordSocketClient();
             _client.Log += LogAsync;
             _client.Ready += ReadyAsync;
+
+            // Initialize the payment Database with saved connection information
+            _paymentDatabase = new PaymentDatabase(paymentsDatabaseHost.Text, uint.Parse(paymentsDatabasePort.Text), paymentsDatabaseUser.Text, paymentsDatabasePassword.Text, paymentsDatabaseDatabase.Text);
+            try
+            {
+                _paymentDatabase.Initialize();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message} Check SQL connection settings.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            // Initialize the DataTable
+            _ledgerDataTable = new DataTable();
+            _ledgerDataTable.Columns.Add("ID", typeof(Guid));
+            _ledgerDataTable.Columns.Add("Name", typeof(string));
+
+            // Set the DataGridView's DataSource to the DataTable
+            ledgerGridView.DataSource = _ledgerDataTable;
         }
 
         private async void Form1_Load(object sender, EventArgs e)
@@ -110,7 +142,12 @@ namespace PayMe
                        $"Bot Token          = {discordToken.Text}\n" +
                        $"Discord Channel    = {channelDiscordID.Text}\n" +
                        $"Save Location      = {saveLocation.Text}\n" +
-                       $"Bot Auto Connect   = {discordAutoConnect.Checked}";  // Save the state of the checkbox
+                       $"Bot Auto Connect   = {discordAutoConnect.Checked}\n" + // Save the state of the checkbox
+                       $"Payment Database Host   = {paymentsDatabaseHost.Text}\n" +
+                       $"Payment Database Port   = {paymentsDatabasePort.Text}  \n" +
+                       $"Payment Database User   = {paymentsDatabaseUser.Text} \n" +
+                       $"Payment Database Password   = {paymentsDatabasePassword.Text} \n" +
+                       $"Payment Database Name   = {paymentsDatabaseDatabase.Text} \n";
                 File.WriteAllText(defaultConfigPath, configData);
             }
             catch (Exception ex)
@@ -175,6 +212,30 @@ namespace PayMe
             return Task.CompletedTask;
         }
 
+        private void LoadLedgerData()
+        {
+            try
+            {
+                // Clear the existing data in the DataTable
+                _ledgerDataTable.Clear();
+
+                // Retrieve data from the database and populate the DataTable
+                var data = _paymentDatabase.GetDataFromTable<PaymentData>();
+
+                foreach (var row in data)
+                {
+                    _ledgerDataTable.Rows.Add(row.id, row.ownerId);
+                }
+
+                // Update the DataGridView
+                ledgerGridView.Refresh();
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors that occur during data loading
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
 
         private void btnSave_Click_1(object sender, EventArgs e)
         {
@@ -202,6 +263,69 @@ namespace PayMe
         private void discordTestMessage_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label12_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void paymentsDatabasePort_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void sqlConfigSave_Click(object sender, EventArgs e)
+        {
+            _paymentDatabase.host = paymentsDatabaseHost.Text;
+            _paymentDatabase.port = uint.Parse(paymentsDatabasePort.Text);
+            _paymentDatabase.userName = paymentsDatabaseUser.Text;
+            _paymentDatabase.password = paymentsDatabasePassword.Text;
+            _paymentDatabase.database = paymentsDatabaseDatabase.Text;
+            try
+            {
+                _paymentDatabase.Initialize();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message} Check SQL connection settings.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            SaveConfiguration();
         }
     }
 }
