@@ -197,6 +197,7 @@
             this.discordMSGSend.TabIndex = 4;
             this.discordMSGSend.Text = "Send";
             this.discordMSGSend.UseVisualStyleBackColor = true;
+            this.discordMSGSend.Click += new System.EventHandler(this.discordMSGSend_Click);
             // 
             // discordBotConnect
             // 
@@ -213,6 +214,7 @@
             this.discordTestMessage.Name = "discordTestMessage";
             this.discordTestMessage.Size = new System.Drawing.Size(440, 26);
             this.discordTestMessage.TabIndex = 2;
+            this.discordTestMessage.TextChanged += new System.EventHandler(this.discordTestMessage_TextChanged);
             // 
             // channelDiscordID
             // 

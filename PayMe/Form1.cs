@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using Discord;
 using Discord.WebSocket;
+using Discord.Net;
 
 namespace PayMe
 {
@@ -17,22 +18,8 @@ namespace PayMe
     {
         private string defaultConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PayMe", "SaveData", "PayMe.cfg");
 
-        public Form1()
-        {
-            InitializeComponent();
-            LoadConfiguration();
-            this.Load += Form1_Load;  // Register the Load event
-        }
-
-        private async void Form1_Load(object sender, EventArgs e)
-        {
-            if (discordAutoConnect.Checked && !string.IsNullOrWhiteSpace(discordToken.Text))
-            {
-                await SendMessageAsync();
-            }
-        }
-
-        //No Change
+        private DiscordSocketClient _client;
+                        
         private void LoadConfiguration()
         {
             if (File.Exists(defaultConfigPath))
@@ -45,6 +32,7 @@ namespace PayMe
                         if (line.Contains("Bot Token"))
                         {
                             discordToken.Text = line.Split('=')[1].Trim();
+                            Console.WriteLine(discordToken);
                         }
                         else if (line.Contains("Discord Channel"))
                         {
@@ -69,6 +57,41 @@ namespace PayMe
             {
                 saveLocation.Text = GetDefaultSaveLocation();
                 SaveConfiguration();
+            }
+        }
+
+        public Form1()
+        {
+            InitializeComponent();
+            LoadConfiguration();
+            this.Load += Form1_Load;  // Register the Load event
+
+            _client = new DiscordSocketClient();
+            _client.Log += LogAsync;
+            _client.Ready += ReadyAsync;
+        }
+
+        private async void Form1_Load(object sender, EventArgs e)
+        {
+            if (discordAutoConnect.Checked && !string.IsNullOrWhiteSpace(discordToken.Text))
+            {
+                await ConnectToDiscordAsync();
+            }
+        }
+
+        private async Task ConnectToDiscordAsync()
+        {
+            if (_client.LoginState != LoginState.LoggedIn)
+            {
+                try
+                {
+                    await _client.LoginAsync(TokenType.Bot, discordToken.Text);
+                    await _client.StartAsync();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error connecting: {ex.Message}");
+                }
             }
         }
 
@@ -114,42 +137,31 @@ namespace PayMe
 
         private async void discordBotConnect_Click(object sender, EventArgs e)
         {
-            await SendMessageAsync();
+            await ConnectToDiscordAsync();
         }
 
         private async Task SendMessageAsync()
         {
-            var token = discordToken.Text;
-            var channelID = ulong.Parse(channelDiscordID.Text); // Convert the channel ID from string to ulong
-            //Console.WriteLine(ulong.Parse(channelDiscordID.Text));
+            var channelID = ulong.Parse(channelDiscordID.Text);
             var message = discordTestMessage.Text;
-                        
-            var client = new DiscordSocketClient();
-            client.Log += LogAsync;
 
-            var tcs = new TaskCompletionSource<bool>();
-            client.Ready += () =>
+            if (_client.LoginState != LoginState.LoggedIn)
             {
-                tcs.SetResult(true);
-                return Task.CompletedTask;
-            };
+                MessageBox.Show("Please connect to Discord first.");
+                return;
+            }
 
-            await client.LoginAsync(TokenType.Bot, token);
-            await client.StartAsync();
-
-            // Wait for the client to be ready before continuing
-            await tcs.Task;
-
-            var channel = (IMessageChannel)client.GetChannel(channelID);
+            var channel = (IMessageChannel)_client.GetChannel(channelID);
             if (channel != null)
             {
                 await channel.SendMessageAsync(message);
             }
-
-            // Log out and stop the client
-            await client.LogoutAsync();
-            await client.StopAsync();
+            else
+            {
+                MessageBox.Show("Could not find the specified channel.");
+            }
         }
+
 
         private Task LogAsync(LogMessage log)
         {
@@ -179,5 +191,14 @@ namespace PayMe
         {
 
         }
+
+        private void discordMSGSend_Click(object sender, EventArgs e)
+        {
+            _ = SendMessageAsync();
+            discordTestMessage.Clear();
+            //Console.WriteLine(discordTestMessage.Text);
+        }
+
+
     }
 }
