@@ -199,6 +199,9 @@ namespace PayMe
             //Console.WriteLine(discordTestMessage.Text);
         }
 
+        private void discordTestMessage_TextChanged(object sender, EventArgs e)
+        {
 
+        }
     }
 }
