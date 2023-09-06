@@ -23,6 +23,8 @@ namespace PayMe
 
         private readonly PaymentDatabase _paymentDatabase;
         private DataTable _ledgerDataTable;
+        private DataTable _playerDataTable;
+        private DataTable _rewardsDataTable;
 
         private void LoadConfiguration()
         {
@@ -94,13 +96,38 @@ namespace PayMe
             {
                 MessageBox.Show($"{ex.Message} Check SQL connection settings.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            // Initialize the DataTable
+            // Initialize the Ledger DataTable
             _ledgerDataTable = new DataTable();
             _ledgerDataTable.Columns.Add("ID", typeof(Guid));
             _ledgerDataTable.Columns.Add("Name", typeof(string));
+            _ledgerDataTable.Columns.Add("Owner ID", typeof(UInt64));
+            _ledgerDataTable.Columns.Add("Trigger Date", typeof(DateTime));
+            _ledgerDataTable.Columns.Add("Expire Date", typeof(DateTime));
+            _ledgerDataTable.Columns.Add("claimed", typeof(bool));
+            _ledgerDataTable.Columns.Add("claimed Date", typeof(DateTime));
 
-            // Set the DataGridView's DataSource to the DataTable
+
+            // Initialize the Player DataTable
+            _playerDataTable = new DataTable();
+            _playerDataTable.Columns.Add("SteamID", typeof(UInt64));
+            _playerDataTable.Columns.Add("Steam Name", typeof(string));
+            _playerDataTable.Columns.Add("DiscordID", typeof(string));
+            _playerDataTable.Columns.Add("DiscordName", typeof(string));
+
+
+            // Initialize the Rewards DataTable
+            _rewardsDataTable = new DataTable();
+            _rewardsDataTable.Columns.Add("ID", typeof(Guid));
+            _rewardsDataTable.Columns.Add("Discord Level", typeof(string));
+            _rewardsDataTable.Columns.Add("Command", typeof(string));
+            _rewardsDataTable.Columns.Add("Trigger Date", typeof(DateTime));
+            _rewardsDataTable.Columns.Add("Expire Date", typeof(DateTime));
+
+
+            // Set the DataGridViews' DataSource to the DataTables
             ledgerGridView.DataSource = _ledgerDataTable;
+            playerGridView.DataSource = _playerDataTable;
+            rewardsGridView.DataSource = _rewardsDataTable;
         }
 
         private async void Form1_Load(object sender, EventArgs e)
@@ -224,11 +251,61 @@ namespace PayMe
 
                 foreach (var row in data)
                 {
-                    _ledgerDataTable.Rows.Add(row.id, row.ownerId);
+                    _ledgerDataTable.Rows.Add(row.id, row.name, row.ownerId, row.triggerDate, row.expireDate, row.claimed, row.claimDate);
                 }
 
                 // Update the DataGridView
                 ledgerGridView.Refresh();
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors that occur during data loading
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private void LoadPlayerData()
+        {
+            try
+            {
+                // Clear the existing data in the DataTable
+                _playerDataTable.Clear();
+
+                // Retrieve data from the database and populate the DataTable
+                var data = _paymentDatabase.GetDataFromTable<PlayerData>();
+
+                foreach (var row in data)
+                {
+                    _playerDataTable.Rows.Add(row.id, "Steam Name not found" ,row.discordID, "Discord Name not found");
+                }
+
+                // Update the DataGridView
+                playerGridView.Refresh();
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors that occur during data loading
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private void LoadRewardsData()
+        {
+            try
+            {
+                // Clear the existing data in the DataTable
+                _rewardsDataTable.Clear();
+
+                // Retrieve data from the database and populate the DataTable
+                var data = _paymentDatabase.GetDataFromTable<RewardsData>();
+
+                foreach (var row in data)
+                {
+                    _rewardsDataTable.Rows.Add(row.id, row.name, row.discordLevel, row.command, row.triggerDate, row.expireDate);
+                }
+
+                // Update the DataGridView
+                rewardsGridView.Refresh();
             }
             catch (Exception ex)
             {

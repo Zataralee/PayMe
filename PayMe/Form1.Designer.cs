@@ -73,8 +73,11 @@
             this.discordTestMessage = new System.Windows.Forms.TextBox();
             this.channelDiscordID = new System.Windows.Forms.TextBox();
             this.discordToken = new System.Windows.Forms.TextBox();
+            this.playerGridView = new System.Windows.Forms.DataGridView();
+            this.rewardsGridView = new System.Windows.Forms.DataGridView();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ledgerGridView)).BeginInit();
             this.tabPage4.SuspendLayout();
@@ -82,6 +85,8 @@
             this.nexusGroupBox.SuspendLayout();
             this.paymentsGroupBox.SuspendLayout();
             this.tabPage6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.playerGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rewardsGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -104,6 +109,7 @@
             // 
             this.tabPage1.BackColor = System.Drawing.Color.DimGray;
             this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage1.Controls.Add(this.rewardsGridView);
             this.tabPage1.Controls.Add(this.button6);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
@@ -127,6 +133,7 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.DimGray;
+            this.tabPage2.Controls.Add(this.playerGridView);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
@@ -571,6 +578,22 @@
             this.discordToken.TabIndex = 0;
             this.discordToken.UseSystemPasswordChar = true;
             // 
+            // playerGridView
+            // 
+            this.playerGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.playerGridView.Location = new System.Drawing.Point(32, 37);
+            this.playerGridView.Name = "playerGridView";
+            this.playerGridView.Size = new System.Drawing.Size(898, 561);
+            this.playerGridView.TabIndex = 0;
+            // 
+            // rewardsGridView
+            // 
+            this.rewardsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.rewardsGridView.Location = new System.Drawing.Point(7, 21);
+            this.rewardsGridView.Name = "rewardsGridView";
+            this.rewardsGridView.Size = new System.Drawing.Size(765, 462);
+            this.rewardsGridView.TabIndex = 3;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -585,6 +608,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ledgerGridView)).EndInit();
             this.tabPage4.ResumeLayout(false);
@@ -597,6 +621,8 @@
             this.paymentsGroupBox.PerformLayout();
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.playerGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rewardsGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -648,6 +674,8 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.MaskedTextBox paymentsDatabasePort;
         private System.Windows.Forms.DataGridView ledgerGridView;
+        private System.Windows.Forms.DataGridView playerGridView;
+        private System.Windows.Forms.DataGridView rewardsGridView;
     }
 }
 

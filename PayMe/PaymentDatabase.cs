@@ -186,7 +186,7 @@ public class RewardsData
     public string name { get; set; }
     public string discordLevel { get; set; }
     public string command { get; set; }
-    public int expireDate { get; set; }
-    public int triggerDate { get; set; }
+    public DateTime expireDate { get; set; }
+    public DateTime triggerDate { get; set; }
 }
 
