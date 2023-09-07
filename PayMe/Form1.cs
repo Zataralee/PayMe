@@ -99,8 +99,10 @@ namespace PayMe
             // Initialize the Ledger DataTable
             _ledgerDataTable = new DataTable();
             _ledgerDataTable.Columns.Add("ID", typeof(Guid));
+            _ledgerDataTable.Columns[0].ReadOnly = true;
             _ledgerDataTable.Columns.Add("Name", typeof(string));
             _ledgerDataTable.Columns.Add("Owner ID", typeof(UInt64));
+            _ledgerDataTable.Columns.Add("Command", typeof(string));
             _ledgerDataTable.Columns.Add("Trigger Date", typeof(DateTime));
             _ledgerDataTable.Columns.Add("Expire Date", typeof(DateTime));
             _ledgerDataTable.Columns.Add("claimed", typeof(bool));
@@ -110,6 +112,7 @@ namespace PayMe
             // Initialize the Player DataTable
             _playerDataTable = new DataTable();
             _playerDataTable.Columns.Add("SteamID", typeof(UInt64));
+            _playerDataTable.Columns[0].ReadOnly = true;
             _playerDataTable.Columns.Add("Steam Name", typeof(string));
             _playerDataTable.Columns.Add("DiscordID", typeof(string));
             _playerDataTable.Columns.Add("DiscordName", typeof(string));
@@ -118,10 +121,14 @@ namespace PayMe
             // Initialize the Rewards DataTable
             _rewardsDataTable = new DataTable();
             _rewardsDataTable.Columns.Add("ID", typeof(Guid));
+            _rewardsDataTable.Columns[0].ReadOnly = true;
+            _rewardsDataTable.Columns.Add("Name", typeof(string));
             _rewardsDataTable.Columns.Add("Discord Level", typeof(string));
             _rewardsDataTable.Columns.Add("Command", typeof(string));
-            _rewardsDataTable.Columns.Add("Trigger Date", typeof(DateTime));
-            _rewardsDataTable.Columns.Add("Expire Date", typeof(DateTime));
+            _rewardsDataTable.Columns.Add("Run On All Servers", typeof(bool));
+            _rewardsDataTable.Columns.Add("Auto Claim", typeof(bool));
+            _rewardsDataTable.Columns.Add("Trigger Interval", typeof(TimeSpan));
+            _rewardsDataTable.Columns.Add("Expire Interval", typeof(TimeSpan));
 
 
             // Set the DataGridViews' DataSource to the DataTables
@@ -136,6 +143,9 @@ namespace PayMe
             {
                 await ConnectToDiscordAsync();
             }
+            LoadRewardsData();
+            LoadLedgerData();
+            LoadPlayerData();
         }
 
         private async Task ConnectToDiscordAsync()
@@ -301,11 +311,36 @@ namespace PayMe
 
                 foreach (var row in data)
                 {
-                    _rewardsDataTable.Rows.Add(row.id, row.name, row.discordLevel, row.command, row.triggerDate, row.expireDate);
+                    _rewardsDataTable.Rows.Add(row.id, row.name, row.discordLevel, row.command, row.runOnAll, row.autoClaim, row.triggerInterval, row.expireInterval);
                 }
 
                 // Update the DataGridView
                 rewardsGridView.Refresh();
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors that occur during data loading
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+        private void SaveRewardsData()
+        {
+            try
+            {
+                // Clear the existing data in the DataTable
+                //_rewardsDataTable.Clear();
+
+                // Retrieve data from the database and populate the DataTable
+                //var data = _paymentDatabase.GetDataFromTable<RewardsData>();
+
+                foreach (DataRow row in _rewardsDataTable.Rows)
+                {
+                    if (!row["ID"].ToString().Equals(""))
+                        _paymentDatabase.UpsertData(new RewardsData { id = new Guid(row["ID"].ToString()), name = row["Name"].ToString(), discordLevel = row["Discord Level"].ToString(), command = row["Command"].ToString() });//, runOnAll = (bool)row["Run On All Servers"], autoClaim = (bool)row["Auto Claim"] });//, triggerInterval = new TimeSpan(row["Trigger Interval"].ToString()), expireInterval = TimeSpan(row["Expire Interval"].ToString()) });
+                }
+
+                // Update the DataGridView from the database
+                LoadRewardsData();
             }
             catch (Exception ex)
             {
@@ -382,9 +417,21 @@ namespace PayMe
 
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void rewardsGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            //Console.WriteLine($"cell contents clicked: {e.ToString()} {sender.ToString()}");
+            if (_rewardsDataTable.Rows.Count <= e.RowIndex)
+                _rewardsDataTable.Rows.Add(Guid.NewGuid());
+            else if ((e.ColumnIndex == 0) && (_rewardsDataTable.Rows[e.RowIndex][e.ColumnIndex].ToString().Equals("")))
+            {
+                //Console.WriteLine("cell is empty");
+                _rewardsDataTable.Columns[0].ReadOnly = false;
+                _rewardsDataTable.Rows[e.RowIndex]["ID"] = Guid.NewGuid();
+                _rewardsDataTable.Columns[0].ReadOnly = true;
 
+                //_rewardsDataTable.Rows[e.RowIndex][e.ColumnIndex] = Guid.NewGuid();
+            }
+            //Console.WriteLine(_rewardsDataTable.Rows[e.RowIndex][e.ColumnIndex].ToString());
         }
 
         private void sqlConfigSave_Click(object sender, EventArgs e)
@@ -403,6 +450,24 @@ namespace PayMe
                 MessageBox.Show($"{ex.Message} Check SQL connection settings.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             SaveConfiguration();
+        }
+
+        private void rewardsRowAdded(object sender, DataGridViewRowEventArgs e)
+        {
+            e.Row.SetValues(Guid.NewGuid());
+        }
+
+        private void rewardsSaveButton_click(object sender, EventArgs e)
+        {
+            Console.WriteLine("saving rewards");
+            SaveRewardsData();
+        }
+
+        private void rewardsRowRemoved(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            Console.WriteLine($"removing id {_rewardsDataTable.Rows[e.Row.Index]["ID"]} from table");
+            _paymentDatabase.RemoveData(new RewardsData { id = new Guid(_rewardsDataTable.Rows[e.Row.Index]["ID"].ToString()) });
+            LoadRewardsData();
         }
     }
 }

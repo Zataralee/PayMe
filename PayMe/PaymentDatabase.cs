@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Reactive;
-using System.Security.Cryptography.X509Certificates;
-using System.Windows.Forms;
 using Npgsql;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 public class PaymentDatabase
 {
@@ -48,6 +44,7 @@ public class PaymentDatabase
                     CreateTable(conn, typeof(RewardsData));
                 }
                 // Execute other queries or operations as needed
+                UpsertRow<PlayerData>(conn, new PlayerData { id = "645", discordID = "0" });
             }
             catch (Exception e)
             {
@@ -138,6 +135,91 @@ public class PaymentDatabase
         }
     }
 
+    public void UpsertData<T>(T data)
+    {
+        using (var conn = new NpgsqlConnection($"Host={host};Port={port};Username={userName};Password={password};Database={database}"))
+        {
+            try
+            {
+                conn.Open();
+
+                // Upsert data into the table
+                UpsertRow<T>(conn, data);
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException($"Error upserting data into {typeof(T).Name.ToLower()}.", e);
+            }
+        }
+    }
+
+    private void UpsertRow<T>(NpgsqlConnection conn, T data)
+    {
+        var tableName = typeof(T).Name.ToLower();
+
+        using (var cmd = new NpgsqlCommand($"INSERT INTO {tableName} (", conn))
+        {
+            var commandAppendText = ") VALUES (";
+            var commandExcludedText = "";
+            foreach (var property in typeof(T).GetProperties())
+            {
+                var propertyName = property.Name.ToLower();
+
+                cmd.CommandText += $"{propertyName}, ";
+                commandAppendText += $"'{property.GetValue(data)}', "; //$"@{propertyName}, ";
+                commandExcludedText += $"{propertyName} = excluded.{propertyName}, ";
+                //cmd.Parameters.AddWithValue($"@{propertyName}", property.GetValue(data));
+            }
+
+            // Remove the trailing comma and add the conflict resolution clause based on the primary key
+            cmd.CommandText = cmd.CommandText.TrimEnd(',', ' ') + commandAppendText.TrimEnd(',', ' ') + $") ON CONFLICT (id) DO UPDATE SET " + commandExcludedText.TrimEnd(',', ' ');
+
+            // Remove the trailing comma and execute the upsert operation
+            cmd.CommandText = cmd.CommandText.TrimEnd(',', ' ') + ";";
+            Console.WriteLine($"Upsert string: {cmd.CommandText}");
+            cmd.ExecuteNonQuery();
+        }
+    }
+
+    public void RemoveData<T>(T data)
+    {
+        using (var conn = new NpgsqlConnection($"Host={host};Port={port};Username={userName};Password={password};Database={database}"))
+        {
+            try
+            {
+                conn.Open();
+
+                // Upsert data into the table
+                RemoveRow<T>(conn, data);
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException($"Error removing data from {typeof(T).Name.ToLower()}.", e);
+            }
+        }
+    }
+
+    private void RemoveRow<T>(NpgsqlConnection conn, T data)
+    {
+        var tableName = typeof(T).Name.ToLower();
+
+        using (var cmd = new NpgsqlCommand($"DELETE FROM {tableName} WHERE ", conn))
+        {
+            foreach (var property in typeof(T).GetProperties())
+            {
+                var propertyName = property.Name.ToLower();
+                if (propertyName.StartsWith("id"))
+                    cmd.CommandText += $"{propertyName} = '{property.GetValue(data)}'";
+              
+            }
+
+            // Remove the trailing comma and execute the delete operation
+            cmd.CommandText = cmd.CommandText.TrimEnd(',', ' ') + ";";
+            Console.WriteLine($"delete string: {cmd.CommandText}");
+            cmd.ExecuteNonQuery();
+        }
+    }
+
     private string GetPostgresType(Type propertyType)
     {
         // Map C# data types to PostgreSQL data types
@@ -151,6 +233,8 @@ public class PaymentDatabase
             return "uuid";
         else if (propertyType == typeof(DateTime))
             return "timestamp";
+        else if (propertyType == typeof(TimeSpan))
+            return "interval";
         else if (propertyType == typeof(bool))
             return "bool";
         // Add more type mappings as needed
@@ -165,6 +249,7 @@ public class PaymentData
     public Guid id { get; set; }
     public string name { get; set; }
     public UInt64 ownerId { get; set; }
+    public string command { get; set; }
     public DateTime triggerDate { get; set; }
     public DateTime expireDate { get; set; }
     public bool claimed { get; set; }
@@ -175,8 +260,8 @@ public class PaymentData
 
 public class PlayerData
 {
-    public UInt64 id { get; set; } // Steam ID
-    public UInt64 discordID { get; set; }
+    public string id { get; set; } // Steam ID
+    public string discordID { get; set; }
     // Add more properties as needed
 }
 
@@ -186,7 +271,9 @@ public class RewardsData
     public string name { get; set; }
     public string discordLevel { get; set; }
     public string command { get; set; }
-    public DateTime expireDate { get; set; }
-    public DateTime triggerDate { get; set; }
+    public bool runOnAll { get; set; }
+    public bool autoClaim { get; set; }
+    public TimeSpan triggerInterval { get; set; }
+    public TimeSpan expireInterval { get; set; }
 }
 

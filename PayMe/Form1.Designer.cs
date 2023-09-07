@@ -30,8 +30,10 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.button6 = new System.Windows.Forms.Button();
+            this.rewardsGridView = new System.Windows.Forms.DataGridView();
+            this.rewardsSaveButton = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.playerGridView = new System.Windows.Forms.DataGridView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.ledgerGridView = new System.Windows.Forms.DataGridView();
             this.tabPage4 = new System.Windows.Forms.TabPage();
@@ -73,11 +75,11 @@
             this.discordTestMessage = new System.Windows.Forms.TextBox();
             this.channelDiscordID = new System.Windows.Forms.TextBox();
             this.discordToken = new System.Windows.Forms.TextBox();
-            this.playerGridView = new System.Windows.Forms.DataGridView();
-            this.rewardsGridView = new System.Windows.Forms.DataGridView();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.rewardsGridView)).BeginInit();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.playerGridView)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ledgerGridView)).BeginInit();
             this.tabPage4.SuspendLayout();
@@ -85,8 +87,6 @@
             this.nexusGroupBox.SuspendLayout();
             this.paymentsGroupBox.SuspendLayout();
             this.tabPage6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.playerGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rewardsGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -110,7 +110,7 @@
             this.tabPage1.BackColor = System.Drawing.Color.DimGray;
             this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tabPage1.Controls.Add(this.rewardsGridView);
-            this.tabPage1.Controls.Add(this.button6);
+            this.tabPage1.Controls.Add(this.rewardsSaveButton);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
@@ -118,17 +118,31 @@
             this.tabPage1.Size = new System.Drawing.Size(1767, 898);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Rewards";
+            this.tabPage1.Click += new System.EventHandler(this.rewardsSaveButton_click);
             // 
-            // button6
+            // rewardsGridView
             // 
-            this.button6.AutoSize = true;
-            this.button6.Location = new System.Drawing.Point(5, 494);
-            this.button6.Margin = new System.Windows.Forms.Padding(2);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(89, 24);
-            this.button6.TabIndex = 2;
-            this.button6.Text = "Save";
-            this.button6.UseVisualStyleBackColor = true;
+            this.rewardsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.rewardsGridView.Location = new System.Drawing.Point(7, 21);
+            this.rewardsGridView.Name = "rewardsGridView";
+            this.rewardsGridView.Size = new System.Drawing.Size(1055, 453);
+            this.rewardsGridView.TabIndex = 3;
+            this.rewardsGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.rewardsGridView_CellContentClick);
+            this.rewardsGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.rewardsGridView_CellContentClick);
+            this.rewardsGridView.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.rewardsRowAdded);
+            this.rewardsGridView.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.rewardsRowRemoved);
+            // 
+            // rewardsSaveButton
+            // 
+            this.rewardsSaveButton.AutoSize = true;
+            this.rewardsSaveButton.Location = new System.Drawing.Point(5, 494);
+            this.rewardsSaveButton.Margin = new System.Windows.Forms.Padding(2);
+            this.rewardsSaveButton.Name = "rewardsSaveButton";
+            this.rewardsSaveButton.Size = new System.Drawing.Size(89, 24);
+            this.rewardsSaveButton.TabIndex = 2;
+            this.rewardsSaveButton.Text = "Save";
+            this.rewardsSaveButton.UseVisualStyleBackColor = true;
+            this.rewardsSaveButton.Click += new System.EventHandler(this.rewardsSaveButton_click);
             // 
             // tabPage2
             // 
@@ -141,6 +155,14 @@
             this.tabPage2.Size = new System.Drawing.Size(1767, 898);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Users";
+            // 
+            // playerGridView
+            // 
+            this.playerGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.playerGridView.Location = new System.Drawing.Point(32, 37);
+            this.playerGridView.Name = "playerGridView";
+            this.playerGridView.Size = new System.Drawing.Size(898, 561);
+            this.playerGridView.TabIndex = 0;
             // 
             // tabPage3
             // 
@@ -155,14 +177,13 @@
             // 
             // ledgerGridView
             // 
+            this.ledgerGridView.AllowUserToAddRows = false;
             this.ledgerGridView.AllowUserToOrderColumns = true;
             this.ledgerGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ledgerGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ledgerGridView.Location = new System.Drawing.Point(0, 0);
+            this.ledgerGridView.Location = new System.Drawing.Point(8, 14);
             this.ledgerGridView.Name = "ledgerGridView";
-            this.ledgerGridView.Size = new System.Drawing.Size(1767, 898);
+            this.ledgerGridView.Size = new System.Drawing.Size(1030, 442);
             this.ledgerGridView.TabIndex = 0;
-            this.ledgerGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // tabPage4
             // 
@@ -578,22 +599,6 @@
             this.discordToken.TabIndex = 0;
             this.discordToken.UseSystemPasswordChar = true;
             // 
-            // playerGridView
-            // 
-            this.playerGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.playerGridView.Location = new System.Drawing.Point(32, 37);
-            this.playerGridView.Name = "playerGridView";
-            this.playerGridView.Size = new System.Drawing.Size(898, 561);
-            this.playerGridView.TabIndex = 0;
-            // 
-            // rewardsGridView
-            // 
-            this.rewardsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.rewardsGridView.Location = new System.Drawing.Point(7, 21);
-            this.rewardsGridView.Name = "rewardsGridView";
-            this.rewardsGridView.Size = new System.Drawing.Size(765, 462);
-            this.rewardsGridView.TabIndex = 3;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -608,7 +613,9 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.rewardsGridView)).EndInit();
             this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.playerGridView)).EndInit();
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ledgerGridView)).EndInit();
             this.tabPage4.ResumeLayout(false);
@@ -621,8 +628,6 @@
             this.paymentsGroupBox.PerformLayout();
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.playerGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rewardsGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -646,7 +651,7 @@
         private System.Windows.Forms.TextBox discordToken;
         private System.Windows.Forms.TextBox saveLocation;
         private System.Windows.Forms.Button configSaveLocation;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button rewardsSaveButton;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button btnSave;
