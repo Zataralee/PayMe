@@ -20,6 +20,7 @@ namespace PayMe
 
         private DiscordSocketClient _client;
                         
+        //reads the config file and loads the data into the form
         private void LoadConfiguration()
         {
             if (File.Exists(defaultConfigPath))
@@ -79,6 +80,7 @@ namespace PayMe
             }
         }
 
+        // Connects to Discord using the token provided in the textbox
         private async Task ConnectToDiscordAsync()
         {
             if (_client.LoginState != LoginState.LoggedIn)
