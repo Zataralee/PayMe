@@ -23,42 +23,42 @@ namespace PayMe
         //reads the config file and loads the data into the form
         private void LoadConfiguration()
         {
-            if (File.Exists(defaultConfigPath))
-            {
-                string[] configLines = File.ReadAllLines(defaultConfigPath);
-                if (configLines.Length >= 6) // Ensure there are at least  lines, including the headers
-                {
-                    foreach (string line in configLines)
-                    {
-                        if (line.Contains("Bot Token"))
-                        {
-                            discordToken.Text = line.Split('=')[1].Trim();
-                            Console.WriteLine(discordToken);
-                        }
-                        else if (line.Contains("Discord Channel"))
-                        {
-                            channelDiscordID.Text = line.Split('=')[1].Trim();
-                        }
-                        else if (line.Contains("Save Location"))
-                        {
-                            saveLocation.Text = line.Split('=')[1].Trim();
-                        }
-                        else if (line.Contains("Bot Auto Connect"))
-                        {
-                            discordAutoConnect.Checked = bool.Parse(line.Split('=')[1].Trim());
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("The configuration file has an unexpected format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-            {
-                saveLocation.Text = GetDefaultSaveLocation();
-                SaveConfiguration();
-            }
+        //    if (File.Exists(defaultConfigPath))
+        //    {
+        //        string[] configLines = File.ReadAllLines(defaultConfigPath);
+        //        if (configLines.Length >= 6) // Ensure there are at least  lines, including the headers
+        //        {
+        //            foreach (string line in configLines)
+        //            {
+        //                if (line.Contains("Bot Token"))
+        //                {
+        //                    discordToken.Text = line.Split('=')[1].Trim();
+        //                    Console.WriteLine(discordToken);
+        //                }
+        //                else if (line.Contains("Discord Channel"))
+        //                {
+        //                    channelDiscordID.Text = line.Split('=')[1].Trim();
+        //                }
+        //                else if (line.Contains("Save Location"))
+        //                {nic
+        //                    saveLocation.Text = line.Split('=')[1].Trim();
+        //                }
+        //                else if (line.Contains("Bot Auto Connect"))
+        //                {
+        //                    discordAutoConnect.Checked = bool.Parse(line.Split('=')[1].Trim());
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            MessageBox.Show("The configuration file has an unexpected format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        saveLocation.Text = GetDefaultSaveLocation();
+        //        SaveConfiguration();
+        //    }
         }
 
         public Form1()
@@ -137,6 +137,7 @@ namespace PayMe
             }
         }
 
+        
         private async void discordBotConnect_Click(object sender, EventArgs e)
         {
             await ConnectToDiscordAsync();
