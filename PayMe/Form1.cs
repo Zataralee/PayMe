@@ -14,6 +14,7 @@ using Discord.Net;
 using Discord.Interactions;
 using Discord.Commands;
 using Newtonsoft.Json;
+using DSharpPlus.Entities;
 
 namespace PayMe
 {
@@ -78,7 +79,7 @@ namespace PayMe
 
         }
 
-        //New Code
+        //Verify connected to guild(server) and register commands
 
         public async Task Client_Ready()
         {
@@ -115,6 +116,7 @@ namespace PayMe
             }
         }
 
+        //respond to payme command
         private async Task HandleCommandAsync(SocketInteraction interaction)
         {
             if (interaction is SocketSlashCommand command)
@@ -128,8 +130,18 @@ namespace PayMe
                             //Acknowledge bot interaction. Removes Discord error.
                             await interaction.RespondAsync("I sent you a DM. We'll chat there!", ephemeral:true);
 
+                            // Create DM Channel
                             var dmChannel = await guildUser.CreateDMChannelAsync();
-                            await dmChannel.SendMessageAsync("Hello, how can I help you?");
+
+                            //Collect user data
+                            string username = user.Username;
+                            ulong userId = user.Id;
+
+                            //Send message to user
+                            await dmChannel.SendMessageAsync($"Hello, {username}! Your Discord ID is {userId}. How can I help you?");
+
+                                                       
+
                         }
                         break;
                 }
