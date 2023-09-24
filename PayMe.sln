@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayMe", "PayMe\PayMe.csproj", "{77044C46-E373-4B83-902F-ED08E75870CB}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PayMe-Installer", "..\PayMe-Installer\PayMe-Installer\PayMe-Installer.vdproj", "{D0322012-AB74-4806-BD80-80C022555AAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{77044C46-E373-4B83-902F-ED08E75870CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77044C46-E373-4B83-902F-ED08E75870CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77044C46-E373-4B83-902F-ED08E75870CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0322012-AB74-4806-BD80-80C022555AAF}.Debug|Any CPU.ActiveCfg = Debug
+		{D0322012-AB74-4806-BD80-80C022555AAF}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

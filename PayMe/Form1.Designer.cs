@@ -28,15 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button6 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.button5 = new System.Windows.Forms.Button();
             this.saveLocation = new System.Windows.Forms.TextBox();
             this.configSaveLocation = new System.Windows.Forms.Button();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.button4 = new System.Windows.Forms.Button();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.discordAutoConnect = new System.Windows.Forms.CheckBox();
+            this.btnSave = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -45,11 +51,9 @@
             this.discordTestMessage = new System.Windows.Forms.TextBox();
             this.channelDiscordID = new System.Windows.Forms.TextBox();
             this.discordToken = new System.Windows.Forms.TextBox();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.discordAutoConnect = new System.Windows.Forms.CheckBox();
+            this.discordroleslist = new System.Windows.Forms.CheckedListBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.droleupdate = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -76,6 +80,8 @@
             // 
             this.tabPage1.BackColor = System.Drawing.Color.DimGray;
             this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tabPage1.Controls.Add(this.label4);
+            this.tabPage1.Controls.Add(this.discordroleslist);
             this.tabPage1.Controls.Add(this.button6);
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
@@ -83,6 +89,16 @@
             this.tabPage1.Size = new System.Drawing.Size(2654, 1404);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Rewards";
+            // 
+            // button6
+            // 
+            this.button6.AutoSize = true;
+            this.button6.Location = new System.Drawing.Point(22, 752);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(133, 37);
+            this.button6.TabIndex = 2;
+            this.button6.Text = "Save";
+            this.button6.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
@@ -116,6 +132,16 @@
             this.tabPage4.Text = "Settings";
             this.tabPage4.Click += new System.EventHandler(this.tabPage4_Click);
             // 
+            // button5
+            // 
+            this.button5.AutoSize = true;
+            this.button5.Location = new System.Drawing.Point(24, 653);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(133, 37);
+            this.button5.TabIndex = 2;
+            this.button5.Text = "Save";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
             // saveLocation
             // 
             this.saveLocation.Location = new System.Drawing.Point(163, 27);
@@ -143,6 +169,16 @@
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "SQL";
             // 
+            // button4
+            // 
+            this.button4.AutoSize = true;
+            this.button4.Location = new System.Drawing.Point(8, 451);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(133, 37);
+            this.button4.TabIndex = 2;
+            this.button4.Text = "Save";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
             // tabPage6
             // 
             this.tabPage6.BackColor = System.Drawing.Color.DimGray;
@@ -161,6 +197,28 @@
             this.tabPage6.Size = new System.Drawing.Size(2654, 1404);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Discord";
+            // 
+            // discordAutoConnect
+            // 
+            this.discordAutoConnect.AutoSize = true;
+            this.discordAutoConnect.Location = new System.Drawing.Point(826, 43);
+            this.discordAutoConnect.Name = "discordAutoConnect";
+            this.discordAutoConnect.Size = new System.Drawing.Size(159, 24);
+            this.discordAutoConnect.TabIndex = 8;
+            this.discordAutoConnect.Text = "Connect On Start";
+            this.discordAutoConnect.UseVisualStyleBackColor = true;
+            this.discordAutoConnect.CheckedChanged += new System.EventHandler(this.discordAutoConnect_CheckedChanged);
+            // 
+            // btnSave
+            // 
+            this.btnSave.AutoSize = true;
+            this.btnSave.Location = new System.Drawing.Point(205, 157);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(133, 37);
+            this.btnSave.TabIndex = 1;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click_1);
             // 
             // label3
             // 
@@ -231,57 +289,29 @@
             this.discordToken.TabIndex = 0;
             this.discordToken.UseSystemPasswordChar = true;
             // 
-            // btnSave
+            // discordroleslist
             // 
-            this.btnSave.AutoSize = true;
-            this.btnSave.Location = new System.Drawing.Point(205, 157);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(133, 37);
-            this.btnSave.TabIndex = 1;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click_1);
+            this.discordroleslist.FormattingEnabled = true;
+            this.discordroleslist.Location = new System.Drawing.Point(22, 51);
+            this.discordroleslist.Name = "discordroleslist";
+            this.discordroleslist.Size = new System.Drawing.Size(221, 648);
+            this.discordroleslist.TabIndex = 3;
+            this.discordroleslist.SelectedIndexChanged += new System.EventHandler(this.discordroleslist_SelectedIndexChanged);
             // 
-            // button4
+            // label4
             // 
-            this.button4.AutoSize = true;
-            this.button4.Location = new System.Drawing.Point(8, 451);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(133, 37);
-            this.button4.TabIndex = 2;
-            this.button4.Text = "Save";
-            this.button4.UseVisualStyleBackColor = true;
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(52, 23);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(145, 25);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Discord Roles";
             // 
-            // button5
+            // droleupdate
             // 
-            this.button5.AutoSize = true;
-            this.button5.Location = new System.Drawing.Point(24, 653);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(133, 37);
-            this.button5.TabIndex = 2;
-            this.button5.Text = "Save";
-            this.button5.UseVisualStyleBackColor = true;
-            // 
-            // button6
-            // 
-            this.button6.AutoSize = true;
-            this.button6.Location = new System.Drawing.Point(7, 760);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(133, 37);
-            this.button6.TabIndex = 2;
-            this.button6.Text = "Save";
-            this.button6.UseVisualStyleBackColor = true;
-            // 
-            // discordAutoConnect
-            // 
-            this.discordAutoConnect.AutoSize = true;
-            this.discordAutoConnect.Location = new System.Drawing.Point(826, 43);
-            this.discordAutoConnect.Name = "discordAutoConnect";
-            this.discordAutoConnect.Size = new System.Drawing.Size(159, 24);
-            this.discordAutoConnect.TabIndex = 8;
-            this.discordAutoConnect.Text = "Connect On Start";
-            this.discordAutoConnect.UseVisualStyleBackColor = true;
-            this.discordAutoConnect.CheckedChanged += new System.EventHandler(this.discordAutoConnect_CheckedChanged);
+            this.droleupdate.Interval = 120000;
+            this.droleupdate.Tick += new System.EventHandler(this.droleupdate_Tick);
             // 
             // Form1
             // 
@@ -330,6 +360,9 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.CheckBox discordAutoConnect;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckedListBox discordroleslist;
+        private System.Windows.Forms.Timer droleupdate;
     }
 }
 

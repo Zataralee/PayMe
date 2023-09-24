@@ -77,6 +77,36 @@ namespace PayMe
             _client.Ready += Client_Ready; // Hook the Ready event
             _client.InteractionCreated += HandleCommandAsync;
 
+            // Handle the Tick event of the Timer
+            droleupdate.Tick += Timer1_Tick;
+
+        }
+
+        private async void Timer1_Tick(object sender, EventArgs e)
+        {
+            // Update roles every 2 minutes
+            await UpdateRolesAsync();
+        }
+
+        private Task UpdateRolesAsync()
+        {
+            if (_client?.LoginState == LoginState.LoggedIn)
+            {
+                var guild = _client.Guilds.FirstOrDefault();
+                if (guild != null)
+                {
+                    discordroleslist.Invoke((MethodInvoker)delegate
+                    {
+                        discordroleslist.Items.Clear();
+                        foreach (var role in guild.Roles)
+                        {
+                            discordroleslist.Items.Add(role.Name);
+                        }
+                    });
+                }
+            }
+
+            return Task.CompletedTask;
         }
 
         //Verify connected to guild(server) and register commands
@@ -114,6 +144,13 @@ namespace PayMe
             {
                 Console.WriteLine($"Error creating command: {httpException.Message}");
             }
+
+            // Start the Timer when the bot is ready
+            droleupdate.Start();
+
+            // Initial update of roles
+            await UpdateRolesAsync();
+
         }
 
         //respond to payme command
@@ -137,11 +174,23 @@ namespace PayMe
                             string username = user.Username;
                             ulong userId = user.Id;
 
+                            // Get users roles
+                            var roles = guildUser.Roles.Select(role => role.Name);
+
+                            //Format roles for output
+                            //string rolesOutput = string.Join(", ", roles);
+
+                            // Create an embed builder
+                            var embedBuilder = new EmbedBuilder()
+                                .WithTitle($"Information for {username}")
+                                .AddField("Discord ID", userId.ToString())
+                                .AddField("Roles", string.Join(", ", roles))
+                                .WithColor(Discord.Color.Blue);
+
                             //Send message to user
-                            await dmChannel.SendMessageAsync($"Hello, {username}! Your Discord ID is {userId}. How can I help you?");
-
-                                                       
-
+                            //await dmChannel.SendMessageAsync($"Hello, {username}! Your Discord ID is {userId}. You have the following roles: {rolesOutput}.");
+                            // Send embedded message to user
+                            await dmChannel.SendMessageAsync(embed: embedBuilder.Build());
                         }
                         break;
                 }
@@ -282,6 +331,16 @@ namespace PayMe
         }
 
         private void discordTestMessage_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void discordroleslist_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void droleupdate_Tick(object sender, EventArgs e)
         {
 
         }
