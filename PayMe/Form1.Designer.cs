@@ -294,7 +294,7 @@
             this.discordroleslist.FormattingEnabled = true;
             this.discordroleslist.Location = new System.Drawing.Point(22, 51);
             this.discordroleslist.Name = "discordroleslist";
-            this.discordroleslist.Size = new System.Drawing.Size(221, 648);
+            this.discordroleslist.Size = new System.Drawing.Size(333, 648);
             this.discordroleslist.TabIndex = 3;
             this.discordroleslist.SelectedIndexChanged += new System.EventHandler(this.discordroleslist_SelectedIndexChanged);
             // 
