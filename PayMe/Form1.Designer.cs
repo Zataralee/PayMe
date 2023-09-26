@@ -41,23 +41,27 @@
             this.pendingLedgerTabPage = new System.Windows.Forms.TabPage();
             this.pendingLedgerGridView = new System.Windows.Forms.DataGridView();
             this.paidLedgerTabPage = new System.Windows.Forms.TabPage();
+            this.paidLedgerDataGridView = new System.Windows.Forms.DataGridView();
+            this.expiredLedgerTabPage = new System.Windows.Forms.TabPage();
+            this.expiredLedgerDataGridView = new System.Windows.Forms.DataGridView();
             this.settingsTabPage = new System.Windows.Forms.TabPage();
             this.settingsSaveButton = new System.Windows.Forms.Button();
             this.saveLocation = new System.Windows.Forms.TextBox();
             this.configSaveLocation = new System.Windows.Forms.Button();
-            this.sqlTabPage = new System.Windows.Forms.TabPage();
-            this.nexusGroupBox = new System.Windows.Forms.GroupBox();
+            this.playerGridView = new System.Windows.Forms.DataGridView();
+            this.droleupdate = new System.Windows.Forms.Timer(this.components);
+            this.nexusDatabaseSettingsGroupBox = new System.Windows.Forms.GroupBox();
             this.Password = new System.Windows.Forms.TextBox();
             this.databasePortLabel = new System.Windows.Forms.Label();
             this.nexusDatabaseHost = new System.Windows.Forms.TextBox();
-            this.databaseHostLabel = new System.Windows.Forms.Label();
+            this.nexusDatabaseHostLabel = new System.Windows.Forms.Label();
             this.nexusDatabasePort = new System.Windows.Forms.MaskedTextBox();
             this.databaseDatabaseLabel = new System.Windows.Forms.Label();
             this.nexusDatabaseUser = new System.Windows.Forms.TextBox();
-            this.databaseUsernameLabel = new System.Windows.Forms.Label();
+            this.nexusDatabaseUsernameLabel = new System.Windows.Forms.Label();
             this.nexusDatabaseDatabase = new System.Windows.Forms.TextBox();
-            this.databasePasswordLabel = new System.Windows.Forms.Label();
-            this.paymentsGroupBox = new System.Windows.Forms.GroupBox();
+            this.nexusDatabasePasswordLabel = new System.Windows.Forms.Label();
+            this.paymentsDatabaseSettingsGroupBox = new System.Windows.Forms.GroupBox();
             this.paymentsDatabasePassword = new System.Windows.Forms.TextBox();
             this.paymentsDatabasePortLabel = new System.Windows.Forms.Label();
             this.paymentsDatabaseHost = new System.Windows.Forms.TextBox();
@@ -68,10 +72,8 @@
             this.paymentsDatabaseUsernameLabel = new System.Windows.Forms.Label();
             this.paymentsDatabaseDatabase = new System.Windows.Forms.TextBox();
             this.paymentsDatabasePasswordLabel = new System.Windows.Forms.Label();
-            this.sqlConfigSaveButton = new System.Windows.Forms.Button();
-            this.discordTabPage = new System.Windows.Forms.TabPage();
+            this.discordSettingsGroupBox = new System.Windows.Forms.GroupBox();
             this.discordAutoConnect = new System.Windows.Forms.CheckBox();
-            this.btnSave = new System.Windows.Forms.Button();
             this.discordTestMessageLabel = new System.Windows.Forms.Label();
             this.discordChannelIDLabel = new System.Windows.Forms.Label();
             this.discordBotTokenLabel = new System.Windows.Forms.Label();
@@ -80,11 +82,6 @@
             this.discordTestMessage = new System.Windows.Forms.TextBox();
             this.channelDiscordID = new System.Windows.Forms.TextBox();
             this.discordToken = new System.Windows.Forms.TextBox();
-            this.playerGridView = new System.Windows.Forms.DataGridView();
-            this.droleupdate = new System.Windows.Forms.Timer(this.components);
-            this.expiredLedgerTabPage = new System.Windows.Forms.TabPage();
-            this.paidLedgerDataGridView = new System.Windows.Forms.DataGridView();
-            this.expiredLedgerDataGridView = new System.Windows.Forms.DataGridView();
             this.mainTabControl.SuspendLayout();
             this.rewardsTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rewardsGridView)).BeginInit();
@@ -93,15 +90,14 @@
             this.pendingLedgerTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pendingLedgerGridView)).BeginInit();
             this.paidLedgerTabPage.SuspendLayout();
-            this.settingsTabPage.SuspendLayout();
-            this.sqlTabPage.SuspendLayout();
-            this.nexusGroupBox.SuspendLayout();
-            this.paymentsGroupBox.SuspendLayout();
-            this.discordTabPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.playerGridView)).BeginInit();
-            this.expiredLedgerTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.paidLedgerDataGridView)).BeginInit();
+            this.expiredLedgerTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.expiredLedgerDataGridView)).BeginInit();
+            this.settingsTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.playerGridView)).BeginInit();
+            this.nexusDatabaseSettingsGroupBox.SuspendLayout();
+            this.paymentsDatabaseSettingsGroupBox.SuspendLayout();
+            this.discordSettingsGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainTabControl
@@ -110,8 +106,6 @@
             this.mainTabControl.Controls.Add(this.playersTabPage);
             this.mainTabControl.Controls.Add(this.ledgerTabPage);
             this.mainTabControl.Controls.Add(this.settingsTabPage);
-            this.mainTabControl.Controls.Add(this.sqlTabPage);
-            this.mainTabControl.Controls.Add(this.discordTabPage);
             this.mainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainTabControl.Location = new System.Drawing.Point(0, 0);
             this.mainTabControl.Margin = new System.Windows.Forms.Padding(2);
@@ -247,9 +241,43 @@
             this.paidLedgerTabPage.Text = "Paid Payments";
             this.paidLedgerTabPage.UseVisualStyleBackColor = true;
             // 
+            // paidLedgerDataGridView
+            // 
+            this.paidLedgerDataGridView.AllowUserToAddRows = false;
+            this.paidLedgerDataGridView.AllowUserToOrderColumns = true;
+            this.paidLedgerDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.paidLedgerDataGridView.Location = new System.Drawing.Point(72, 76);
+            this.paidLedgerDataGridView.Name = "paidLedgerDataGridView";
+            this.paidLedgerDataGridView.Size = new System.Drawing.Size(1030, 442);
+            this.paidLedgerDataGridView.TabIndex = 1;
+            // 
+            // expiredLedgerTabPage
+            // 
+            this.expiredLedgerTabPage.Controls.Add(this.expiredLedgerDataGridView);
+            this.expiredLedgerTabPage.Location = new System.Drawing.Point(4, 22);
+            this.expiredLedgerTabPage.Name = "expiredLedgerTabPage";
+            this.expiredLedgerTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.expiredLedgerTabPage.Size = new System.Drawing.Size(1175, 594);
+            this.expiredLedgerTabPage.TabIndex = 2;
+            this.expiredLedgerTabPage.Text = "Expired Payments";
+            this.expiredLedgerTabPage.UseVisualStyleBackColor = true;
+            // 
+            // expiredLedgerDataGridView
+            // 
+            this.expiredLedgerDataGridView.AllowUserToAddRows = false;
+            this.expiredLedgerDataGridView.AllowUserToOrderColumns = true;
+            this.expiredLedgerDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.expiredLedgerDataGridView.Location = new System.Drawing.Point(72, 76);
+            this.expiredLedgerDataGridView.Name = "expiredLedgerDataGridView";
+            this.expiredLedgerDataGridView.Size = new System.Drawing.Size(1030, 442);
+            this.expiredLedgerDataGridView.TabIndex = 1;
+            // 
             // settingsTabPage
             // 
             this.settingsTabPage.BackColor = System.Drawing.Color.DimGray;
+            this.settingsTabPage.Controls.Add(this.discordSettingsGroupBox);
+            this.settingsTabPage.Controls.Add(this.nexusDatabaseSettingsGroupBox);
+            this.settingsTabPage.Controls.Add(this.paymentsDatabaseSettingsGroupBox);
             this.settingsTabPage.Controls.Add(this.settingsSaveButton);
             this.settingsTabPage.Controls.Add(this.saveLocation);
             this.settingsTabPage.Controls.Add(this.configSaveLocation);
@@ -264,13 +292,14 @@
             // settingsSaveButton
             // 
             this.settingsSaveButton.AutoSize = true;
-            this.settingsSaveButton.Location = new System.Drawing.Point(16, 424);
+            this.settingsSaveButton.Location = new System.Drawing.Point(588, 438);
             this.settingsSaveButton.Margin = new System.Windows.Forms.Padding(2);
             this.settingsSaveButton.Name = "settingsSaveButton";
             this.settingsSaveButton.Size = new System.Drawing.Size(89, 24);
             this.settingsSaveButton.TabIndex = 2;
             this.settingsSaveButton.Text = "Save";
             this.settingsSaveButton.UseVisualStyleBackColor = true;
+            this.settingsSaveButton.Click += new System.EventHandler(this.configSaveButton_Click);
             // 
             // saveLocation
             // 
@@ -291,38 +320,38 @@
             this.configSaveLocation.UseVisualStyleBackColor = true;
             this.configSaveLocation.Click += new System.EventHandler(this.button3_Click);
             // 
-            // sqlTabPage
+            // playerGridView
             // 
-            this.sqlTabPage.BackColor = System.Drawing.Color.DimGray;
-            this.sqlTabPage.Controls.Add(this.nexusGroupBox);
-            this.sqlTabPage.Controls.Add(this.paymentsGroupBox);
-            this.sqlTabPage.Controls.Add(this.sqlConfigSaveButton);
-            this.sqlTabPage.Location = new System.Drawing.Point(4, 22);
-            this.sqlTabPage.Margin = new System.Windows.Forms.Padding(2);
-            this.sqlTabPage.Name = "sqlTabPage";
-            this.sqlTabPage.Size = new System.Drawing.Size(1767, 898);
-            this.sqlTabPage.TabIndex = 4;
-            this.sqlTabPage.Text = "SQL";
+            this.playerGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.playerGridView.Location = new System.Drawing.Point(32, 37);
+            this.playerGridView.Name = "playerGridView";
+            this.playerGridView.Size = new System.Drawing.Size(898, 561);
+            this.playerGridView.TabIndex = 0;
             // 
-            // nexusGroupBox
+            // droleupdate
             // 
-            this.nexusGroupBox.Controls.Add(this.Password);
-            this.nexusGroupBox.Controls.Add(this.databasePortLabel);
-            this.nexusGroupBox.Controls.Add(this.nexusDatabaseHost);
-            this.nexusGroupBox.Controls.Add(this.databaseHostLabel);
-            this.nexusGroupBox.Controls.Add(this.nexusDatabasePort);
-            this.nexusGroupBox.Controls.Add(this.databaseDatabaseLabel);
-            this.nexusGroupBox.Controls.Add(this.nexusDatabaseUser);
-            this.nexusGroupBox.Controls.Add(this.databaseUsernameLabel);
-            this.nexusGroupBox.Controls.Add(this.nexusDatabaseDatabase);
-            this.nexusGroupBox.Controls.Add(this.databasePasswordLabel);
-            this.nexusGroupBox.Location = new System.Drawing.Point(28, 168);
-            this.nexusGroupBox.Name = "nexusGroupBox";
-            this.nexusGroupBox.Size = new System.Drawing.Size(532, 137);
-            this.nexusGroupBox.TabIndex = 14;
-            this.nexusGroupBox.TabStop = false;
-            this.nexusGroupBox.Text = "Nexus Database";
-            this.nexusGroupBox.Visible = false;
+            this.droleupdate.Interval = 120000;
+            this.droleupdate.Tick += new System.EventHandler(this.droleupdate_Tick);
+            // 
+            // nexusDatabaseSettingsGroupBox
+            // 
+            this.nexusDatabaseSettingsGroupBox.Controls.Add(this.Password);
+            this.nexusDatabaseSettingsGroupBox.Controls.Add(this.databasePortLabel);
+            this.nexusDatabaseSettingsGroupBox.Controls.Add(this.nexusDatabaseHost);
+            this.nexusDatabaseSettingsGroupBox.Controls.Add(this.nexusDatabaseHostLabel);
+            this.nexusDatabaseSettingsGroupBox.Controls.Add(this.nexusDatabasePort);
+            this.nexusDatabaseSettingsGroupBox.Controls.Add(this.databaseDatabaseLabel);
+            this.nexusDatabaseSettingsGroupBox.Controls.Add(this.nexusDatabaseUser);
+            this.nexusDatabaseSettingsGroupBox.Controls.Add(this.nexusDatabaseUsernameLabel);
+            this.nexusDatabaseSettingsGroupBox.Controls.Add(this.nexusDatabaseDatabase);
+            this.nexusDatabaseSettingsGroupBox.Controls.Add(this.nexusDatabasePasswordLabel);
+            this.nexusDatabaseSettingsGroupBox.Location = new System.Drawing.Point(14, 296);
+            this.nexusDatabaseSettingsGroupBox.Name = "nexusDatabaseSettingsGroupBox";
+            this.nexusDatabaseSettingsGroupBox.Size = new System.Drawing.Size(663, 137);
+            this.nexusDatabaseSettingsGroupBox.TabIndex = 17;
+            this.nexusDatabaseSettingsGroupBox.TabStop = false;
+            this.nexusDatabaseSettingsGroupBox.Text = "Nexus Database";
+            this.nexusDatabaseSettingsGroupBox.Visible = false;
             // 
             // Password
             // 
@@ -341,7 +370,6 @@
             this.databasePortLabel.Size = new System.Drawing.Size(29, 13);
             this.databasePortLabel.TabIndex = 12;
             this.databasePortLabel.Text = "Port:";
-            this.databasePortLabel.Click += new System.EventHandler(this.databasePortLabel_Click);
             // 
             // nexusDatabaseHost
             // 
@@ -350,16 +378,15 @@
             this.nexusDatabaseHost.Size = new System.Drawing.Size(203, 20);
             this.nexusDatabaseHost.TabIndex = 3;
             this.nexusDatabaseHost.Text = "localhost";
-            this.nexusDatabaseHost.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
             // 
-            // databaseHostLabel
+            // nexusDatabaseHostLabel
             // 
-            this.databaseHostLabel.AutoSize = true;
-            this.databaseHostLabel.Location = new System.Drawing.Point(22, 23);
-            this.databaseHostLabel.Name = "databaseHostLabel";
-            this.databaseHostLabel.Size = new System.Drawing.Size(32, 13);
-            this.databaseHostLabel.TabIndex = 4;
-            this.databaseHostLabel.Text = "Host:";
+            this.nexusDatabaseHostLabel.AutoSize = true;
+            this.nexusDatabaseHostLabel.Location = new System.Drawing.Point(22, 23);
+            this.nexusDatabaseHostLabel.Name = "nexusDatabaseHostLabel";
+            this.nexusDatabaseHostLabel.Size = new System.Drawing.Size(32, 13);
+            this.nexusDatabaseHostLabel.TabIndex = 4;
+            this.nexusDatabaseHostLabel.Text = "Host:";
             // 
             // nexusDatabasePort
             // 
@@ -388,14 +415,14 @@
             this.nexusDatabaseUser.TabIndex = 9;
             this.nexusDatabaseUser.Text = "NexusUser";
             // 
-            // databaseUsernameLabel
+            // nexusDatabaseUsernameLabel
             // 
-            this.databaseUsernameLabel.AutoSize = true;
-            this.databaseUsernameLabel.Location = new System.Drawing.Point(22, 74);
-            this.databaseUsernameLabel.Name = "databaseUsernameLabel";
-            this.databaseUsernameLabel.Size = new System.Drawing.Size(58, 13);
-            this.databaseUsernameLabel.TabIndex = 6;
-            this.databaseUsernameLabel.Text = "Username:";
+            this.nexusDatabaseUsernameLabel.AutoSize = true;
+            this.nexusDatabaseUsernameLabel.Location = new System.Drawing.Point(22, 74);
+            this.nexusDatabaseUsernameLabel.Name = "nexusDatabaseUsernameLabel";
+            this.nexusDatabaseUsernameLabel.Size = new System.Drawing.Size(58, 13);
+            this.nexusDatabaseUsernameLabel.TabIndex = 6;
+            this.nexusDatabaseUsernameLabel.Text = "Username:";
             // 
             // nexusDatabaseDatabase
             // 
@@ -405,34 +432,33 @@
             this.nexusDatabaseDatabase.TabIndex = 8;
             this.nexusDatabaseDatabase.Text = "NexusDatabase";
             // 
-            // databasePasswordLabel
+            // nexusDatabasePasswordLabel
             // 
-            this.databasePasswordLabel.AutoSize = true;
-            this.databasePasswordLabel.Location = new System.Drawing.Point(22, 104);
-            this.databasePasswordLabel.Name = "databasePasswordLabel";
-            this.databasePasswordLabel.Size = new System.Drawing.Size(56, 13);
-            this.databasePasswordLabel.TabIndex = 7;
-            this.databasePasswordLabel.Text = "Password:";
+            this.nexusDatabasePasswordLabel.AutoSize = true;
+            this.nexusDatabasePasswordLabel.Location = new System.Drawing.Point(22, 104);
+            this.nexusDatabasePasswordLabel.Name = "nexusDatabasePasswordLabel";
+            this.nexusDatabasePasswordLabel.Size = new System.Drawing.Size(56, 13);
+            this.nexusDatabasePasswordLabel.TabIndex = 7;
+            this.nexusDatabasePasswordLabel.Text = "Password:";
             // 
-            // paymentsGroupBox
+            // paymentsDatabaseSettingsGroupBox
             // 
-            this.paymentsGroupBox.Controls.Add(this.paymentsDatabasePassword);
-            this.paymentsGroupBox.Controls.Add(this.paymentsDatabasePortLabel);
-            this.paymentsGroupBox.Controls.Add(this.paymentsDatabaseHost);
-            this.paymentsGroupBox.Controls.Add(this.paymentsDatabasePort);
-            this.paymentsGroupBox.Controls.Add(this.paymentsDatabaseHostLabel);
-            this.paymentsGroupBox.Controls.Add(this.paymentsDatabaseDatabaseLabel);
-            this.paymentsGroupBox.Controls.Add(this.paymentsDatabaseUser);
-            this.paymentsGroupBox.Controls.Add(this.paymentsDatabaseUsernameLabel);
-            this.paymentsGroupBox.Controls.Add(this.paymentsDatabaseDatabase);
-            this.paymentsGroupBox.Controls.Add(this.paymentsDatabasePasswordLabel);
-            this.paymentsGroupBox.Location = new System.Drawing.Point(28, 25);
-            this.paymentsGroupBox.Name = "paymentsGroupBox";
-            this.paymentsGroupBox.Size = new System.Drawing.Size(532, 137);
-            this.paymentsGroupBox.TabIndex = 13;
-            this.paymentsGroupBox.TabStop = false;
-            this.paymentsGroupBox.Text = "Payments Database";
-            this.paymentsGroupBox.Enter += new System.EventHandler(this.groupBox1_Enter);
+            this.paymentsDatabaseSettingsGroupBox.Controls.Add(this.paymentsDatabasePassword);
+            this.paymentsDatabaseSettingsGroupBox.Controls.Add(this.paymentsDatabasePortLabel);
+            this.paymentsDatabaseSettingsGroupBox.Controls.Add(this.paymentsDatabaseHost);
+            this.paymentsDatabaseSettingsGroupBox.Controls.Add(this.paymentsDatabasePort);
+            this.paymentsDatabaseSettingsGroupBox.Controls.Add(this.paymentsDatabaseHostLabel);
+            this.paymentsDatabaseSettingsGroupBox.Controls.Add(this.paymentsDatabaseDatabaseLabel);
+            this.paymentsDatabaseSettingsGroupBox.Controls.Add(this.paymentsDatabaseUser);
+            this.paymentsDatabaseSettingsGroupBox.Controls.Add(this.paymentsDatabaseUsernameLabel);
+            this.paymentsDatabaseSettingsGroupBox.Controls.Add(this.paymentsDatabaseDatabase);
+            this.paymentsDatabaseSettingsGroupBox.Controls.Add(this.paymentsDatabasePasswordLabel);
+            this.paymentsDatabaseSettingsGroupBox.Location = new System.Drawing.Point(14, 153);
+            this.paymentsDatabaseSettingsGroupBox.Name = "paymentsDatabaseSettingsGroupBox";
+            this.paymentsDatabaseSettingsGroupBox.Size = new System.Drawing.Size(663, 137);
+            this.paymentsDatabaseSettingsGroupBox.TabIndex = 16;
+            this.paymentsDatabaseSettingsGroupBox.TabStop = false;
+            this.paymentsDatabaseSettingsGroupBox.Text = "Payments Database";
             // 
             // paymentsDatabasePassword
             // 
@@ -459,7 +485,6 @@
             this.paymentsDatabaseHost.Size = new System.Drawing.Size(203, 20);
             this.paymentsDatabaseHost.TabIndex = 3;
             this.paymentsDatabaseHost.Text = "localhost";
-            this.paymentsDatabaseHost.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // paymentsDatabasePort
             // 
@@ -470,7 +495,6 @@
             this.paymentsDatabasePort.TabIndex = 13;
             this.paymentsDatabasePort.Text = "5433";
             this.paymentsDatabasePort.ValidatingType = typeof(int);
-            this.paymentsDatabasePort.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.paymentsDatabasePort_MaskInputRejected);
             // 
             // paymentsDatabaseHostLabel
             // 
@@ -489,7 +513,6 @@
             this.paymentsDatabaseDatabaseLabel.Size = new System.Drawing.Size(56, 13);
             this.paymentsDatabaseDatabaseLabel.TabIndex = 5;
             this.paymentsDatabaseDatabaseLabel.Text = "Database:";
-            this.paymentsDatabaseDatabaseLabel.Click += new System.EventHandler(this.paymentsDatabaseDatabaseLabel_Click);
             // 
             // paymentsDatabaseUser
             // 
@@ -515,7 +538,6 @@
             this.paymentsDatabaseDatabase.Size = new System.Drawing.Size(203, 20);
             this.paymentsDatabaseDatabase.TabIndex = 8;
             this.paymentsDatabaseDatabase.Text = "PaymentsDatabase";
-            this.paymentsDatabaseDatabase.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // paymentsDatabasePasswordLabel
             // 
@@ -526,183 +548,111 @@
             this.paymentsDatabasePasswordLabel.TabIndex = 7;
             this.paymentsDatabasePasswordLabel.Text = "Password:";
             // 
-            // sqlConfigSaveButton
+            // discordSettingsGroupBox
             // 
-            this.sqlConfigSaveButton.AutoSize = true;
-            this.sqlConfigSaveButton.Location = new System.Drawing.Point(7, 324);
-            this.sqlConfigSaveButton.Margin = new System.Windows.Forms.Padding(2);
-            this.sqlConfigSaveButton.Name = "sqlConfigSaveButton";
-            this.sqlConfigSaveButton.Size = new System.Drawing.Size(89, 24);
-            this.sqlConfigSaveButton.TabIndex = 2;
-            this.sqlConfigSaveButton.Text = "Save";
-            this.sqlConfigSaveButton.UseVisualStyleBackColor = true;
-            this.sqlConfigSaveButton.Click += new System.EventHandler(this.sqlConfigSave_Click);
-            // 
-            // discordTabPage
-            // 
-            this.discordTabPage.BackColor = System.Drawing.Color.DimGray;
-            this.discordTabPage.Controls.Add(this.discordAutoConnect);
-            this.discordTabPage.Controls.Add(this.btnSave);
-            this.discordTabPage.Controls.Add(this.discordTestMessageLabel);
-            this.discordTabPage.Controls.Add(this.discordChannelIDLabel);
-            this.discordTabPage.Controls.Add(this.discordBotTokenLabel);
-            this.discordTabPage.Controls.Add(this.discordMSGSend);
-            this.discordTabPage.Controls.Add(this.discordBotConnect);
-            this.discordTabPage.Controls.Add(this.discordTestMessage);
-            this.discordTabPage.Controls.Add(this.channelDiscordID);
-            this.discordTabPage.Controls.Add(this.discordToken);
-            this.discordTabPage.Location = new System.Drawing.Point(4, 22);
-            this.discordTabPage.Margin = new System.Windows.Forms.Padding(2);
-            this.discordTabPage.Name = "discordTabPage";
-            this.discordTabPage.Size = new System.Drawing.Size(1767, 898);
-            this.discordTabPage.TabIndex = 5;
-            this.discordTabPage.Text = "Discord";
+            this.discordSettingsGroupBox.Controls.Add(this.discordAutoConnect);
+            this.discordSettingsGroupBox.Controls.Add(this.discordTestMessageLabel);
+            this.discordSettingsGroupBox.Controls.Add(this.discordChannelIDLabel);
+            this.discordSettingsGroupBox.Controls.Add(this.discordBotTokenLabel);
+            this.discordSettingsGroupBox.Controls.Add(this.discordMSGSend);
+            this.discordSettingsGroupBox.Controls.Add(this.discordBotConnect);
+            this.discordSettingsGroupBox.Controls.Add(this.discordTestMessage);
+            this.discordSettingsGroupBox.Controls.Add(this.channelDiscordID);
+            this.discordSettingsGroupBox.Controls.Add(this.discordToken);
+            this.discordSettingsGroupBox.Location = new System.Drawing.Point(14, 43);
+            this.discordSettingsGroupBox.Name = "discordSettingsGroupBox";
+            this.discordSettingsGroupBox.Size = new System.Drawing.Size(663, 104);
+            this.discordSettingsGroupBox.TabIndex = 18;
+            this.discordSettingsGroupBox.TabStop = false;
+            this.discordSettingsGroupBox.Text = "Discord Bot";
             // 
             // discordAutoConnect
             // 
             this.discordAutoConnect.AutoSize = true;
-            this.discordAutoConnect.Location = new System.Drawing.Point(551, 28);
+            this.discordAutoConnect.Location = new System.Drawing.Point(521, 15);
             this.discordAutoConnect.Margin = new System.Windows.Forms.Padding(2);
             this.discordAutoConnect.Name = "discordAutoConnect";
             this.discordAutoConnect.Size = new System.Drawing.Size(108, 17);
-            this.discordAutoConnect.TabIndex = 8;
+            this.discordAutoConnect.TabIndex = 18;
             this.discordAutoConnect.Text = "Connect On Start";
             this.discordAutoConnect.UseVisualStyleBackColor = true;
-            this.discordAutoConnect.CheckedChanged += new System.EventHandler(this.discordAutoConnect_CheckedChanged);
-            // 
-            // btnSave
-            // 
-            this.btnSave.AutoSize = true;
-            this.btnSave.Location = new System.Drawing.Point(137, 102);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(2);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(89, 24);
-            this.btnSave.TabIndex = 1;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click_1);
             // 
             // discordTestMessageLabel
             // 
             this.discordTestMessageLabel.AutoSize = true;
-            this.discordTestMessageLabel.Location = new System.Drawing.Point(35, 83);
+            this.discordTestMessageLabel.Location = new System.Drawing.Point(5, 70);
             this.discordTestMessageLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.discordTestMessageLabel.Name = "discordTestMessageLabel";
             this.discordTestMessageLabel.Size = new System.Drawing.Size(74, 13);
-            this.discordTestMessageLabel.TabIndex = 7;
+            this.discordTestMessageLabel.TabIndex = 17;
             this.discordTestMessageLabel.Text = "Test Message";
             // 
             // discordChannelIDLabel
             // 
             this.discordChannelIDLabel.AutoSize = true;
-            this.discordChannelIDLabel.Location = new System.Drawing.Point(35, 57);
+            this.discordChannelIDLabel.Location = new System.Drawing.Point(5, 44);
             this.discordChannelIDLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.discordChannelIDLabel.Name = "discordChannelIDLabel";
             this.discordChannelIDLabel.Size = new System.Drawing.Size(99, 13);
-            this.discordChannelIDLabel.TabIndex = 6;
+            this.discordChannelIDLabel.TabIndex = 16;
             this.discordChannelIDLabel.Text = "Discord Channel ID";
             // 
             // discordBotTokenLabel
             // 
             this.discordBotTokenLabel.AutoSize = true;
-            this.discordBotTokenLabel.Location = new System.Drawing.Point(35, 29);
+            this.discordBotTokenLabel.Location = new System.Drawing.Point(5, 16);
             this.discordBotTokenLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.discordBotTokenLabel.Name = "discordBotTokenLabel";
             this.discordBotTokenLabel.Size = new System.Drawing.Size(96, 13);
-            this.discordBotTokenLabel.TabIndex = 5;
+            this.discordBotTokenLabel.TabIndex = 15;
             this.discordBotTokenLabel.Text = "Discord Bot Token";
             // 
             // discordMSGSend
             // 
-            this.discordMSGSend.Location = new System.Drawing.Point(444, 79);
+            this.discordMSGSend.Location = new System.Drawing.Point(414, 66);
             this.discordMSGSend.Margin = new System.Windows.Forms.Padding(2);
             this.discordMSGSend.Name = "discordMSGSend";
             this.discordMSGSend.Size = new System.Drawing.Size(74, 22);
-            this.discordMSGSend.TabIndex = 4;
+            this.discordMSGSend.TabIndex = 14;
             this.discordMSGSend.Text = "Send";
             this.discordMSGSend.UseVisualStyleBackColor = true;
             this.discordMSGSend.Click += new System.EventHandler(this.discordMSGSend_Click);
             // 
             // discordBotConnect
             // 
-            this.discordBotConnect.Location = new System.Drawing.Point(444, 25);
+            this.discordBotConnect.Location = new System.Drawing.Point(414, 12);
             this.discordBotConnect.Margin = new System.Windows.Forms.Padding(2);
             this.discordBotConnect.Name = "discordBotConnect";
             this.discordBotConnect.Size = new System.Drawing.Size(74, 22);
-            this.discordBotConnect.TabIndex = 3;
+            this.discordBotConnect.TabIndex = 13;
             this.discordBotConnect.Text = "Connect";
             this.discordBotConnect.UseVisualStyleBackColor = true;
             this.discordBotConnect.Click += new System.EventHandler(this.discordBotConnect_Click);
             // 
             // discordTestMessage
             // 
-            this.discordTestMessage.Location = new System.Drawing.Point(137, 81);
+            this.discordTestMessage.Location = new System.Drawing.Point(107, 68);
             this.discordTestMessage.Margin = new System.Windows.Forms.Padding(2);
             this.discordTestMessage.Name = "discordTestMessage";
             this.discordTestMessage.Size = new System.Drawing.Size(295, 20);
-            this.discordTestMessage.TabIndex = 2;
-            this.discordTestMessage.TextChanged += new System.EventHandler(this.discordTestMessage_TextChanged);
+            this.discordTestMessage.TabIndex = 12;
             // 
             // channelDiscordID
             // 
-            this.channelDiscordID.Location = new System.Drawing.Point(137, 55);
+            this.channelDiscordID.Location = new System.Drawing.Point(107, 42);
             this.channelDiscordID.Margin = new System.Windows.Forms.Padding(2);
             this.channelDiscordID.Name = "channelDiscordID";
             this.channelDiscordID.Size = new System.Drawing.Size(295, 20);
-            this.channelDiscordID.TabIndex = 1;
+            this.channelDiscordID.TabIndex = 11;
             // 
             // discordToken
             // 
-            this.discordToken.Location = new System.Drawing.Point(137, 27);
+            this.discordToken.Location = new System.Drawing.Point(107, 14);
             this.discordToken.Margin = new System.Windows.Forms.Padding(2);
             this.discordToken.Name = "discordToken";
             this.discordToken.Size = new System.Drawing.Size(295, 20);
-            this.discordToken.TabIndex = 0;
+            this.discordToken.TabIndex = 9;
             this.discordToken.UseSystemPasswordChar = true;
-            // 
-            // playerGridView
-            // 
-            this.playerGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.playerGridView.Location = new System.Drawing.Point(32, 37);
-            this.playerGridView.Name = "playerGridView";
-            this.playerGridView.Size = new System.Drawing.Size(898, 561);
-            this.playerGridView.TabIndex = 0;
-            // 
-            // droleupdate
-            // 
-            this.droleupdate.Interval = 120000;
-            this.droleupdate.Tick += new System.EventHandler(this.droleupdate_Tick);
-            // 
-            // expiredLedgerTabPage
-            // 
-            this.expiredLedgerTabPage.Controls.Add(this.expiredLedgerDataGridView);
-            this.expiredLedgerTabPage.Location = new System.Drawing.Point(4, 22);
-            this.expiredLedgerTabPage.Name = "expiredLedgerTabPage";
-            this.expiredLedgerTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.expiredLedgerTabPage.Size = new System.Drawing.Size(1175, 594);
-            this.expiredLedgerTabPage.TabIndex = 2;
-            this.expiredLedgerTabPage.Text = "Expired Payments";
-            this.expiredLedgerTabPage.UseVisualStyleBackColor = true;
-            // 
-            // paidLedgerDataGridView
-            // 
-            this.paidLedgerDataGridView.AllowUserToAddRows = false;
-            this.paidLedgerDataGridView.AllowUserToOrderColumns = true;
-            this.paidLedgerDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.paidLedgerDataGridView.Location = new System.Drawing.Point(72, 76);
-            this.paidLedgerDataGridView.Name = "paidLedgerDataGridView";
-            this.paidLedgerDataGridView.Size = new System.Drawing.Size(1030, 442);
-            this.paidLedgerDataGridView.TabIndex = 1;
-            // 
-            // expiredLedgerDataGridView
-            // 
-            this.expiredLedgerDataGridView.AllowUserToAddRows = false;
-            this.expiredLedgerDataGridView.AllowUserToOrderColumns = true;
-            this.expiredLedgerDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.expiredLedgerDataGridView.Location = new System.Drawing.Point(72, 76);
-            this.expiredLedgerDataGridView.Name = "expiredLedgerDataGridView";
-            this.expiredLedgerDataGridView.Size = new System.Drawing.Size(1030, 442);
-            this.expiredLedgerDataGridView.TabIndex = 1;
             // 
             // Form1
             // 
@@ -724,20 +674,18 @@
             this.pendingLedgerTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pendingLedgerGridView)).EndInit();
             this.paidLedgerTabPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.paidLedgerDataGridView)).EndInit();
+            this.expiredLedgerTabPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.expiredLedgerDataGridView)).EndInit();
             this.settingsTabPage.ResumeLayout(false);
             this.settingsTabPage.PerformLayout();
-            this.sqlTabPage.ResumeLayout(false);
-            this.sqlTabPage.PerformLayout();
-            this.nexusGroupBox.ResumeLayout(false);
-            this.nexusGroupBox.PerformLayout();
-            this.paymentsGroupBox.ResumeLayout(false);
-            this.paymentsGroupBox.PerformLayout();
-            this.discordTabPage.ResumeLayout(false);
-            this.discordTabPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.playerGridView)).EndInit();
-            this.expiredLedgerTabPage.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.paidLedgerDataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.expiredLedgerDataGridView)).EndInit();
+            this.nexusDatabaseSettingsGroupBox.ResumeLayout(false);
+            this.nexusDatabaseSettingsGroupBox.PerformLayout();
+            this.paymentsDatabaseSettingsGroupBox.ResumeLayout(false);
+            this.paymentsDatabaseSettingsGroupBox.PerformLayout();
+            this.discordSettingsGroupBox.ResumeLayout(false);
+            this.discordSettingsGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -749,46 +697,11 @@
         private System.Windows.Forms.TabPage playersTabPage;
         private System.Windows.Forms.TabPage ledgerTabPage;
         private System.Windows.Forms.TabPage settingsTabPage;
-        private System.Windows.Forms.TabPage sqlTabPage;
-        private System.Windows.Forms.TabPage discordTabPage;
-        private System.Windows.Forms.Label discordTestMessageLabel;
-        private System.Windows.Forms.Label discordChannelIDLabel;
-        private System.Windows.Forms.Label discordBotTokenLabel;
-        private System.Windows.Forms.Button discordMSGSend;
-        private System.Windows.Forms.Button discordBotConnect;
-        private System.Windows.Forms.TextBox discordTestMessage;
-        private System.Windows.Forms.TextBox channelDiscordID;
-        private System.Windows.Forms.TextBox discordToken;
         private System.Windows.Forms.TextBox saveLocation;
         private System.Windows.Forms.Button configSaveLocation;
         private System.Windows.Forms.Button rewardsSaveButton;
         private System.Windows.Forms.Button settingsSaveButton;
-        private System.Windows.Forms.Button sqlConfigSaveButton;
-        private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.CheckBox discordAutoConnect;
-        private System.Windows.Forms.TextBox paymentsDatabaseHost;
         private System.Windows.Forms.Label discordRolesLabel;
-        private System.Windows.Forms.Label paymentsDatabaseUsernameLabel;
-        private System.Windows.Forms.Label paymentsDatabaseHostLabel;
-        private System.Windows.Forms.Label paymentsDatabaseDatabaseLabel;
-        private System.Windows.Forms.TextBox paymentsDatabaseUser;
-        private System.Windows.Forms.TextBox paymentsDatabaseDatabase;
-        private System.Windows.Forms.Label paymentsDatabasePasswordLabel;
-        private System.Windows.Forms.GroupBox paymentsGroupBox;
-        private System.Windows.Forms.GroupBox nexusGroupBox;
-        private System.Windows.Forms.TextBox nexusDatabaseHost;
-        private System.Windows.Forms.Label databaseHostLabel;
-        private System.Windows.Forms.MaskedTextBox nexusDatabasePort;
-        private System.Windows.Forms.Label databaseDatabaseLabel;
-        private System.Windows.Forms.TextBox nexusDatabaseUser;
-        private System.Windows.Forms.Label databaseUsernameLabel;
-        private System.Windows.Forms.TextBox nexusDatabaseDatabase;
-        private System.Windows.Forms.Label databasePasswordLabel;
-        private System.Windows.Forms.Label databasePortLabel;
-        private System.Windows.Forms.TextBox Password;
-        private System.Windows.Forms.TextBox paymentsDatabasePassword;
-        private System.Windows.Forms.Label paymentsDatabasePortLabel;
-        private System.Windows.Forms.MaskedTextBox paymentsDatabasePort;
         private System.Windows.Forms.DataGridView pendingLedgerGridView;
         private System.Windows.Forms.DataGridView playerGridView;
         private System.Windows.Forms.DataGridView rewardsGridView;
@@ -800,6 +713,38 @@
         private System.Windows.Forms.DataGridView paidLedgerDataGridView;
         private System.Windows.Forms.TabPage expiredLedgerTabPage;
         private System.Windows.Forms.DataGridView expiredLedgerDataGridView;
+        private System.Windows.Forms.GroupBox nexusDatabaseSettingsGroupBox;
+        private System.Windows.Forms.TextBox Password;
+        private System.Windows.Forms.Label databasePortLabel;
+        private System.Windows.Forms.TextBox nexusDatabaseHost;
+        private System.Windows.Forms.Label nexusDatabaseHostLabel;
+        private System.Windows.Forms.MaskedTextBox nexusDatabasePort;
+        private System.Windows.Forms.Label databaseDatabaseLabel;
+        private System.Windows.Forms.TextBox nexusDatabaseUser;
+        private System.Windows.Forms.Label nexusDatabaseUsernameLabel;
+        private System.Windows.Forms.TextBox nexusDatabaseDatabase;
+        private System.Windows.Forms.Label nexusDatabasePasswordLabel;
+        private System.Windows.Forms.GroupBox paymentsDatabaseSettingsGroupBox;
+        private System.Windows.Forms.TextBox paymentsDatabasePassword;
+        private System.Windows.Forms.Label paymentsDatabasePortLabel;
+        private System.Windows.Forms.TextBox paymentsDatabaseHost;
+        private System.Windows.Forms.MaskedTextBox paymentsDatabasePort;
+        private System.Windows.Forms.Label paymentsDatabaseHostLabel;
+        private System.Windows.Forms.Label paymentsDatabaseDatabaseLabel;
+        private System.Windows.Forms.TextBox paymentsDatabaseUser;
+        private System.Windows.Forms.Label paymentsDatabaseUsernameLabel;
+        private System.Windows.Forms.TextBox paymentsDatabaseDatabase;
+        private System.Windows.Forms.Label paymentsDatabasePasswordLabel;
+        private System.Windows.Forms.GroupBox discordSettingsGroupBox;
+        private System.Windows.Forms.CheckBox discordAutoConnect;
+        private System.Windows.Forms.Label discordTestMessageLabel;
+        private System.Windows.Forms.Label discordChannelIDLabel;
+        private System.Windows.Forms.Label discordBotTokenLabel;
+        private System.Windows.Forms.Button discordMSGSend;
+        private System.Windows.Forms.Button discordBotConnect;
+        private System.Windows.Forms.TextBox discordTestMessage;
+        private System.Windows.Forms.TextBox channelDiscordID;
+        private System.Windows.Forms.TextBox discordToken;
     }
 }
 

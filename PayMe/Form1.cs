@@ -479,12 +479,6 @@ namespace PayMe
             }
         }
 
-        private void btnSave_Click_1(object sender, EventArgs e)
-        {
-            SaveConfiguration();
-            MessageBox.Show("Configuration saved successfully!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
         private void settingsTabPage_Click(object sender, EventArgs e)
         {
             // Your logic for this event goes here.
@@ -564,8 +558,9 @@ namespace PayMe
             //Console.WriteLine(_rewardsDataTable.Rows[e.RowIndex][e.ColumnIndex].ToString());
         }
 
-        private void sqlConfigSave_Click(object sender, EventArgs e)
+        private void configSaveButton_Click(object sender, EventArgs e)
         {
+            Console.WriteLine("saving configuration");
             _paymentDatabase.host = paymentsDatabaseHost.Text;
             _paymentDatabase.port = uint.Parse(paymentsDatabasePort.Text);
             _paymentDatabase.userName = paymentsDatabaseUser.Text;
