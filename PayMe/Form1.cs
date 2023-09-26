@@ -15,6 +15,7 @@ using Discord.Interactions;
 using Discord.Commands;
 using Newtonsoft.Json;
 using DSharpPlus.Entities;
+using System.Collections.ObjectModel;
 
 namespace PayMe
 {
@@ -146,7 +147,54 @@ namespace PayMe
             pendingLedgerGridView.DataSource = _ledgerDataTable;
             playerGridView.DataSource = _playerDataTable;
             rewardsGridView.DataSource = _rewardsDataTable;
+
+            // Register the MessageReceived event
+            _client.MessageReceived += MessageReceivedAsync;
+
         }
+
+        //Listen to player
+
+        private async Task MessageReceivedAsync(SocketMessage message)
+        {
+            // Check if the message is from a user that the bot is waiting for to provide their Steam ID
+            if (awaitingSteamID.Contains(message.Author.Id))
+            {
+                // Validate the Steam ID (implement your own validation logic)
+                if (IsValidSteamID(message.Content))
+                {
+                    // Add a new row to the _playerDataTable
+                    _playerDataTable.Rows.Add(message.Content, "Steam Name not found", message.Author.Id, message.Author.Username);
+
+                    // Update the database (implement your own database update logic)
+                    UpdateDatabaseWithNewPlayer(message.Content, message.Author.Id, message.Author.Username);
+
+                    // Remove the user's ID from the collection
+                    awaitingSteamID.Remove(message.Author.Id);
+
+                    // Send a confirmation message to the user
+                    await message.Channel.SendMessageAsync("Your Steam ID has been successfully added to the database.");
+                }
+                else
+                {
+                    // Send an error message to the user
+                    await message.Channel.SendMessageAsync("Invalid Steam ID. Please provide a valid Steam ID.");
+                }
+            }
+        }
+
+        private bool IsValidSteamID(string steamID)
+        {
+            // Implement your own Steam ID validation logic
+            return true;
+        }
+
+        private void UpdateDatabaseWithNewPlayer(string steamID, ulong discordID, string discordName)
+        {
+            // Implement your own database update logic
+        }        
+
+        //End listen to player
 
 
         private async void Timer1_Tick(object sender, EventArgs e)
@@ -221,6 +269,8 @@ namespace PayMe
         }
 
         //respond to payme command
+        // Define a HashSet to store user IDs that the bot is waiting for to provide their Steam ID
+        private HashSet<ulong> awaitingSteamID = new HashSet<ulong>();
         private async Task HandleCommandAsync(SocketInteraction interaction)
         {
             if (interaction is SocketSlashCommand command)
@@ -241,23 +291,34 @@ namespace PayMe
                             string username = user.Username;
                             ulong userId = user.Id;
 
-                            // Get users roles
-                            var roles = guildUser.Roles.Select(role => role.Name);
+                            // Check if the user's Discord ID is in the _playerDataTable
+                            DataRow[] foundRows = _playerDataTable.Select($"DiscordID = '{userId}'");
+                            if (foundRows.Length == 0)
+                            {
+                                // If the user's Discord ID is not in the database, ask for their Steam ID
+                                await dmChannel.SendMessageAsync("It seems like your Discord ID is not in our database. Please provide your Steam ID.");
+                                // Implement a way to collect the Steam ID provided by the user and add it to the database later
 
-                            //Format roles for output
-                            //string rolesOutput = string.Join(", ", roles);
+                                // Add the user's ID to the collection
+                                awaitingSteamID.Add(userId);
 
-                            // Create an embed builder
-                            var embedBuilder = new EmbedBuilder()
-                                .WithTitle($"Information for {username}")
-                                .AddField("Discord ID", userId.ToString())
-                                .AddField("Roles", string.Join(", ", roles))
-                                .WithColor(Discord.Color.Blue);
+                            }
+                            else
+                            {
+                                // If the user's Discord ID is in the database, proceed as normal
+                                // Get users roles
+                                var roles = guildUser.Roles.Select(role => role.Name);
 
-                            //Send message to user
-                            //await dmChannel.SendMessageAsync($"Hello, {username}! Your Discord ID is {userId}. You have the following roles: {rolesOutput}.");
-                            // Send embedded message to user
-                            await dmChannel.SendMessageAsync(embed: embedBuilder.Build());
+                                // Create an embed builder
+                                var embedBuilder = new EmbedBuilder()
+                                    .WithTitle($"Information for {username}")
+                                    .AddField("Discord ID", userId.ToString())
+                                    .AddField("Roles", string.Join(", ", roles))
+                                    .WithColor(Discord.Color.Blue);
+
+                                // Send embedded message to user
+                                await dmChannel.SendMessageAsync(embed: embedBuilder.Build());
+                            }
                         }
                         break;
                 }
