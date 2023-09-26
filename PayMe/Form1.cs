@@ -103,10 +103,20 @@ namespace PayMe
             {
                 _paymentDatabase.Initialize();
             }
+            
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message} Check SQL connection settings.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Log or display more details about the exception
+                Console.WriteLine("Error: " + ex.Message + "\nStack Trace: " + ex.StackTrace);
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+
             }
+
             // Initialize the Ledger DataTable
             _ledgerDataTable = new DataTable();
             _ledgerDataTable.Columns.Add("ID", typeof(Guid));

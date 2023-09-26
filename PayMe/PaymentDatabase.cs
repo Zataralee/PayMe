@@ -159,25 +159,32 @@ public class PaymentDatabase
 
         using (var cmd = new NpgsqlCommand($"INSERT INTO {tableName} (", conn))
         {
-            var commandAppendText = ") VALUES (";
-            var commandExcludedText = "";
-            foreach (var property in typeof(T).GetProperties())
+            try
             {
-                var propertyName = property.Name.ToLower();
+                var commandAppendText = ") VALUES (";
+                var commandExcludedText = "";
+                foreach (var property in typeof(T).GetProperties())
+                {
+                    var propertyName = property.Name.ToLower();
 
-                cmd.CommandText += $"{propertyName}, ";
-                commandAppendText += $"'{property.GetValue(data)}', "; //$"@{propertyName}, ";
-                commandExcludedText += $"{propertyName} = excluded.{propertyName}, ";
-                //cmd.Parameters.AddWithValue($"@{propertyName}", property.GetValue(data));
+                    cmd.CommandText += $"{propertyName}, ";
+                    commandAppendText += $"'{property.GetValue(data)}', ";
+                    commandExcludedText += $"{propertyName} = excluded.{propertyName}, ";
+                }
+
+                // Remove the trailing comma and add the conflict resolution clause based on the primary key
+                cmd.CommandText = cmd.CommandText.TrimEnd(',', ' ') + commandAppendText.TrimEnd(',', ' ') + $") ON CONFLICT (id) DO UPDATE SET " + commandExcludedText.TrimEnd(',', ' ');
+
+                // Remove the trailing comma and execute the upsert operation
+                cmd.CommandText = cmd.CommandText.TrimEnd(',', ' ') + ";";
+                Console.WriteLine($"Upsert string: {cmd.CommandText}");
+                cmd.ExecuteNonQuery();
             }
-
-            // Remove the trailing comma and add the conflict resolution clause based on the primary key
-            cmd.CommandText = cmd.CommandText.TrimEnd(',', ' ') + commandAppendText.TrimEnd(',', ' ') + $") ON CONFLICT (id) DO UPDATE SET " + commandExcludedText.TrimEnd(',', ' ');
-
-            // Remove the trailing comma and execute the upsert operation
-            cmd.CommandText = cmd.CommandText.TrimEnd(',', ' ') + ";";
-            Console.WriteLine($"Upsert string: {cmd.CommandText}");
-            cmd.ExecuteNonQuery();
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error upserting data: {e.Message}\n{e.StackTrace}");
+                throw;
+            }
         }
     }
 
@@ -195,6 +202,7 @@ public class PaymentDatabase
             catch (Exception e)
             {
                 throw new ApplicationException($"Error removing data from {typeof(T).Name.ToLower()}.", e);
+
             }
         }
     }
@@ -275,5 +283,7 @@ public class RewardsData
     public bool autoClaim { get; set; }
     public TimeSpan triggerInterval { get; set; }
     public TimeSpan expireInterval { get; set; }
+    public bool transferable { get; set; } 
 }
+
 
