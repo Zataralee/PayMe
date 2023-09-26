@@ -269,7 +269,7 @@ public class RewardsData
 {
     public Guid id { get; set; }
     public string name { get; set; }
-    public string discordLevel { get; set; }
+    public string discordRole { get; set; }
     public string command { get; set; }
     public bool runOnAll { get; set; }
     public bool autoClaim { get; set; }

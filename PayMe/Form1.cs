@@ -133,16 +133,17 @@ namespace PayMe
             _rewardsDataTable.Columns.Add("ID", typeof(Guid));
             _rewardsDataTable.Columns[0].ReadOnly = true;
             _rewardsDataTable.Columns.Add("Name", typeof(string));
-            _rewardsDataTable.Columns.Add("Discord Level", typeof(string));
+            _rewardsDataTable.Columns.Add("Discord Role", typeof(string));
             _rewardsDataTable.Columns.Add("Command", typeof(string));
             _rewardsDataTable.Columns.Add("Run On All Servers", typeof(bool));
             _rewardsDataTable.Columns.Add("Auto Claim", typeof(bool));
+            _rewardsDataTable.Columns.Add("Transferable", typeof(bool));
             _rewardsDataTable.Columns.Add("Trigger Interval", typeof(TimeSpan));
             _rewardsDataTable.Columns.Add("Expire Interval", typeof(TimeSpan));
 
 
             // Set the DataGridViews' DataSource to the DataTables
-            ledgerGridView.DataSource = _ledgerDataTable;
+            pendingLedgerGridView.DataSource = _ledgerDataTable;
             playerGridView.DataSource = _playerDataTable;
             rewardsGridView.DataSource = _rewardsDataTable;
         }
@@ -394,7 +395,7 @@ namespace PayMe
                 }
 
                 // Update the DataGridView
-                ledgerGridView.Refresh();
+                pendingLedgerGridView.Refresh();
             }
             catch (Exception ex)
             {
@@ -440,7 +441,7 @@ namespace PayMe
 
                 foreach (var row in data)
                 {
-                    _rewardsDataTable.Rows.Add(row.id, row.name, row.discordLevel, row.command, row.runOnAll, row.autoClaim, row.triggerInterval, row.expireInterval);
+                    _rewardsDataTable.Rows.Add(row.id, row.name, row.discordRole, row.command, row.runOnAll, row.autoClaim, row.triggerInterval, row.expireInterval);
                 }
 
                 // Update the DataGridView
@@ -465,7 +466,7 @@ namespace PayMe
                 foreach (DataRow row in _rewardsDataTable.Rows)
                 {
                     if (!row["ID"].ToString().Equals(""))
-                        _paymentDatabase.UpsertData(new RewardsData { id = new Guid(row["ID"].ToString()), name = row["Name"].ToString(), discordLevel = row["Discord Level"].ToString(), command = row["Command"].ToString() });//, runOnAll = (bool)row["Run On All Servers"], autoClaim = (bool)row["Auto Claim"] });//, triggerInterval = new TimeSpan(row["Trigger Interval"].ToString()), expireInterval = TimeSpan(row["Expire Interval"].ToString()) });
+                        _paymentDatabase.UpsertData(new RewardsData { id = new Guid(row["ID"].ToString()), name = row["Name"].ToString(), discordRole = row["Discord Role"].ToString(), command = row["Command"].ToString() });//, runOnAll = (bool)row["Run On All Servers"], autoClaim = (bool)row["Auto Claim"] });//, triggerInterval = new TimeSpan(row["Trigger Interval"].ToString()), expireInterval = TimeSpan(row["Expire Interval"].ToString()) });
                 }
 
                 // Update the DataGridView from the database
