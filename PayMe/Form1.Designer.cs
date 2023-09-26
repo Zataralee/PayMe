@@ -45,11 +45,16 @@
             this.expiredLedgerTabPage = new System.Windows.Forms.TabPage();
             this.expiredLedgerDataGridView = new System.Windows.Forms.DataGridView();
             this.settingsTabPage = new System.Windows.Forms.TabPage();
-            this.settingsSaveButton = new System.Windows.Forms.Button();
-            this.saveLocation = new System.Windows.Forms.TextBox();
-            this.configSaveLocation = new System.Windows.Forms.Button();
-            this.playerGridView = new System.Windows.Forms.DataGridView();
-            this.droleupdate = new System.Windows.Forms.Timer(this.components);
+            this.discordSettingsGroupBox = new System.Windows.Forms.GroupBox();
+            this.discordAutoConnect = new System.Windows.Forms.CheckBox();
+            this.discordTestMessageLabel = new System.Windows.Forms.Label();
+            this.discordChannelIDLabel = new System.Windows.Forms.Label();
+            this.discordBotTokenLabel = new System.Windows.Forms.Label();
+            this.discordMSGSend = new System.Windows.Forms.Button();
+            this.discordBotConnect = new System.Windows.Forms.Button();
+            this.discordTestMessage = new System.Windows.Forms.TextBox();
+            this.channelDiscordID = new System.Windows.Forms.TextBox();
+            this.discordToken = new System.Windows.Forms.TextBox();
             this.nexusDatabaseSettingsGroupBox = new System.Windows.Forms.GroupBox();
             this.Password = new System.Windows.Forms.TextBox();
             this.databasePortLabel = new System.Windows.Forms.Label();
@@ -72,16 +77,11 @@
             this.paymentsDatabaseUsernameLabel = new System.Windows.Forms.Label();
             this.paymentsDatabaseDatabase = new System.Windows.Forms.TextBox();
             this.paymentsDatabasePasswordLabel = new System.Windows.Forms.Label();
-            this.discordSettingsGroupBox = new System.Windows.Forms.GroupBox();
-            this.discordAutoConnect = new System.Windows.Forms.CheckBox();
-            this.discordTestMessageLabel = new System.Windows.Forms.Label();
-            this.discordChannelIDLabel = new System.Windows.Forms.Label();
-            this.discordBotTokenLabel = new System.Windows.Forms.Label();
-            this.discordMSGSend = new System.Windows.Forms.Button();
-            this.discordBotConnect = new System.Windows.Forms.Button();
-            this.discordTestMessage = new System.Windows.Forms.TextBox();
-            this.channelDiscordID = new System.Windows.Forms.TextBox();
-            this.discordToken = new System.Windows.Forms.TextBox();
+            this.settingsSaveButton = new System.Windows.Forms.Button();
+            this.saveLocation = new System.Windows.Forms.TextBox();
+            this.configSaveLocation = new System.Windows.Forms.Button();
+            this.playerGridView = new System.Windows.Forms.DataGridView();
+            this.droleupdate = new System.Windows.Forms.Timer(this.components);
             this.mainTabControl.SuspendLayout();
             this.rewardsTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rewardsGridView)).BeginInit();
@@ -94,10 +94,10 @@
             this.expiredLedgerTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.expiredLedgerDataGridView)).BeginInit();
             this.settingsTabPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.playerGridView)).BeginInit();
+            this.discordSettingsGroupBox.SuspendLayout();
             this.nexusDatabaseSettingsGroupBox.SuspendLayout();
             this.paymentsDatabaseSettingsGroupBox.SuspendLayout();
-            this.discordSettingsGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.playerGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // mainTabControl
@@ -179,6 +179,7 @@
             // playersTabPage
             // 
             this.playersTabPage.BackColor = System.Drawing.Color.DimGray;
+            this.playersTabPage.Controls.Add(this.playerGridView);
             this.playersTabPage.Location = new System.Drawing.Point(4, 22);
             this.playersTabPage.Margin = new System.Windows.Forms.Padding(2);
             this.playersTabPage.Name = "playersTabPage";
@@ -289,49 +290,111 @@
             this.settingsTabPage.Text = "Settings";
             this.settingsTabPage.Click += new System.EventHandler(this.settingsTabPage_Click);
             // 
-            // settingsSaveButton
+            // discordSettingsGroupBox
             // 
-            this.settingsSaveButton.AutoSize = true;
-            this.settingsSaveButton.Location = new System.Drawing.Point(588, 438);
-            this.settingsSaveButton.Margin = new System.Windows.Forms.Padding(2);
-            this.settingsSaveButton.Name = "settingsSaveButton";
-            this.settingsSaveButton.Size = new System.Drawing.Size(89, 24);
-            this.settingsSaveButton.TabIndex = 2;
-            this.settingsSaveButton.Text = "Save";
-            this.settingsSaveButton.UseVisualStyleBackColor = true;
-            this.settingsSaveButton.Click += new System.EventHandler(this.configSaveButton_Click);
+            this.discordSettingsGroupBox.Controls.Add(this.discordAutoConnect);
+            this.discordSettingsGroupBox.Controls.Add(this.discordTestMessageLabel);
+            this.discordSettingsGroupBox.Controls.Add(this.discordChannelIDLabel);
+            this.discordSettingsGroupBox.Controls.Add(this.discordBotTokenLabel);
+            this.discordSettingsGroupBox.Controls.Add(this.discordMSGSend);
+            this.discordSettingsGroupBox.Controls.Add(this.discordBotConnect);
+            this.discordSettingsGroupBox.Controls.Add(this.discordTestMessage);
+            this.discordSettingsGroupBox.Controls.Add(this.channelDiscordID);
+            this.discordSettingsGroupBox.Controls.Add(this.discordToken);
+            this.discordSettingsGroupBox.Location = new System.Drawing.Point(14, 43);
+            this.discordSettingsGroupBox.Name = "discordSettingsGroupBox";
+            this.discordSettingsGroupBox.Size = new System.Drawing.Size(663, 104);
+            this.discordSettingsGroupBox.TabIndex = 18;
+            this.discordSettingsGroupBox.TabStop = false;
+            this.discordSettingsGroupBox.Text = "Discord Bot";
             // 
-            // saveLocation
+            // discordAutoConnect
             // 
-            this.saveLocation.Location = new System.Drawing.Point(109, 18);
-            this.saveLocation.Margin = new System.Windows.Forms.Padding(2);
-            this.saveLocation.Name = "saveLocation";
-            this.saveLocation.Size = new System.Drawing.Size(644, 20);
-            this.saveLocation.TabIndex = 1;
+            this.discordAutoConnect.AutoSize = true;
+            this.discordAutoConnect.Location = new System.Drawing.Point(521, 15);
+            this.discordAutoConnect.Margin = new System.Windows.Forms.Padding(2);
+            this.discordAutoConnect.Name = "discordAutoConnect";
+            this.discordAutoConnect.Size = new System.Drawing.Size(108, 17);
+            this.discordAutoConnect.TabIndex = 18;
+            this.discordAutoConnect.Text = "Connect On Start";
+            this.discordAutoConnect.UseVisualStyleBackColor = true;
             // 
-            // configSaveLocation
+            // discordTestMessageLabel
             // 
-            this.configSaveLocation.Location = new System.Drawing.Point(14, 13);
-            this.configSaveLocation.Margin = new System.Windows.Forms.Padding(2);
-            this.configSaveLocation.Name = "configSaveLocation";
-            this.configSaveLocation.Size = new System.Drawing.Size(91, 26);
-            this.configSaveLocation.TabIndex = 0;
-            this.configSaveLocation.Text = "Save Location";
-            this.configSaveLocation.UseVisualStyleBackColor = true;
-            this.configSaveLocation.Click += new System.EventHandler(this.button3_Click);
+            this.discordTestMessageLabel.AutoSize = true;
+            this.discordTestMessageLabel.Location = new System.Drawing.Point(5, 70);
+            this.discordTestMessageLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.discordTestMessageLabel.Name = "discordTestMessageLabel";
+            this.discordTestMessageLabel.Size = new System.Drawing.Size(74, 13);
+            this.discordTestMessageLabel.TabIndex = 17;
+            this.discordTestMessageLabel.Text = "Test Message";
             // 
-            // playerGridView
+            // discordChannelIDLabel
             // 
-            this.playerGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.playerGridView.Location = new System.Drawing.Point(32, 37);
-            this.playerGridView.Name = "playerGridView";
-            this.playerGridView.Size = new System.Drawing.Size(898, 561);
-            this.playerGridView.TabIndex = 0;
+            this.discordChannelIDLabel.AutoSize = true;
+            this.discordChannelIDLabel.Location = new System.Drawing.Point(5, 44);
+            this.discordChannelIDLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.discordChannelIDLabel.Name = "discordChannelIDLabel";
+            this.discordChannelIDLabel.Size = new System.Drawing.Size(99, 13);
+            this.discordChannelIDLabel.TabIndex = 16;
+            this.discordChannelIDLabel.Text = "Discord Channel ID";
             // 
-            // droleupdate
+            // discordBotTokenLabel
             // 
-            this.droleupdate.Interval = 120000;
-            this.droleupdate.Tick += new System.EventHandler(this.droleupdate_Tick);
+            this.discordBotTokenLabel.AutoSize = true;
+            this.discordBotTokenLabel.Location = new System.Drawing.Point(5, 16);
+            this.discordBotTokenLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.discordBotTokenLabel.Name = "discordBotTokenLabel";
+            this.discordBotTokenLabel.Size = new System.Drawing.Size(96, 13);
+            this.discordBotTokenLabel.TabIndex = 15;
+            this.discordBotTokenLabel.Text = "Discord Bot Token";
+            // 
+            // discordMSGSend
+            // 
+            this.discordMSGSend.Location = new System.Drawing.Point(414, 66);
+            this.discordMSGSend.Margin = new System.Windows.Forms.Padding(2);
+            this.discordMSGSend.Name = "discordMSGSend";
+            this.discordMSGSend.Size = new System.Drawing.Size(74, 22);
+            this.discordMSGSend.TabIndex = 14;
+            this.discordMSGSend.Text = "Send";
+            this.discordMSGSend.UseVisualStyleBackColor = true;
+            this.discordMSGSend.Click += new System.EventHandler(this.discordMSGSend_Click);
+            // 
+            // discordBotConnect
+            // 
+            this.discordBotConnect.Location = new System.Drawing.Point(414, 12);
+            this.discordBotConnect.Margin = new System.Windows.Forms.Padding(2);
+            this.discordBotConnect.Name = "discordBotConnect";
+            this.discordBotConnect.Size = new System.Drawing.Size(74, 22);
+            this.discordBotConnect.TabIndex = 13;
+            this.discordBotConnect.Text = "Connect";
+            this.discordBotConnect.UseVisualStyleBackColor = true;
+            this.discordBotConnect.Click += new System.EventHandler(this.discordBotConnect_Click);
+            // 
+            // discordTestMessage
+            // 
+            this.discordTestMessage.Location = new System.Drawing.Point(107, 68);
+            this.discordTestMessage.Margin = new System.Windows.Forms.Padding(2);
+            this.discordTestMessage.Name = "discordTestMessage";
+            this.discordTestMessage.Size = new System.Drawing.Size(295, 20);
+            this.discordTestMessage.TabIndex = 12;
+            // 
+            // channelDiscordID
+            // 
+            this.channelDiscordID.Location = new System.Drawing.Point(107, 42);
+            this.channelDiscordID.Margin = new System.Windows.Forms.Padding(2);
+            this.channelDiscordID.Name = "channelDiscordID";
+            this.channelDiscordID.Size = new System.Drawing.Size(295, 20);
+            this.channelDiscordID.TabIndex = 11;
+            // 
+            // discordToken
+            // 
+            this.discordToken.Location = new System.Drawing.Point(107, 14);
+            this.discordToken.Margin = new System.Windows.Forms.Padding(2);
+            this.discordToken.Name = "discordToken";
+            this.discordToken.Size = new System.Drawing.Size(295, 20);
+            this.discordToken.TabIndex = 9;
+            this.discordToken.UseSystemPasswordChar = true;
             // 
             // nexusDatabaseSettingsGroupBox
             // 
@@ -548,111 +611,49 @@
             this.paymentsDatabasePasswordLabel.TabIndex = 7;
             this.paymentsDatabasePasswordLabel.Text = "Password:";
             // 
-            // discordSettingsGroupBox
+            // settingsSaveButton
             // 
-            this.discordSettingsGroupBox.Controls.Add(this.discordAutoConnect);
-            this.discordSettingsGroupBox.Controls.Add(this.discordTestMessageLabel);
-            this.discordSettingsGroupBox.Controls.Add(this.discordChannelIDLabel);
-            this.discordSettingsGroupBox.Controls.Add(this.discordBotTokenLabel);
-            this.discordSettingsGroupBox.Controls.Add(this.discordMSGSend);
-            this.discordSettingsGroupBox.Controls.Add(this.discordBotConnect);
-            this.discordSettingsGroupBox.Controls.Add(this.discordTestMessage);
-            this.discordSettingsGroupBox.Controls.Add(this.channelDiscordID);
-            this.discordSettingsGroupBox.Controls.Add(this.discordToken);
-            this.discordSettingsGroupBox.Location = new System.Drawing.Point(14, 43);
-            this.discordSettingsGroupBox.Name = "discordSettingsGroupBox";
-            this.discordSettingsGroupBox.Size = new System.Drawing.Size(663, 104);
-            this.discordSettingsGroupBox.TabIndex = 18;
-            this.discordSettingsGroupBox.TabStop = false;
-            this.discordSettingsGroupBox.Text = "Discord Bot";
+            this.settingsSaveButton.AutoSize = true;
+            this.settingsSaveButton.Location = new System.Drawing.Point(588, 438);
+            this.settingsSaveButton.Margin = new System.Windows.Forms.Padding(2);
+            this.settingsSaveButton.Name = "settingsSaveButton";
+            this.settingsSaveButton.Size = new System.Drawing.Size(89, 24);
+            this.settingsSaveButton.TabIndex = 2;
+            this.settingsSaveButton.Text = "Save";
+            this.settingsSaveButton.UseVisualStyleBackColor = true;
+            this.settingsSaveButton.Click += new System.EventHandler(this.configSaveButton_Click);
             // 
-            // discordAutoConnect
+            // saveLocation
             // 
-            this.discordAutoConnect.AutoSize = true;
-            this.discordAutoConnect.Location = new System.Drawing.Point(521, 15);
-            this.discordAutoConnect.Margin = new System.Windows.Forms.Padding(2);
-            this.discordAutoConnect.Name = "discordAutoConnect";
-            this.discordAutoConnect.Size = new System.Drawing.Size(108, 17);
-            this.discordAutoConnect.TabIndex = 18;
-            this.discordAutoConnect.Text = "Connect On Start";
-            this.discordAutoConnect.UseVisualStyleBackColor = true;
+            this.saveLocation.Location = new System.Drawing.Point(109, 18);
+            this.saveLocation.Margin = new System.Windows.Forms.Padding(2);
+            this.saveLocation.Name = "saveLocation";
+            this.saveLocation.Size = new System.Drawing.Size(644, 20);
+            this.saveLocation.TabIndex = 1;
             // 
-            // discordTestMessageLabel
+            // configSaveLocation
             // 
-            this.discordTestMessageLabel.AutoSize = true;
-            this.discordTestMessageLabel.Location = new System.Drawing.Point(5, 70);
-            this.discordTestMessageLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.discordTestMessageLabel.Name = "discordTestMessageLabel";
-            this.discordTestMessageLabel.Size = new System.Drawing.Size(74, 13);
-            this.discordTestMessageLabel.TabIndex = 17;
-            this.discordTestMessageLabel.Text = "Test Message";
+            this.configSaveLocation.Location = new System.Drawing.Point(14, 13);
+            this.configSaveLocation.Margin = new System.Windows.Forms.Padding(2);
+            this.configSaveLocation.Name = "configSaveLocation";
+            this.configSaveLocation.Size = new System.Drawing.Size(91, 26);
+            this.configSaveLocation.TabIndex = 0;
+            this.configSaveLocation.Text = "Save Location";
+            this.configSaveLocation.UseVisualStyleBackColor = true;
+            this.configSaveLocation.Click += new System.EventHandler(this.button3_Click);
             // 
-            // discordChannelIDLabel
+            // playerGridView
             // 
-            this.discordChannelIDLabel.AutoSize = true;
-            this.discordChannelIDLabel.Location = new System.Drawing.Point(5, 44);
-            this.discordChannelIDLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.discordChannelIDLabel.Name = "discordChannelIDLabel";
-            this.discordChannelIDLabel.Size = new System.Drawing.Size(99, 13);
-            this.discordChannelIDLabel.TabIndex = 16;
-            this.discordChannelIDLabel.Text = "Discord Channel ID";
+            this.playerGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.playerGridView.Location = new System.Drawing.Point(32, 37);
+            this.playerGridView.Name = "playerGridView";
+            this.playerGridView.Size = new System.Drawing.Size(898, 561);
+            this.playerGridView.TabIndex = 0;
             // 
-            // discordBotTokenLabel
+            // droleupdate
             // 
-            this.discordBotTokenLabel.AutoSize = true;
-            this.discordBotTokenLabel.Location = new System.Drawing.Point(5, 16);
-            this.discordBotTokenLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.discordBotTokenLabel.Name = "discordBotTokenLabel";
-            this.discordBotTokenLabel.Size = new System.Drawing.Size(96, 13);
-            this.discordBotTokenLabel.TabIndex = 15;
-            this.discordBotTokenLabel.Text = "Discord Bot Token";
-            // 
-            // discordMSGSend
-            // 
-            this.discordMSGSend.Location = new System.Drawing.Point(414, 66);
-            this.discordMSGSend.Margin = new System.Windows.Forms.Padding(2);
-            this.discordMSGSend.Name = "discordMSGSend";
-            this.discordMSGSend.Size = new System.Drawing.Size(74, 22);
-            this.discordMSGSend.TabIndex = 14;
-            this.discordMSGSend.Text = "Send";
-            this.discordMSGSend.UseVisualStyleBackColor = true;
-            this.discordMSGSend.Click += new System.EventHandler(this.discordMSGSend_Click);
-            // 
-            // discordBotConnect
-            // 
-            this.discordBotConnect.Location = new System.Drawing.Point(414, 12);
-            this.discordBotConnect.Margin = new System.Windows.Forms.Padding(2);
-            this.discordBotConnect.Name = "discordBotConnect";
-            this.discordBotConnect.Size = new System.Drawing.Size(74, 22);
-            this.discordBotConnect.TabIndex = 13;
-            this.discordBotConnect.Text = "Connect";
-            this.discordBotConnect.UseVisualStyleBackColor = true;
-            this.discordBotConnect.Click += new System.EventHandler(this.discordBotConnect_Click);
-            // 
-            // discordTestMessage
-            // 
-            this.discordTestMessage.Location = new System.Drawing.Point(107, 68);
-            this.discordTestMessage.Margin = new System.Windows.Forms.Padding(2);
-            this.discordTestMessage.Name = "discordTestMessage";
-            this.discordTestMessage.Size = new System.Drawing.Size(295, 20);
-            this.discordTestMessage.TabIndex = 12;
-            // 
-            // channelDiscordID
-            // 
-            this.channelDiscordID.Location = new System.Drawing.Point(107, 42);
-            this.channelDiscordID.Margin = new System.Windows.Forms.Padding(2);
-            this.channelDiscordID.Name = "channelDiscordID";
-            this.channelDiscordID.Size = new System.Drawing.Size(295, 20);
-            this.channelDiscordID.TabIndex = 11;
-            // 
-            // discordToken
-            // 
-            this.discordToken.Location = new System.Drawing.Point(107, 14);
-            this.discordToken.Margin = new System.Windows.Forms.Padding(2);
-            this.discordToken.Name = "discordToken";
-            this.discordToken.Size = new System.Drawing.Size(295, 20);
-            this.discordToken.TabIndex = 9;
-            this.discordToken.UseSystemPasswordChar = true;
+            this.droleupdate.Interval = 120000;
+            this.droleupdate.Tick += new System.EventHandler(this.droleupdate_Tick);
             // 
             // Form1
             // 
@@ -679,13 +680,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.expiredLedgerDataGridView)).EndInit();
             this.settingsTabPage.ResumeLayout(false);
             this.settingsTabPage.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.playerGridView)).EndInit();
+            this.discordSettingsGroupBox.ResumeLayout(false);
+            this.discordSettingsGroupBox.PerformLayout();
             this.nexusDatabaseSettingsGroupBox.ResumeLayout(false);
             this.nexusDatabaseSettingsGroupBox.PerformLayout();
             this.paymentsDatabaseSettingsGroupBox.ResumeLayout(false);
             this.paymentsDatabaseSettingsGroupBox.PerformLayout();
-            this.discordSettingsGroupBox.ResumeLayout(false);
-            this.discordSettingsGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.playerGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
