@@ -262,7 +262,7 @@ public class PaymentData
     public DateTime expireDate { get; set; }
     public bool claimed { get; set; }
     public DateTime claimDate { get; set; }
-
+    
     // Add more properties as needed
 }
 

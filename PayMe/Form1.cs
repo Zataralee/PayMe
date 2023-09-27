@@ -148,9 +148,9 @@ namespace PayMe
             _rewardsDataTable.Columns.Add("Command", typeof(string));
             _rewardsDataTable.Columns.Add("Run On All Servers", typeof(bool));
             _rewardsDataTable.Columns.Add("Auto Claim", typeof(bool));
-            _rewardsDataTable.Columns.Add("Transferable", typeof(bool));
             _rewardsDataTable.Columns.Add("Trigger Interval", typeof(TimeSpan));
             _rewardsDataTable.Columns.Add("Expire Interval", typeof(TimeSpan));
+            _rewardsDataTable.Columns.Add("Transferable", typeof(bool));
 
 
             // Set the DataGridViews' DataSource to the DataTables
@@ -512,7 +512,7 @@ namespace PayMe
 
                 foreach (var row in data)
                 {
-                    _rewardsDataTable.Rows.Add(row.id, row.name, row.discordRole, row.command, row.runOnAll, row.autoClaim, row.triggerInterval, row.expireInterval);
+                    _rewardsDataTable.Rows.Add(row.id, row.name, row.discordRole, row.command, row.runOnAll, row.autoClaim, row.triggerInterval, row.expireInterval, row.transferable);
                 }
 
                 // Update the DataGridView
@@ -614,7 +614,7 @@ namespace PayMe
 
         private void rewardsGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            //Console.WriteLine($"cell contents clicked: {e.ToString()} {sender.ToString()}");
+             //Console.WriteLine($"cell contents clicked: {e.ToString()} {sender.ToString()}");
             if (_rewardsDataTable.Rows.Count <= e.RowIndex)
                 _rewardsDataTable.Rows.Add(Guid.NewGuid());
             else if ((e.ColumnIndex == 0) && (_rewardsDataTable.Rows[e.RowIndex][e.ColumnIndex].ToString().Equals("")))
