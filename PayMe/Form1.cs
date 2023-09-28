@@ -16,6 +16,7 @@ using Discord.Commands;
 using Newtonsoft.Json;
 using DSharpPlus.Entities;
 using System.Collections.ObjectModel;
+using Npgsql;
 
 namespace PayMe
 {
@@ -132,10 +133,11 @@ namespace PayMe
 
             // Initialize the Player DataTable
             _playerDataTable = new DataTable();
-            _playerDataTable.Columns.Add("SteamID", typeof(UInt64));
+            _playerDataTable.Columns.Add("ID", typeof(Guid));
             _playerDataTable.Columns[0].ReadOnly = true;
-            _playerDataTable.Columns.Add("Steam Name", typeof(string));
-            _playerDataTable.Columns.Add("DiscordID", typeof(string));
+            _playerDataTable.Columns.Add("SteamID", typeof(string));
+            _playerDataTable.Columns.Add("SteamName", typeof(string)); // Updated column name
+            _playerDataTable.Columns.Add("DiscordID", typeof(long));
             _playerDataTable.Columns.Add("DiscordName", typeof(string));
 
 
@@ -168,41 +170,85 @@ namespace PayMe
         private async Task MessageReceivedAsync(SocketMessage message)
         {
             // Check if the message is from a user that the bot is waiting for to provide their Steam ID
-            if (awaitingSteamID.Contains(message.Author.Id))
+            if (awaitingSteamID.Contains((long)message.Author.Id))
             {
                 // Validate the Steam ID (implement your own validation logic)
                 if (IsValidSteamID(message.Content))
                 {
+
+                    string SteamID = message.Content;
+
                     // Add a new row to the _playerDataTable
-                    _playerDataTable.Rows.Add(message.Content, "Steam Name not found", message.Author.Id, message.Author.Username);
+                    _playerDataTable.Rows.Add(Guid.NewGuid(),SteamID, "Get from Nexus Later", message.Author.Id, message.Author.Username);
 
                     // Update the database (implement your own database update logic)
-                    UpdateDatabaseWithNewPlayer(message.Content, message.Author.Id, message.Author.Username);
+                    UpdateDatabaseWithNewPlayer(SteamID, (long)message.Author.Id, message.Author.Username);
 
                     // Remove the user's ID from the collection
-                    awaitingSteamID.Remove(message.Author.Id);
+                    awaitingSteamID.Remove((long)message.Author.Id);
 
                     // Send a confirmation message to the user
                     await message.Channel.SendMessageAsync("Your Steam ID has been successfully added to the database.");
+
+                    // Refresh the rewardsGridView
+                    LoadRewardsData();
+
+                    LoadPlayerData();
+
                 }
                 else
                 {
                     // Send an error message to the user
-                    await message.Channel.SendMessageAsync("Invalid Steam ID. Please provide a valid Steam ID.");
+                    await message.Channel.SendMessageAsync("Invalid Steam ID. Please provide a valid Steam ID. This should be 17 digits long and start with 7656119. Consult google if you can't find it.");
                 }
             }
         }
 
         private bool IsValidSteamID(string steamID)
         {
-            // Implement your own Steam ID validation logic
-            return true;
+            // Check if the string is a number
+            if (ulong.TryParse(steamID, out ulong result))
+            {
+                // Check if the number is within the valid range of SteamIDs
+                // SteamID usually starts with 7656119, followed by several digits
+                // You might need to adjust the range depending on the specific format of SteamIDs you are working with
+                if (result >= 76561190000000000 && result <= 76561199999999999)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
-        private void UpdateDatabaseWithNewPlayer(string steamID, ulong discordID, string discordName)
+
+        private void UpdateDatabaseWithNewPlayer(string steamID, long discordID, string discordName)
         {
-            // Implement your own database update logic
-        }        
+            try
+            {
+                // Create a new PlayerData object with the provided data
+                PlayerData newPlayer = new PlayerData
+                {
+                    id = Guid.NewGuid(), // Generate a new Guid for the id
+                    steamid = steamID,
+                    discordid = discordID,
+                    discordname = discordName,
+                    // Set steamname and any other properties if needed
+                };
+
+                // Use the UpsertRow method to add or update the player data in the database
+                using (var conn = new NpgsqlConnection($"Host={_paymentDatabase.host};Port={_paymentDatabase.port};Username={_paymentDatabase.userName};Password={_paymentDatabase.password};Database={_paymentDatabase.database}"))
+                {
+                    conn.Open();
+                    _paymentDatabase.UpsertRow<PlayerData>(conn, newPlayer);
+                }
+            }
+            catch (Exception e)
+            {
+                // Handle any errors that occur during the database update
+                MessageBox.Show($"Error updating the database with new player data: {e.Message}");
+            }
+        }
+
 
         //End listen to player
 
@@ -280,7 +326,8 @@ namespace PayMe
 
         //respond to payme command
         // Define a HashSet to store user IDs that the bot is waiting for to provide their Steam ID
-        private HashSet<ulong> awaitingSteamID = new HashSet<ulong>();
+        private HashSet<long> awaitingSteamID = new HashSet<long>();
+
         private async Task HandleCommandAsync(SocketInteraction interaction)
         {
             if (interaction is SocketSlashCommand command)
@@ -291,26 +338,26 @@ namespace PayMe
                         var user = command.User;
                         if (user is SocketGuildUser guildUser)
                         {
-                            //Acknowledge bot interaction. Removes Discord error.
-                            await interaction.RespondAsync("I sent you a DM. We'll chat there!", ephemeral:true);
+                            // Acknowledge bot interaction. Removes Discord error.
+                            await interaction.RespondAsync("I sent you a DM. We'll chat there!", ephemeral: true);
 
                             // Create DM Channel
                             var dmChannel = await guildUser.CreateDMChannelAsync();
 
-                            //Collect user data
+                            // Collect user data
                             string username = user.Username;
-                            ulong userId = user.Id;
+                            long userId = (long)user.Id;
 
                             // Check if the user's Discord ID is in the _playerDataTable
-                            DataRow[] foundRows = _playerDataTable.Select($"DiscordID = '{userId}'");
+                            DataRow[] foundRows = _playerDataTable.Select($"DiscordID = {userId}");
                             if (foundRows.Length == 0)
                             {
                                 // If the user's Discord ID is not in the database, ask for their Steam ID
-                                await dmChannel.SendMessageAsync("It seems like your Discord ID is not in our database. Please provide your Steam ID.");
+                                await dmChannel.SendMessageAsync("It seems like your Steam ID is not in our database. Please provide your Steam ID.");
                                 // Implement a way to collect the Steam ID provided by the user and add it to the database later
 
                                 // Add the user's ID to the collection
-                                awaitingSteamID.Add(userId);
+                                awaitingSteamID.Add(userId);                                                               
 
                             }
                             else
@@ -334,6 +381,7 @@ namespace PayMe
                 }
             }
         }
+
 
         private async void Form1_Load(object sender, EventArgs e)
         {
@@ -487,11 +535,27 @@ namespace PayMe
 
                 foreach (var row in data)
                 {
-                    _playerDataTable.Rows.Add(row.id, "Steam Name not found" ,row.discordID, "Discord Name not found");
+                    string steamId = row.steamid ?? "Steam ID not found";
+                    string steamName = row.steamname ?? "Steam Name not found";
+                    string discordName = row.discordname ?? "Discord Name not found";
+                    long discordId = row.discordid; // Assuming this is a nullable long, otherwise handle accordingly
+
+                    // Add the row to the DataTable
+                    _playerDataTable.Rows.Add(row.id, steamId, steamName, discordId, discordName);
                 }
 
-                // Update the DataGridView
-                playerGridView.Refresh();
+                // Update the DataGridView on the UI thread
+                if (playerGridView.InvokeRequired)
+                {
+                    playerGridView.Invoke((MethodInvoker)delegate
+                    {
+                        playerGridView.Refresh();
+                    });
+                }
+                else
+                {
+                    playerGridView.Refresh();
+                }
             }
             catch (Exception ex)
             {
@@ -500,10 +564,20 @@ namespace PayMe
             }
         }
 
+
+
         private void LoadRewardsData()
         {
             try
             {
+                // Check if the current thread is the UI thread
+                if (this.InvokeRequired)
+                {
+                    // If not, invoke this method on the UI thread and return
+                    this.Invoke(new MethodInvoker(LoadRewardsData));
+                    return;
+                }
+
                 // Clear the existing data in the DataTable
                 _rewardsDataTable.Clear();
 
@@ -524,6 +598,7 @@ namespace PayMe
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
+
         private void SaveRewardsData()
         {
             try

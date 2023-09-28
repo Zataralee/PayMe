@@ -43,8 +43,7 @@ public class PaymentDatabase
                     // If the table doesn't exist, create it
                     CreateTable(conn, typeof(RewardsData));
                 }
-                // Execute other queries or operations as needed
-                UpsertRow<PlayerData>(conn, new PlayerData { id = "645", discordID = "0" });
+                
             }
             catch (Exception e)
             {
@@ -153,7 +152,7 @@ public class PaymentDatabase
         }
     }
 
-    private void UpsertRow<T>(NpgsqlConnection conn, T data)
+    public void UpsertRow<T>(NpgsqlConnection conn, T data)
     {
         var tableName = typeof(T).Name.ToLower();
 
@@ -237,6 +236,10 @@ public class PaymentDatabase
             return "text";
         else if (propertyType == typeof(UInt64))
             return "numeric";
+        else if (propertyType == typeof(ulong))
+            return "numeric";
+        else if (propertyType == typeof(long))
+            return "bigint";
         else if (propertyType == typeof(Guid))
             return "uuid";
         else if (propertyType == typeof(DateTime))
@@ -268,10 +271,13 @@ public class PaymentData
 
 public class PlayerData
 {
-    public string id { get; set; } // Steam ID
-    public string discordID { get; set; }
-    // Add more properties as needed
+    public Guid id { get; set; } // UUID in PostgreSQL corresponds to Guid in C#
+    public string steamid { get; set; } // text in PostgreSQL corresponds to string in C#
+    public string steamname { get; set; } // text in PostgreSQL corresponds to string in C#
+    public long discordid { get; set; } // numeric in PostgreSQL corresponds to long in C#
+    public string discordname { get; set; } // text in PostgreSQL corresponds to string in C#
 }
+
 
 public class RewardsData
 {
