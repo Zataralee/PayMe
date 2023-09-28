@@ -156,7 +156,7 @@ namespace PayMe
 
 
             // Set the DataGridViews' DataSource to the DataTables
-            pendingLedgerGridView.DataSource = _ledgerDataTable;
+            unclaimedLedgerGridView.DataSource = _ledgerDataTable;
             playerGridView.DataSource = _playerDataTable;
             rewardsGridView.DataSource = _rewardsDataTable;
 
@@ -514,7 +514,7 @@ namespace PayMe
                 }
 
                 // Update the DataGridView
-                pendingLedgerGridView.Refresh();
+                unclaimedLedgerGridView.Refresh();
             }
             catch (Exception ex)
             {

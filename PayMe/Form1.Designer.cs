@@ -39,10 +39,10 @@
             this.playerGridView = new System.Windows.Forms.DataGridView();
             this.ledgerTabPage = new System.Windows.Forms.TabPage();
             this.ledgerTabControl = new System.Windows.Forms.TabControl();
-            this.pendingLedgerTabPage = new System.Windows.Forms.TabPage();
-            this.pendingLedgerGridView = new System.Windows.Forms.DataGridView();
-            this.paidLedgerTabPage = new System.Windows.Forms.TabPage();
-            this.paidLedgerDataGridView = new System.Windows.Forms.DataGridView();
+            this.unclaimedLedgerTabPage = new System.Windows.Forms.TabPage();
+            this.unclaimedLedgerGridView = new System.Windows.Forms.DataGridView();
+            this.claimedLedgerTabPage = new System.Windows.Forms.TabPage();
+            this.claimedLedgerDataGridView = new System.Windows.Forms.DataGridView();
             this.expiredLedgerTabPage = new System.Windows.Forms.TabPage();
             this.expiredLedgerDataGridView = new System.Windows.Forms.DataGridView();
             this.settingsTabPage = new System.Windows.Forms.TabPage();
@@ -89,10 +89,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.playerGridView)).BeginInit();
             this.ledgerTabPage.SuspendLayout();
             this.ledgerTabControl.SuspendLayout();
-            this.pendingLedgerTabPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pendingLedgerGridView)).BeginInit();
-            this.paidLedgerTabPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.paidLedgerDataGridView)).BeginInit();
+            this.unclaimedLedgerTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.unclaimedLedgerGridView)).BeginInit();
+            this.claimedLedgerTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.claimedLedgerDataGridView)).BeginInit();
             this.expiredLedgerTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.expiredLedgerDataGridView)).BeginInit();
             this.settingsTabPage.SuspendLayout();
@@ -118,13 +118,13 @@
             // 
             this.rewardsTabPage.BackColor = System.Drawing.Color.DimGray;
             this.rewardsTabPage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.rewardsTabPage.Controls.Add(this.rewardsGridView);
             this.rewardsTabPage.Controls.Add(this.discordRolesLabel);
             this.rewardsTabPage.Controls.Add(this.discordroleslist);
-            this.rewardsTabPage.Controls.Add(this.rewardsGridView);
             this.rewardsTabPage.Controls.Add(this.rewardsSaveButton);
             this.rewardsTabPage.Location = new System.Drawing.Point(4, 29);
             this.rewardsTabPage.Name = "rewardsTabPage";
-            this.rewardsTabPage.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.rewardsTabPage.Padding = new System.Windows.Forms.Padding(3);
             this.rewardsTabPage.Size = new System.Drawing.Size(2654, 1389);
             this.rewardsTabPage.TabIndex = 0;
             this.rewardsTabPage.Text = "Rewards";
@@ -151,6 +151,7 @@
             // 
             // rewardsGridView
             // 
+            this.rewardsGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.rewardsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.rewardsGridView.Location = new System.Drawing.Point(10, 32);
             this.rewardsGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -177,16 +178,20 @@
             // playersTabPage
             // 
             this.playersTabPage.BackColor = System.Drawing.Color.DimGray;
+            this.playersTabPage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.playersTabPage.Controls.Add(this.playerGridView);
             this.playersTabPage.Location = new System.Drawing.Point(4, 29);
             this.playersTabPage.Name = "playersTabPage";
-            this.playersTabPage.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.playersTabPage.Padding = new System.Windows.Forms.Padding(3);
             this.playersTabPage.Size = new System.Drawing.Size(2654, 1389);
             this.playersTabPage.TabIndex = 1;
             this.playersTabPage.Text = "Users";
             // 
             // playerGridView
             // 
+            this.playerGridView.AllowUserToDeleteRows = false;
+            this.playerGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.playerGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.playerGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.playerGridView.Location = new System.Drawing.Point(48, 57);
             this.playerGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -207,8 +212,8 @@
             // 
             // ledgerTabControl
             // 
-            this.ledgerTabControl.Controls.Add(this.pendingLedgerTabPage);
-            this.ledgerTabControl.Controls.Add(this.paidLedgerTabPage);
+            this.ledgerTabControl.Controls.Add(this.unclaimedLedgerTabPage);
+            this.ledgerTabControl.Controls.Add(this.claimedLedgerTabPage);
             this.ledgerTabControl.Controls.Add(this.expiredLedgerTabPage);
             this.ledgerTabControl.Location = new System.Drawing.Point(0, 0);
             this.ledgerTabControl.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -217,53 +222,57 @@
             this.ledgerTabControl.Size = new System.Drawing.Size(1774, 954);
             this.ledgerTabControl.TabIndex = 1;
             // 
-            // pendingLedgerTabPage
+            // unclaimedLedgerTabPage
             // 
-            this.pendingLedgerTabPage.Controls.Add(this.pendingLedgerGridView);
-            this.pendingLedgerTabPage.Location = new System.Drawing.Point(4, 29);
-            this.pendingLedgerTabPage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.pendingLedgerTabPage.Name = "pendingLedgerTabPage";
-            this.pendingLedgerTabPage.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.pendingLedgerTabPage.Size = new System.Drawing.Size(1766, 921);
-            this.pendingLedgerTabPage.TabIndex = 0;
-            this.pendingLedgerTabPage.Text = "Pending Payments";
-            this.pendingLedgerTabPage.UseVisualStyleBackColor = true;
+            this.unclaimedLedgerTabPage.Controls.Add(this.unclaimedLedgerGridView);
+            this.unclaimedLedgerTabPage.Location = new System.Drawing.Point(4, 29);
+            this.unclaimedLedgerTabPage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.unclaimedLedgerTabPage.Name = "unclaimedLedgerTabPage";
+            this.unclaimedLedgerTabPage.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.unclaimedLedgerTabPage.Size = new System.Drawing.Size(1766, 921);
+            this.unclaimedLedgerTabPage.TabIndex = 0;
+            this.unclaimedLedgerTabPage.Text = "Unclaimed Rewards";
+            this.unclaimedLedgerTabPage.UseVisualStyleBackColor = true;
             // 
-            // pendingLedgerGridView
+            // unclaimedLedgerGridView
             // 
-            this.pendingLedgerGridView.AllowUserToAddRows = false;
-            this.pendingLedgerGridView.AllowUserToOrderColumns = true;
-            this.pendingLedgerGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.pendingLedgerGridView.Location = new System.Drawing.Point(0, 0);
-            this.pendingLedgerGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.pendingLedgerGridView.Name = "pendingLedgerGridView";
-            this.pendingLedgerGridView.RowHeadersWidth = 62;
-            this.pendingLedgerGridView.Size = new System.Drawing.Size(1762, 914);
-            this.pendingLedgerGridView.TabIndex = 0;
+            this.unclaimedLedgerGridView.AllowUserToAddRows = false;
+            this.unclaimedLedgerGridView.AllowUserToOrderColumns = true;
+            this.unclaimedLedgerGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.unclaimedLedgerGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.unclaimedLedgerGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.unclaimedLedgerGridView.Location = new System.Drawing.Point(4, 5);
+            this.unclaimedLedgerGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.unclaimedLedgerGridView.Name = "unclaimedLedgerGridView";
+            this.unclaimedLedgerGridView.RowHeadersWidth = 62;
+            this.unclaimedLedgerGridView.Size = new System.Drawing.Size(1758, 911);
+            this.unclaimedLedgerGridView.TabIndex = 0;
             // 
-            // paidLedgerTabPage
+            // claimedLedgerTabPage
             // 
-            this.paidLedgerTabPage.Controls.Add(this.paidLedgerDataGridView);
-            this.paidLedgerTabPage.Location = new System.Drawing.Point(4, 29);
-            this.paidLedgerTabPage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.paidLedgerTabPage.Name = "paidLedgerTabPage";
-            this.paidLedgerTabPage.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.paidLedgerTabPage.Size = new System.Drawing.Size(1766, 921);
-            this.paidLedgerTabPage.TabIndex = 1;
-            this.paidLedgerTabPage.Text = "Paid Payments";
-            this.paidLedgerTabPage.UseVisualStyleBackColor = true;
+            this.claimedLedgerTabPage.Controls.Add(this.claimedLedgerDataGridView);
+            this.claimedLedgerTabPage.Location = new System.Drawing.Point(4, 29);
+            this.claimedLedgerTabPage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.claimedLedgerTabPage.Name = "claimedLedgerTabPage";
+            this.claimedLedgerTabPage.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.claimedLedgerTabPage.Size = new System.Drawing.Size(1766, 921);
+            this.claimedLedgerTabPage.TabIndex = 1;
+            this.claimedLedgerTabPage.Text = "Claimed Rewards";
+            this.claimedLedgerTabPage.UseVisualStyleBackColor = true;
             // 
-            // paidLedgerDataGridView
+            // claimedLedgerDataGridView
             // 
-            this.paidLedgerDataGridView.AllowUserToAddRows = false;
-            this.paidLedgerDataGridView.AllowUserToOrderColumns = true;
-            this.paidLedgerDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.paidLedgerDataGridView.Location = new System.Drawing.Point(108, 117);
-            this.paidLedgerDataGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.paidLedgerDataGridView.Name = "paidLedgerDataGridView";
-            this.paidLedgerDataGridView.RowHeadersWidth = 62;
-            this.paidLedgerDataGridView.Size = new System.Drawing.Size(1545, 680);
-            this.paidLedgerDataGridView.TabIndex = 1;
+            this.claimedLedgerDataGridView.AllowUserToAddRows = false;
+            this.claimedLedgerDataGridView.AllowUserToOrderColumns = true;
+            this.claimedLedgerDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.claimedLedgerDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.claimedLedgerDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.claimedLedgerDataGridView.Location = new System.Drawing.Point(4, 5);
+            this.claimedLedgerDataGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.claimedLedgerDataGridView.Name = "claimedLedgerDataGridView";
+            this.claimedLedgerDataGridView.RowHeadersWidth = 62;
+            this.claimedLedgerDataGridView.Size = new System.Drawing.Size(1758, 911);
+            this.claimedLedgerDataGridView.TabIndex = 1;
             // 
             // expiredLedgerTabPage
             // 
@@ -274,19 +283,21 @@
             this.expiredLedgerTabPage.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.expiredLedgerTabPage.Size = new System.Drawing.Size(1766, 921);
             this.expiredLedgerTabPage.TabIndex = 2;
-            this.expiredLedgerTabPage.Text = "Expired Payments";
+            this.expiredLedgerTabPage.Text = "Expired Rewards";
             this.expiredLedgerTabPage.UseVisualStyleBackColor = true;
             // 
             // expiredLedgerDataGridView
             // 
             this.expiredLedgerDataGridView.AllowUserToAddRows = false;
             this.expiredLedgerDataGridView.AllowUserToOrderColumns = true;
+            this.expiredLedgerDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.expiredLedgerDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.expiredLedgerDataGridView.Location = new System.Drawing.Point(108, 117);
+            this.expiredLedgerDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.expiredLedgerDataGridView.Location = new System.Drawing.Point(4, 5);
             this.expiredLedgerDataGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.expiredLedgerDataGridView.Name = "expiredLedgerDataGridView";
             this.expiredLedgerDataGridView.RowHeadersWidth = 62;
-            this.expiredLedgerDataGridView.Size = new System.Drawing.Size(1545, 680);
+            this.expiredLedgerDataGridView.Size = new System.Drawing.Size(1758, 911);
             this.expiredLedgerDataGridView.TabIndex = 1;
             // 
             // settingsTabPage
@@ -694,10 +705,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.playerGridView)).EndInit();
             this.ledgerTabPage.ResumeLayout(false);
             this.ledgerTabControl.ResumeLayout(false);
-            this.pendingLedgerTabPage.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pendingLedgerGridView)).EndInit();
-            this.paidLedgerTabPage.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.paidLedgerDataGridView)).EndInit();
+            this.unclaimedLedgerTabPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.unclaimedLedgerGridView)).EndInit();
+            this.claimedLedgerTabPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.claimedLedgerDataGridView)).EndInit();
             this.expiredLedgerTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.expiredLedgerDataGridView)).EndInit();
             this.settingsTabPage.ResumeLayout(false);
@@ -724,15 +735,15 @@
         private System.Windows.Forms.Button rewardsSaveButton;
         private System.Windows.Forms.Button settingsSaveButton;
         private System.Windows.Forms.Label discordRolesLabel;
-        private System.Windows.Forms.DataGridView pendingLedgerGridView;
+        private System.Windows.Forms.DataGridView unclaimedLedgerGridView;
         private System.Windows.Forms.DataGridView playerGridView;
         private System.Windows.Forms.DataGridView rewardsGridView;
         private System.Windows.Forms.CheckedListBox discordroleslist;
         private System.Windows.Forms.Timer droleupdate;
         private System.Windows.Forms.TabControl ledgerTabControl;
-        private System.Windows.Forms.TabPage pendingLedgerTabPage;
-        private System.Windows.Forms.TabPage paidLedgerTabPage;
-        private System.Windows.Forms.DataGridView paidLedgerDataGridView;
+        private System.Windows.Forms.TabPage unclaimedLedgerTabPage;
+        private System.Windows.Forms.TabPage claimedLedgerTabPage;
+        private System.Windows.Forms.DataGridView claimedLedgerDataGridView;
         private System.Windows.Forms.TabPage expiredLedgerTabPage;
         private System.Windows.Forms.DataGridView expiredLedgerDataGridView;
         private System.Windows.Forms.GroupBox nexusDatabaseSettingsGroupBox;
