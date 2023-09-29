@@ -28,7 +28,9 @@ namespace PayMe
         private DiscordSocketClient _client;
 
         private readonly PaymentDatabase _paymentDatabase;
-        private DataTable _ledgerDataTable;
+        private DataTable _unclaimedLedgerDataTable;
+        private DataTable _claimedLedgerDataTable;
+        private DataTable _expiredLedgerDataTable;
         private DataTable _playerDataTable;
         private DataTable _rewardsDataTable;
 
@@ -118,18 +120,39 @@ namespace PayMe
 
             }
 
-            // Initialize the Ledger DataTable
-            _ledgerDataTable = new DataTable();
-            _ledgerDataTable.Columns.Add("ID", typeof(Guid));
-            _ledgerDataTable.Columns[0].ReadOnly = true;
-            _ledgerDataTable.Columns.Add("Name", typeof(string));
-            _ledgerDataTable.Columns.Add("Owner ID", typeof(UInt64));
-            _ledgerDataTable.Columns.Add("Command", typeof(string));
-            _ledgerDataTable.Columns.Add("Trigger Date", typeof(DateTime));
-            _ledgerDataTable.Columns.Add("Expire Date", typeof(DateTime));
-            _ledgerDataTable.Columns.Add("claimed", typeof(bool));
-            _ledgerDataTable.Columns.Add("claimed Date", typeof(DateTime));
+            // Initialize the Ledger DataTables
+            _unclaimedLedgerDataTable = new DataTable();
+            _unclaimedLedgerDataTable.Columns.Add("ID", typeof(Guid));
+            _unclaimedLedgerDataTable.Columns[0].ReadOnly = true;
+            _unclaimedLedgerDataTable.Columns.Add("Name", typeof(string));
+            _unclaimedLedgerDataTable.Columns.Add("Owner ID", typeof(UInt64));
+            _unclaimedLedgerDataTable.Columns.Add("Command", typeof(string));
+            _unclaimedLedgerDataTable.Columns.Add("Trigger Date", typeof(DateTime));
+            _unclaimedLedgerDataTable.Columns.Add("Expire Date", typeof(DateTime));
+            _unclaimedLedgerDataTable.Columns.Add("claimed", typeof(bool));
+            _unclaimedLedgerDataTable.Columns.Add("claimed Date", typeof(DateTime));
 
+            _claimedLedgerDataTable = new DataTable();
+            _claimedLedgerDataTable.Columns.Add("ID", typeof(Guid));
+            _claimedLedgerDataTable.Columns[0].ReadOnly = true;
+            _claimedLedgerDataTable.Columns.Add("Name", typeof(string));
+            _claimedLedgerDataTable.Columns.Add("Owner ID", typeof(UInt64));
+            _claimedLedgerDataTable.Columns.Add("Command", typeof(string));
+            _claimedLedgerDataTable.Columns.Add("Trigger Date", typeof(DateTime));
+            _claimedLedgerDataTable.Columns.Add("Expire Date", typeof(DateTime));
+            _claimedLedgerDataTable.Columns.Add("claimed", typeof(bool));
+            _claimedLedgerDataTable.Columns.Add("claimed Date", typeof(DateTime));
+
+            _expiredLedgerDataTable = new DataTable();
+            _expiredLedgerDataTable.Columns.Add("ID", typeof(Guid));
+            _expiredLedgerDataTable.Columns[0].ReadOnly = true;
+            _expiredLedgerDataTable.Columns.Add("Name", typeof(string));
+            _expiredLedgerDataTable.Columns.Add("Owner ID", typeof(UInt64));
+            _expiredLedgerDataTable.Columns.Add("Command", typeof(string));
+            _expiredLedgerDataTable.Columns.Add("Trigger Date", typeof(DateTime));
+            _expiredLedgerDataTable.Columns.Add("Expire Date", typeof(DateTime));
+            _expiredLedgerDataTable.Columns.Add("claimed", typeof(bool));
+            _expiredLedgerDataTable.Columns.Add("claimed Date", typeof(DateTime));
 
             // Initialize the Player DataTable
             _playerDataTable = new DataTable();
@@ -156,7 +179,9 @@ namespace PayMe
 
 
             // Set the DataGridViews' DataSource to the DataTables
-            unclaimedLedgerGridView.DataSource = _ledgerDataTable;
+            unclaimedLedgerGridView.DataSource = _unclaimedLedgerDataTable;
+            claimedLedgerDataGridView.DataSource = _claimedLedgerDataTable;
+            expiredLedgerDataGridView.DataSource = _expiredLedgerDataTable;
             playerGridView.DataSource = _playerDataTable;
             rewardsGridView.DataSource = _rewardsDataTable;
 
@@ -503,18 +528,27 @@ namespace PayMe
             try
             {
                 // Clear the existing data in the DataTable
-                _ledgerDataTable.Clear();
+                _unclaimedLedgerDataTable.Clear();
+                _claimedLedgerDataTable.Clear();
+                _expiredLedgerDataTable.Clear();
 
                 // Retrieve data from the database and populate the DataTable
                 var data = _paymentDatabase.GetDataFromTable<PaymentData>();
 
                 foreach (var row in data)
                 {
-                    _ledgerDataTable.Rows.Add(row.id, row.name, row.ownerId, row.triggerDate, row.expireDate, row.claimed, row.claimDate);
+                    if (row.claimed)
+                        _claimedLedgerDataTable.Rows.Add(row.id, row.name, row.ownerId, row.triggerDate, row.expireDate, row.claimed, row.claimDate);
+                    else if (true) //row.expireDate < row.triggerDate + DateTime.Now) // TODO: fix this line to actually work
+                        _unclaimedLedgerDataTable.Rows.Add(row.id, row.name, row.ownerId, row.triggerDate, row.expireDate, row.claimed, row.claimDate);
+                    else
+                        _expiredLedgerDataTable.Rows.Add(row.id, row.name, row.ownerId, row.triggerDate, row.expireDate, row.claimed, row.claimDate);
                 }
 
                 // Update the DataGridView
                 unclaimedLedgerGridView.Refresh();
+                claimedLedgerDataGridView.Refresh();
+                expiredLedgerDataGridView.Refresh();
             }
             catch (Exception ex)
             {
