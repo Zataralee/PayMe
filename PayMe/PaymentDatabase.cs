@@ -47,6 +47,7 @@ public class PaymentDatabase
             }
             catch (Exception e)
             {
+                conn.Close();
                 throw new ApplicationException($"Error initializing the database. {e.Message}", e);
             }
         }
@@ -77,6 +78,7 @@ public class PaymentDatabase
             }
             catch (Exception e)
             {
+                conn.Close();
                 throw new ApplicationException($"Error retrieving data from {tableName}.", e);
             }
         }
@@ -147,6 +149,7 @@ public class PaymentDatabase
             }
             catch (Exception e)
             {
+                conn.Close();
                 throw new ApplicationException($"Error upserting data into {typeof(T).Name.ToLower()}.", e);
             }
         }
@@ -200,6 +203,7 @@ public class PaymentDatabase
             }
             catch (Exception e)
             {
+                conn.Close();
                 throw new ApplicationException($"Error removing data from {typeof(T).Name.ToLower()}.", e);
 
             }
