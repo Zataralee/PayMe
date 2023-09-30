@@ -169,37 +169,41 @@ namespace PayMe
 
         private async Task MessageReceivedAsync(SocketMessage message)
         {
-            // Check if the message is from a user that the bot is waiting for to provide their Steam ID
-            if (awaitingSteamID.Contains((long)message.Author.Id))
-            {
-                // Validate the Steam ID (implement your own validation logic)
-                if (IsValidSteamID(message.Content))
+            if (message.Channel is IDMChannel) 
+            {                 
+            
+                // Check if the message is from a user that the bot is waiting for to provide their Steam ID
+                if (awaitingSteamID.Contains((long)message.Author.Id))
                 {
+                    // Validate the Steam ID (implement your own validation logic)
+                    if (IsValidSteamID(message.Content))
+                    {
 
-                    string SteamID = message.Content;
+                        string SteamID = message.Content;
 
-                    // Add a new row to the _playerDataTable
-                    _playerDataTable.Rows.Add(Guid.NewGuid(),SteamID, "Get from Nexus Later", message.Author.Id, message.Author.Username);
+                        // Add a new row to the _playerDataTable
+                        _playerDataTable.Rows.Add(Guid.NewGuid(),SteamID, "Get from Nexus Later", message.Author.Id, message.Author.Username);
 
-                    // Update the database (implement your own database update logic)
-                    UpdateDatabaseWithNewPlayer(SteamID, (long)message.Author.Id, message.Author.Username);
+                        // Update the database (implement your own database update logic)
+                        UpdateDatabaseWithNewPlayer(SteamID, (long)message.Author.Id, message.Author.Username);
 
-                    // Remove the user's ID from the collection
-                    awaitingSteamID.Remove((long)message.Author.Id);
+                        // Remove the user's ID from the collection
+                        awaitingSteamID.Remove((long)message.Author.Id);
 
-                    // Send a confirmation message to the user
-                    await message.Channel.SendMessageAsync("Your Steam ID has been successfully added to the database.");
+                        // Send a confirmation message to the user
+                        await message.Channel.SendMessageAsync("Your Steam ID has been successfully added to the database.");
 
-                    // Refresh the rewardsGridView
-                    LoadRewardsData();
+                        // Refresh the rewardsGridView
+                        LoadRewardsData();
 
-                    LoadPlayerData();
+                        LoadPlayerData();
 
-                }
-                else
-                {
-                    // Send an error message to the user
-                    await message.Channel.SendMessageAsync("Invalid Steam ID. Please provide a valid Steam ID. This should be 17 digits long and start with 7656119. Consult google if you can't find it.");
+                    }
+                    else
+                    {
+                        // Send an error message to the user
+                        await message.Channel.SendMessageAsync("Invalid Steam ID. Please provide a valid Steam ID. This should be 17 digits long and start with 7656119. Consult google if you can't find it.");
+                    }
                 }
             }
         }
