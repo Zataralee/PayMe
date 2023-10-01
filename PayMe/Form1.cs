@@ -133,6 +133,7 @@ namespace PayMe
             _unclaimedLedgerDataTable.Columns.Add("Expire Date", typeof(DateTime));
             _unclaimedLedgerDataTable.Columns.Add("claimed", typeof(bool));
             _unclaimedLedgerDataTable.Columns.Add("claimed Date", typeof(DateTime));
+            _unclaimedLedgerDataTable.Columns.Add("transferable", typeof(bool));
 
             _claimedLedgerDataTable = new DataTable();
             _claimedLedgerDataTable.Columns.Add("ID", typeof(Guid));
@@ -144,6 +145,7 @@ namespace PayMe
             _claimedLedgerDataTable.Columns.Add("Expire Date", typeof(DateTime));
             _claimedLedgerDataTable.Columns.Add("claimed", typeof(bool));
             _claimedLedgerDataTable.Columns.Add("claimed Date", typeof(DateTime));
+            _claimedLedgerDataTable.Columns.Add("transferable", typeof(bool));
 
             _expiredLedgerDataTable = new DataTable();
             _expiredLedgerDataTable.Columns.Add("ID", typeof(Guid));
@@ -155,6 +157,7 @@ namespace PayMe
             _expiredLedgerDataTable.Columns.Add("Expire Date", typeof(DateTime));
             _expiredLedgerDataTable.Columns.Add("claimed", typeof(bool));
             _expiredLedgerDataTable.Columns.Add("claimed Date", typeof(DateTime));
+            _expiredLedgerDataTable.Columns.Add("transferable", typeof(bool));
 
             // Initialize the Player DataTable
             _playerDataTable = new DataTable();
@@ -267,12 +270,8 @@ namespace PayMe
                     // Set steamname and any other properties if needed
                 };
 
-                // Use the UpsertRow method to add or update the player data in the database
-                using (var conn = new NpgsqlConnection($"Host={_paymentDatabase.host};Port={_paymentDatabase.port};Username={_paymentDatabase.userName};Password={_paymentDatabase.password};Database={_paymentDatabase.database}"))
-                {
-                    conn.Open();
-                    _paymentDatabase.UpsertRow<PlayerData>(conn, newPlayer);
-                }
+                // Use the UpsertData method to add or update the player data in the database
+                _paymentDatabase.UpsertData(newPlayer);
             }
             catch (Exception e)
             {
@@ -547,11 +546,11 @@ namespace PayMe
                 foreach (var row in data)
                 {
                     if (row.claimed)
-                        _claimedLedgerDataTable.Rows.Add(row.id, row.name, row.ownerId, row.triggerDate, row.expireDate, row.claimed, row.claimDate);
-                    else if (row.expireDate > DateTime.Now)
-                        _expiredLedgerDataTable.Rows.Add(row.id, row.name, row.ownerId, row.triggerDate, row.expireDate, row.claimed, row.claimDate);
+                        _claimedLedgerDataTable.Rows.Add(row.id, row.name, row.ownerId, row.command, row.triggerDate, row.expireDate, row.claimed, row.claimDate, row.transferable);
+                    else if (row.expireDate <= DateTime.Now)
+                        _expiredLedgerDataTable.Rows.Add(row.id, row.name, row.ownerId, row.command, row.triggerDate, row.expireDate, row.claimed, row.claimDate, row.transferable);
                     else
-                        _unclaimedLedgerDataTable.Rows.Add(row.id, row.name, row.ownerId, row.triggerDate, row.expireDate, row.claimed, row.claimDate);
+                        _unclaimedLedgerDataTable.Rows.Add(row.id, row.name, row.ownerId, row.command, row.triggerDate, row.expireDate, row.claimed, row.claimDate, row.transferable);
                 }
 
                 // Update the DataGridView
@@ -646,12 +645,6 @@ namespace PayMe
         {
             try
             {
-                // Clear the existing data in the DataTable
-                //_rewardsDataTable.Clear();
-
-                // Retrieve data from the database and populate the DataTable
-                //var data = _paymentDatabase.GetDataFromTable<RewardsData>();
-
                 foreach (DataRow row in _rewardsDataTable.Rows)
                 {
                     if (!row["ID"].ToString().Equals(""))
@@ -824,5 +817,86 @@ namespace PayMe
 
         }
 
+        private void generateCurrentLedgerButton_Click(object sender, EventArgs e)
+        {
+            // update from the database
+            LoadRewardsData();
+            LoadPlayerData();
+
+            foreach (DataRow row in _rewardsDataTable.Rows)
+            {
+                if (true) //(row["Trigger Interval"] >= something complicated about dates)
+                {
+                    // get player ids with the corresponding roles
+                    var playersWithRole = new List<long>{ 251104128321716235, 231532191690129408, 516691397126914079};
+                    foreach (var player in playersWithRole)
+                    {
+                        if (row["Auto Claim"].ToString().Equals("True"))
+                        {
+                            runServerCommand(row["Command"].ToString());
+                            _paymentDatabase.UpsertData(new PaymentData { id = Guid.NewGuid(), name = row["Name"].ToString(), ownerId = player, command = row["Command"].ToString(), triggerDate = DateTime.Now, expireDate = DateTime.Now + new TimeSpan(1,0,0), claimed = true, claimDate = DateTime.Now, transferable = row["Transferable"].ToString().Equals("True") });
+
+                        }
+                        else
+                            _paymentDatabase.UpsertData(new PaymentData { id = Guid.NewGuid(), name = row["Name"].ToString(), ownerId = player, command = row["Command"].ToString(), triggerDate = DateTime.Now, expireDate = DateTime.Now + new TimeSpan(1, 0, 0), claimed = false, claimDate = DateTime.Now, transferable = row["Transferable"].ToString().Equals("True") });
+                    }
+                }
+            }
+            /*
+             * public class PaymentData
+{
+    public Guid id { get; set; }
+    public string name { get; set; }
+    public UInt64 ownerId { get; set; }
+    public string command { get; set; }
+    public DateTime triggerDate { get; set; }
+    public DateTime expireDate { get; set; }
+    public bool claimed { get; set; }
+    public DateTime claimDate { get; set; }
+    
+    // Add more properties as needed
+}
+                        _expiredLedgerDataTable.Columns.Add("ID", typeof(Guid));
+                        _expiredLedgerDataTable.Columns[0].ReadOnly = true;
+                        _expiredLedgerDataTable.Columns.Add("Name", typeof(string));
+                        _expiredLedgerDataTable.Columns.Add("Owner ID", typeof(UInt64));
+                        _expiredLedgerDataTable.Columns.Add("Command", typeof(string));
+                        _expiredLedgerDataTable.Columns.Add("Trigger Date", typeof(DateTime));
+                        _expiredLedgerDataTable.Columns.Add("Expire Date", typeof(DateTime));
+                        _expiredLedgerDataTable.Columns.Add("claimed", typeof(bool));
+                        _expiredLedgerDataTable.Columns.Add("claimed Date", typeof(DateTime));
+
+                        // Initialize the Player DataTable
+
+                        _playerDataTable.Columns.Add("ID", typeof(Guid));
+                        _playerDataTable.Columns[0].ReadOnly = true;
+                        _playerDataTable.Columns.Add("SteamID", typeof(string));
+                        _playerDataTable.Columns.Add("SteamName", typeof(string)); // Updated column name
+                        _playerDataTable.Columns.Add("DiscordID", typeof(long));
+                        _playerDataTable.Columns.Add("DiscordName", typeof(string));
+
+
+                        // Initialize the Rewards DataTable
+
+                        _rewardsDataTable.Columns.Add("ID", typeof(Guid));
+                        _rewardsDataTable.Columns[0].ReadOnly = true;
+                        _rewardsDataTable.Columns.Add("Name", typeof(string));
+                        _rewardsDataTable.Columns.Add("Discord Role", typeof(string));
+                        _rewardsDataTable.Columns.Add("Command", typeof(string));
+                        _rewardsDataTable.Columns.Add("Run On All Servers", typeof(bool));
+                        _rewardsDataTable.Columns.Add("Auto Claim", typeof(bool));
+                        _rewardsDataTable.Columns.Add("Trigger Interval", typeof(TimeSpan));
+                        _rewardsDataTable.Columns.Add("Expire Interval", typeof(TimeSpan));
+                        _rewardsDataTable.Columns.Add("Transferable", typeof(bool));
+             */
+            // refresh the Ledger Data
+            LoadLedgerData();
+
+        }
+
+        private void runServerCommand(string command)
+        {
+            Console.WriteLine(command);
+        }
     }
 }

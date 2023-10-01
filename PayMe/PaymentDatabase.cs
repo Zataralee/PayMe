@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Discord;
 using Npgsql;
 
 public class PaymentDatabase
@@ -27,6 +28,8 @@ public class PaymentDatabase
             {
                 conn.Open();
 
+                //DropTable(conn, "paymentdata");
+
                 // Check if the table exists
                 if (!TableExists(conn, "paymentdata"))
                 {
@@ -43,7 +46,12 @@ public class PaymentDatabase
                     // If the table doesn't exist, create it
                     CreateTable(conn, typeof(RewardsData));
                 }
-                
+                // Make sure the tables have all of the correct columns
+                UpdateTableColumns(conn, typeof(PaymentData));
+                UpdateTableColumns(conn, typeof(PlayerData));
+                UpdateTableColumns(conn, typeof(RewardsData));
+                //ClearTable(conn, "paymentdata");
+
             }
             catch (Exception e)
             {
@@ -95,6 +103,7 @@ public class PaymentDatabase
         {
             if (reader[property.Name] != DBNull.Value)
             {
+                Console.WriteLine(reader[property.Name].ToString());
                 property.SetValue(instance, reader[property.Name]);
             }
         }
@@ -107,6 +116,22 @@ public class PaymentDatabase
         using (var cmd = new NpgsqlCommand($"SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = '{tableName}')", conn))
         {
             return (bool)cmd.ExecuteScalar();
+        }
+    }
+
+    private void ClearTable(NpgsqlConnection conn, string tableName)
+    {
+        using (var cmd = new NpgsqlCommand($"DELETE FROM {tableName}", conn))
+        {
+            cmd.ExecuteNonQuery();
+        }
+    }
+
+    private void DropTable(NpgsqlConnection conn, string tableName)
+    {
+        using (var cmd = new NpgsqlCommand($"DROP TABLE IF EXISTS {tableName}", conn))
+        {
+            cmd.ExecuteNonQuery();
         }
     }
 
@@ -134,6 +159,29 @@ public class PaymentDatabase
 //            MessageBox.Show($"table create string: {cmd.CommandText}", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             cmd.ExecuteNonQuery();
         }
+    }
+
+    public void UpdateTableColumns(NpgsqlConnection conn, Type tableType)
+    {
+        if (!tableType.IsClass)
+        {
+            throw new ArgumentException("tableType must be a class.");
+        }
+
+        var tableName = tableType.Name;
+
+        foreach (var property in tableType.GetProperties())
+            using (var cmd = new NpgsqlCommand($"ALTER TABLE {tableName} ADD COLUMN IF NOT EXISTS ", conn))
+            {
+                var propertyName = property.Name;
+                var propertyType = GetPostgresType(property.PropertyType);
+
+                cmd.CommandText += $"{propertyName} {propertyType}; ";
+                cmd.ExecuteNonQuery();
+            }
+
+        // Remove the trailing comma and add the primary key
+        //            MessageBox.Show($"table create string: {cmd.CommandText}", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 
     public void UpsertData<T>(T data)
@@ -263,11 +311,12 @@ public class PaymentData
 {
     public Guid id { get; set; }
     public string name { get; set; }
-    public UInt64 ownerId { get; set; }
+    public long ownerId { get; set; }
     public string command { get; set; }
     public DateTime triggerDate { get; set; }
     public DateTime expireDate { get; set; }
     public bool claimed { get; set; }
+    public bool transferable { get; set; }
     public DateTime claimDate { get; set; }
     
     // Add more properties as needed

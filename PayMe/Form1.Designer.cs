@@ -31,9 +31,9 @@
             this.components = new System.ComponentModel.Container();
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.rewardsTabPage = new System.Windows.Forms.TabPage();
+            this.rewardsGridView = new System.Windows.Forms.DataGridView();
             this.discordRolesLabel = new System.Windows.Forms.Label();
             this.discordroleslist = new System.Windows.Forms.CheckedListBox();
-            this.rewardsGridView = new System.Windows.Forms.DataGridView();
             this.rewardsSaveButton = new System.Windows.Forms.Button();
             this.playersTabPage = new System.Windows.Forms.TabPage();
             this.playerGridView = new System.Windows.Forms.DataGridView();
@@ -82,6 +82,7 @@
             this.saveLocation = new System.Windows.Forms.TextBox();
             this.configSaveLocation = new System.Windows.Forms.Button();
             this.droleupdate = new System.Windows.Forms.Timer(this.components);
+            this.generateCurrentLedgerButton = new System.Windows.Forms.Button();
             this.mainTabControl.SuspendLayout();
             this.rewardsTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rewardsGridView)).BeginInit();
@@ -109,67 +110,72 @@
             this.mainTabControl.Controls.Add(this.settingsTabPage);
             this.mainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainTabControl.Location = new System.Drawing.Point(0, 0);
+            this.mainTabControl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
-            this.mainTabControl.Size = new System.Drawing.Size(2662, 1422);
+            this.mainTabControl.Size = new System.Drawing.Size(1775, 924);
             this.mainTabControl.TabIndex = 0;
             // 
             // rewardsTabPage
             // 
             this.rewardsTabPage.BackColor = System.Drawing.Color.DimGray;
             this.rewardsTabPage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.rewardsTabPage.Controls.Add(this.generateCurrentLedgerButton);
             this.rewardsTabPage.Controls.Add(this.rewardsGridView);
             this.rewardsTabPage.Controls.Add(this.discordRolesLabel);
             this.rewardsTabPage.Controls.Add(this.discordroleslist);
             this.rewardsTabPage.Controls.Add(this.rewardsSaveButton);
-            this.rewardsTabPage.Location = new System.Drawing.Point(4, 29);
+            this.rewardsTabPage.Location = new System.Drawing.Point(4, 22);
+            this.rewardsTabPage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.rewardsTabPage.Name = "rewardsTabPage";
-            this.rewardsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.rewardsTabPage.Size = new System.Drawing.Size(2654, 1389);
+            this.rewardsTabPage.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rewardsTabPage.Size = new System.Drawing.Size(1767, 898);
             this.rewardsTabPage.TabIndex = 0;
             this.rewardsTabPage.Text = "Rewards";
             this.rewardsTabPage.Click += new System.EventHandler(this.rewardsSaveButton_click);
-            // 
-            // discordRolesLabel
-            // 
-            this.discordRolesLabel.AutoSize = true;
-            this.discordRolesLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.discordRolesLabel.Location = new System.Drawing.Point(1594, 76);
-            this.discordRolesLabel.Name = "discordRolesLabel";
-            this.discordRolesLabel.Size = new System.Drawing.Size(145, 25);
-            this.discordRolesLabel.TabIndex = 4;
-            this.discordRolesLabel.Text = "Discord Roles";
-            // 
-            // discordroleslist
-            // 
-            this.discordroleslist.FormattingEnabled = true;
-            this.discordroleslist.Location = new System.Drawing.Point(1599, 104);
-            this.discordroleslist.Name = "discordroleslist";
-            this.discordroleslist.Size = new System.Drawing.Size(332, 625);
-            this.discordroleslist.TabIndex = 3;
-            this.discordroleslist.SelectedIndexChanged += new System.EventHandler(this.discordroleslist_SelectedIndexChanged);
             // 
             // rewardsGridView
             // 
             this.rewardsGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.rewardsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.rewardsGridView.Location = new System.Drawing.Point(10, 32);
-            this.rewardsGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.rewardsGridView.Location = new System.Drawing.Point(7, 21);
             this.rewardsGridView.Name = "rewardsGridView";
             this.rewardsGridView.RowHeadersWidth = 62;
-            this.rewardsGridView.Size = new System.Drawing.Size(1582, 697);
+            this.rewardsGridView.Size = new System.Drawing.Size(1055, 453);
             this.rewardsGridView.TabIndex = 3;
             this.rewardsGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.rewardsGridView_CellContentClick);
             this.rewardsGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.rewardsGridView_CellContentClick);
             this.rewardsGridView.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.rewardsRowAdded);
             this.rewardsGridView.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.rewardsRowRemoved);
             // 
+            // discordRolesLabel
+            // 
+            this.discordRolesLabel.AutoSize = true;
+            this.discordRolesLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.discordRolesLabel.Location = new System.Drawing.Point(1063, 49);
+            this.discordRolesLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.discordRolesLabel.Name = "discordRolesLabel";
+            this.discordRolesLabel.Size = new System.Drawing.Size(109, 17);
+            this.discordRolesLabel.TabIndex = 4;
+            this.discordRolesLabel.Text = "Discord Roles";
+            // 
+            // discordroleslist
+            // 
+            this.discordroleslist.FormattingEnabled = true;
+            this.discordroleslist.Location = new System.Drawing.Point(1066, 68);
+            this.discordroleslist.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.discordroleslist.Name = "discordroleslist";
+            this.discordroleslist.Size = new System.Drawing.Size(223, 394);
+            this.discordroleslist.TabIndex = 3;
+            this.discordroleslist.SelectedIndexChanged += new System.EventHandler(this.discordroleslist_SelectedIndexChanged);
+            // 
             // rewardsSaveButton
             // 
             this.rewardsSaveButton.AutoSize = true;
-            this.rewardsSaveButton.Location = new System.Drawing.Point(8, 760);
+            this.rewardsSaveButton.Location = new System.Drawing.Point(5, 494);
+            this.rewardsSaveButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.rewardsSaveButton.Name = "rewardsSaveButton";
-            this.rewardsSaveButton.Size = new System.Drawing.Size(134, 46);
+            this.rewardsSaveButton.Size = new System.Drawing.Size(89, 30);
             this.rewardsSaveButton.TabIndex = 2;
             this.rewardsSaveButton.Text = "Save";
             this.rewardsSaveButton.UseVisualStyleBackColor = true;
@@ -180,10 +186,11 @@
             this.playersTabPage.BackColor = System.Drawing.Color.DimGray;
             this.playersTabPage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.playersTabPage.Controls.Add(this.playerGridView);
-            this.playersTabPage.Location = new System.Drawing.Point(4, 29);
+            this.playersTabPage.Location = new System.Drawing.Point(4, 22);
+            this.playersTabPage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.playersTabPage.Name = "playersTabPage";
-            this.playersTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.playersTabPage.Size = new System.Drawing.Size(2654, 1389);
+            this.playersTabPage.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.playersTabPage.Size = new System.Drawing.Size(1767, 898);
             this.playersTabPage.TabIndex = 1;
             this.playersTabPage.Text = "Users";
             // 
@@ -193,20 +200,20 @@
             this.playerGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.playerGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.playerGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.playerGridView.Location = new System.Drawing.Point(48, 57);
-            this.playerGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.playerGridView.Location = new System.Drawing.Point(32, 37);
             this.playerGridView.Name = "playerGridView";
             this.playerGridView.RowHeadersWidth = 62;
-            this.playerGridView.Size = new System.Drawing.Size(1347, 863);
+            this.playerGridView.Size = new System.Drawing.Size(898, 561);
             this.playerGridView.TabIndex = 0;
             // 
             // ledgerTabPage
             // 
             this.ledgerTabPage.BackColor = System.Drawing.Color.DimGray;
             this.ledgerTabPage.Controls.Add(this.ledgerTabControl);
-            this.ledgerTabPage.Location = new System.Drawing.Point(4, 29);
+            this.ledgerTabPage.Location = new System.Drawing.Point(4, 22);
+            this.ledgerTabPage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.ledgerTabPage.Name = "ledgerTabPage";
-            this.ledgerTabPage.Size = new System.Drawing.Size(2654, 1389);
+            this.ledgerTabPage.Size = new System.Drawing.Size(1767, 898);
             this.ledgerTabPage.TabIndex = 2;
             this.ledgerTabPage.Text = "Ledger";
             // 
@@ -216,20 +223,18 @@
             this.ledgerTabControl.Controls.Add(this.claimedLedgerTabPage);
             this.ledgerTabControl.Controls.Add(this.expiredLedgerTabPage);
             this.ledgerTabControl.Location = new System.Drawing.Point(0, 0);
-            this.ledgerTabControl.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ledgerTabControl.Name = "ledgerTabControl";
             this.ledgerTabControl.SelectedIndex = 0;
-            this.ledgerTabControl.Size = new System.Drawing.Size(1774, 954);
+            this.ledgerTabControl.Size = new System.Drawing.Size(1183, 620);
             this.ledgerTabControl.TabIndex = 1;
             // 
             // unclaimedLedgerTabPage
             // 
             this.unclaimedLedgerTabPage.Controls.Add(this.unclaimedLedgerGridView);
-            this.unclaimedLedgerTabPage.Location = new System.Drawing.Point(4, 29);
-            this.unclaimedLedgerTabPage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.unclaimedLedgerTabPage.Location = new System.Drawing.Point(4, 22);
             this.unclaimedLedgerTabPage.Name = "unclaimedLedgerTabPage";
-            this.unclaimedLedgerTabPage.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.unclaimedLedgerTabPage.Size = new System.Drawing.Size(1766, 921);
+            this.unclaimedLedgerTabPage.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.unclaimedLedgerTabPage.Size = new System.Drawing.Size(1175, 594);
             this.unclaimedLedgerTabPage.TabIndex = 0;
             this.unclaimedLedgerTabPage.Text = "Unclaimed Rewards";
             this.unclaimedLedgerTabPage.UseVisualStyleBackColor = true;
@@ -241,21 +246,19 @@
             this.unclaimedLedgerGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.unclaimedLedgerGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.unclaimedLedgerGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.unclaimedLedgerGridView.Location = new System.Drawing.Point(4, 5);
-            this.unclaimedLedgerGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.unclaimedLedgerGridView.Location = new System.Drawing.Point(3, 3);
             this.unclaimedLedgerGridView.Name = "unclaimedLedgerGridView";
             this.unclaimedLedgerGridView.RowHeadersWidth = 62;
-            this.unclaimedLedgerGridView.Size = new System.Drawing.Size(1758, 911);
+            this.unclaimedLedgerGridView.Size = new System.Drawing.Size(1169, 588);
             this.unclaimedLedgerGridView.TabIndex = 0;
             // 
             // claimedLedgerTabPage
             // 
             this.claimedLedgerTabPage.Controls.Add(this.claimedLedgerDataGridView);
-            this.claimedLedgerTabPage.Location = new System.Drawing.Point(4, 29);
-            this.claimedLedgerTabPage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.claimedLedgerTabPage.Location = new System.Drawing.Point(4, 22);
             this.claimedLedgerTabPage.Name = "claimedLedgerTabPage";
-            this.claimedLedgerTabPage.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.claimedLedgerTabPage.Size = new System.Drawing.Size(1766, 921);
+            this.claimedLedgerTabPage.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.claimedLedgerTabPage.Size = new System.Drawing.Size(1175, 594);
             this.claimedLedgerTabPage.TabIndex = 1;
             this.claimedLedgerTabPage.Text = "Claimed Rewards";
             this.claimedLedgerTabPage.UseVisualStyleBackColor = true;
@@ -267,21 +270,19 @@
             this.claimedLedgerDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.claimedLedgerDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.claimedLedgerDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.claimedLedgerDataGridView.Location = new System.Drawing.Point(4, 5);
-            this.claimedLedgerDataGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.claimedLedgerDataGridView.Location = new System.Drawing.Point(3, 3);
             this.claimedLedgerDataGridView.Name = "claimedLedgerDataGridView";
             this.claimedLedgerDataGridView.RowHeadersWidth = 62;
-            this.claimedLedgerDataGridView.Size = new System.Drawing.Size(1758, 911);
+            this.claimedLedgerDataGridView.Size = new System.Drawing.Size(1169, 588);
             this.claimedLedgerDataGridView.TabIndex = 1;
             // 
             // expiredLedgerTabPage
             // 
             this.expiredLedgerTabPage.Controls.Add(this.expiredLedgerDataGridView);
-            this.expiredLedgerTabPage.Location = new System.Drawing.Point(4, 29);
-            this.expiredLedgerTabPage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.expiredLedgerTabPage.Location = new System.Drawing.Point(4, 22);
             this.expiredLedgerTabPage.Name = "expiredLedgerTabPage";
-            this.expiredLedgerTabPage.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.expiredLedgerTabPage.Size = new System.Drawing.Size(1766, 921);
+            this.expiredLedgerTabPage.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.expiredLedgerTabPage.Size = new System.Drawing.Size(1175, 594);
             this.expiredLedgerTabPage.TabIndex = 2;
             this.expiredLedgerTabPage.Text = "Expired Rewards";
             this.expiredLedgerTabPage.UseVisualStyleBackColor = true;
@@ -293,11 +294,10 @@
             this.expiredLedgerDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.expiredLedgerDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.expiredLedgerDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.expiredLedgerDataGridView.Location = new System.Drawing.Point(4, 5);
-            this.expiredLedgerDataGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.expiredLedgerDataGridView.Location = new System.Drawing.Point(3, 3);
             this.expiredLedgerDataGridView.Name = "expiredLedgerDataGridView";
             this.expiredLedgerDataGridView.RowHeadersWidth = 62;
-            this.expiredLedgerDataGridView.Size = new System.Drawing.Size(1758, 911);
+            this.expiredLedgerDataGridView.Size = new System.Drawing.Size(1169, 588);
             this.expiredLedgerDataGridView.TabIndex = 1;
             // 
             // settingsTabPage
@@ -309,9 +309,10 @@
             this.settingsTabPage.Controls.Add(this.settingsSaveButton);
             this.settingsTabPage.Controls.Add(this.saveLocation);
             this.settingsTabPage.Controls.Add(this.configSaveLocation);
-            this.settingsTabPage.Location = new System.Drawing.Point(4, 29);
+            this.settingsTabPage.Location = new System.Drawing.Point(4, 22);
+            this.settingsTabPage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.settingsTabPage.Name = "settingsTabPage";
-            this.settingsTabPage.Size = new System.Drawing.Size(2654, 1389);
+            this.settingsTabPage.Size = new System.Drawing.Size(1767, 898);
             this.settingsTabPage.TabIndex = 3;
             this.settingsTabPage.Text = "Settings";
             this.settingsTabPage.Click += new System.EventHandler(this.settingsTabPage_Click);
@@ -327,11 +328,9 @@
             this.discordSettingsGroupBox.Controls.Add(this.discordTestMessage);
             this.discordSettingsGroupBox.Controls.Add(this.channelDiscordID);
             this.discordSettingsGroupBox.Controls.Add(this.discordToken);
-            this.discordSettingsGroupBox.Location = new System.Drawing.Point(21, 66);
-            this.discordSettingsGroupBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.discordSettingsGroupBox.Location = new System.Drawing.Point(14, 43);
             this.discordSettingsGroupBox.Name = "discordSettingsGroupBox";
-            this.discordSettingsGroupBox.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.discordSettingsGroupBox.Size = new System.Drawing.Size(994, 160);
+            this.discordSettingsGroupBox.Size = new System.Drawing.Size(663, 104);
             this.discordSettingsGroupBox.TabIndex = 18;
             this.discordSettingsGroupBox.TabStop = false;
             this.discordSettingsGroupBox.Text = "Discord Bot";
@@ -339,9 +338,10 @@
             // discordAutoConnect
             // 
             this.discordAutoConnect.AutoSize = true;
-            this.discordAutoConnect.Location = new System.Drawing.Point(782, 23);
+            this.discordAutoConnect.Location = new System.Drawing.Point(521, 15);
+            this.discordAutoConnect.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.discordAutoConnect.Name = "discordAutoConnect";
-            this.discordAutoConnect.Size = new System.Drawing.Size(159, 24);
+            this.discordAutoConnect.Size = new System.Drawing.Size(108, 17);
             this.discordAutoConnect.TabIndex = 18;
             this.discordAutoConnect.Text = "Connect On Start";
             this.discordAutoConnect.UseVisualStyleBackColor = true;
@@ -349,35 +349,39 @@
             // discordTestMessageLabel
             // 
             this.discordTestMessageLabel.AutoSize = true;
-            this.discordTestMessageLabel.Location = new System.Drawing.Point(8, 108);
+            this.discordTestMessageLabel.Location = new System.Drawing.Point(5, 70);
+            this.discordTestMessageLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.discordTestMessageLabel.Name = "discordTestMessageLabel";
-            this.discordTestMessageLabel.Size = new System.Drawing.Size(109, 20);
+            this.discordTestMessageLabel.Size = new System.Drawing.Size(74, 13);
             this.discordTestMessageLabel.TabIndex = 17;
             this.discordTestMessageLabel.Text = "Test Message";
             // 
             // discordChannelIDLabel
             // 
             this.discordChannelIDLabel.AutoSize = true;
-            this.discordChannelIDLabel.Location = new System.Drawing.Point(8, 68);
+            this.discordChannelIDLabel.Location = new System.Drawing.Point(5, 44);
+            this.discordChannelIDLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.discordChannelIDLabel.Name = "discordChannelIDLabel";
-            this.discordChannelIDLabel.Size = new System.Drawing.Size(147, 20);
+            this.discordChannelIDLabel.Size = new System.Drawing.Size(99, 13);
             this.discordChannelIDLabel.TabIndex = 16;
             this.discordChannelIDLabel.Text = "Discord Channel ID";
             // 
             // discordBotTokenLabel
             // 
             this.discordBotTokenLabel.AutoSize = true;
-            this.discordBotTokenLabel.Location = new System.Drawing.Point(8, 25);
+            this.discordBotTokenLabel.Location = new System.Drawing.Point(5, 16);
+            this.discordBotTokenLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.discordBotTokenLabel.Name = "discordBotTokenLabel";
-            this.discordBotTokenLabel.Size = new System.Drawing.Size(140, 20);
+            this.discordBotTokenLabel.Size = new System.Drawing.Size(96, 13);
             this.discordBotTokenLabel.TabIndex = 15;
             this.discordBotTokenLabel.Text = "Discord Bot Token";
             // 
             // discordMSGSend
             // 
-            this.discordMSGSend.Location = new System.Drawing.Point(621, 102);
+            this.discordMSGSend.Location = new System.Drawing.Point(414, 66);
+            this.discordMSGSend.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.discordMSGSend.Name = "discordMSGSend";
-            this.discordMSGSend.Size = new System.Drawing.Size(111, 34);
+            this.discordMSGSend.Size = new System.Drawing.Size(74, 22);
             this.discordMSGSend.TabIndex = 14;
             this.discordMSGSend.Text = "Send";
             this.discordMSGSend.UseVisualStyleBackColor = true;
@@ -385,9 +389,10 @@
             // 
             // discordBotConnect
             // 
-            this.discordBotConnect.Location = new System.Drawing.Point(621, 18);
+            this.discordBotConnect.Location = new System.Drawing.Point(414, 12);
+            this.discordBotConnect.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.discordBotConnect.Name = "discordBotConnect";
-            this.discordBotConnect.Size = new System.Drawing.Size(111, 34);
+            this.discordBotConnect.Size = new System.Drawing.Size(74, 22);
             this.discordBotConnect.TabIndex = 13;
             this.discordBotConnect.Text = "Connect";
             this.discordBotConnect.UseVisualStyleBackColor = true;
@@ -395,23 +400,26 @@
             // 
             // discordTestMessage
             // 
-            this.discordTestMessage.Location = new System.Drawing.Point(160, 105);
+            this.discordTestMessage.Location = new System.Drawing.Point(107, 68);
+            this.discordTestMessage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.discordTestMessage.Name = "discordTestMessage";
-            this.discordTestMessage.Size = new System.Drawing.Size(440, 26);
+            this.discordTestMessage.Size = new System.Drawing.Size(295, 20);
             this.discordTestMessage.TabIndex = 12;
             // 
             // channelDiscordID
             // 
-            this.channelDiscordID.Location = new System.Drawing.Point(160, 65);
+            this.channelDiscordID.Location = new System.Drawing.Point(107, 42);
+            this.channelDiscordID.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.channelDiscordID.Name = "channelDiscordID";
-            this.channelDiscordID.Size = new System.Drawing.Size(440, 26);
+            this.channelDiscordID.Size = new System.Drawing.Size(295, 20);
             this.channelDiscordID.TabIndex = 11;
             // 
             // discordToken
             // 
-            this.discordToken.Location = new System.Drawing.Point(160, 22);
+            this.discordToken.Location = new System.Drawing.Point(107, 14);
+            this.discordToken.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.discordToken.Name = "discordToken";
-            this.discordToken.Size = new System.Drawing.Size(440, 26);
+            this.discordToken.Size = new System.Drawing.Size(295, 20);
             this.discordToken.TabIndex = 9;
             this.discordToken.UseSystemPasswordChar = true;
             // 
@@ -427,11 +435,9 @@
             this.nexusDatabaseSettingsGroupBox.Controls.Add(this.nexusDatabaseUsernameLabel);
             this.nexusDatabaseSettingsGroupBox.Controls.Add(this.nexusDatabaseDatabase);
             this.nexusDatabaseSettingsGroupBox.Controls.Add(this.nexusDatabasePasswordLabel);
-            this.nexusDatabaseSettingsGroupBox.Location = new System.Drawing.Point(21, 455);
-            this.nexusDatabaseSettingsGroupBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.nexusDatabaseSettingsGroupBox.Location = new System.Drawing.Point(14, 296);
             this.nexusDatabaseSettingsGroupBox.Name = "nexusDatabaseSettingsGroupBox";
-            this.nexusDatabaseSettingsGroupBox.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.nexusDatabaseSettingsGroupBox.Size = new System.Drawing.Size(994, 211);
+            this.nexusDatabaseSettingsGroupBox.Size = new System.Drawing.Size(663, 137);
             this.nexusDatabaseSettingsGroupBox.TabIndex = 17;
             this.nexusDatabaseSettingsGroupBox.TabStop = false;
             this.nexusDatabaseSettingsGroupBox.Text = "Nexus Database";
@@ -439,10 +445,9 @@
             // 
             // Password
             // 
-            this.Password.Location = new System.Drawing.Point(153, 149);
-            this.Password.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Password.Location = new System.Drawing.Point(102, 97);
             this.Password.Name = "Password";
-            this.Password.Size = new System.Drawing.Size(302, 26);
+            this.Password.Size = new System.Drawing.Size(203, 20);
             this.Password.TabIndex = 13;
             this.Password.Text = "ClusterPassword";
             this.Password.UseSystemPasswordChar = true;
@@ -450,39 +455,35 @@
             // databasePortLabel
             // 
             this.databasePortLabel.AutoSize = true;
-            this.databasePortLabel.Location = new System.Drawing.Point(495, 40);
-            this.databasePortLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.databasePortLabel.Location = new System.Drawing.Point(330, 26);
             this.databasePortLabel.Name = "databasePortLabel";
-            this.databasePortLabel.Size = new System.Drawing.Size(42, 20);
+            this.databasePortLabel.Size = new System.Drawing.Size(29, 13);
             this.databasePortLabel.TabIndex = 12;
             this.databasePortLabel.Text = "Port:";
             // 
             // nexusDatabaseHost
             // 
-            this.nexusDatabaseHost.Location = new System.Drawing.Point(153, 29);
-            this.nexusDatabaseHost.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.nexusDatabaseHost.Location = new System.Drawing.Point(102, 19);
             this.nexusDatabaseHost.Name = "nexusDatabaseHost";
-            this.nexusDatabaseHost.Size = new System.Drawing.Size(302, 26);
+            this.nexusDatabaseHost.Size = new System.Drawing.Size(203, 20);
             this.nexusDatabaseHost.TabIndex = 3;
             this.nexusDatabaseHost.Text = "localhost";
             // 
             // nexusDatabaseHostLabel
             // 
             this.nexusDatabaseHostLabel.AutoSize = true;
-            this.nexusDatabaseHostLabel.Location = new System.Drawing.Point(33, 35);
-            this.nexusDatabaseHostLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.nexusDatabaseHostLabel.Location = new System.Drawing.Point(22, 23);
             this.nexusDatabaseHostLabel.Name = "nexusDatabaseHostLabel";
-            this.nexusDatabaseHostLabel.Size = new System.Drawing.Size(47, 20);
+            this.nexusDatabaseHostLabel.Size = new System.Drawing.Size(32, 13);
             this.nexusDatabaseHostLabel.TabIndex = 4;
             this.nexusDatabaseHostLabel.Text = "Host:";
             // 
             // nexusDatabasePort
             // 
-            this.nexusDatabasePort.Location = new System.Drawing.Point(552, 31);
-            this.nexusDatabasePort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.nexusDatabasePort.Location = new System.Drawing.Point(368, 20);
             this.nexusDatabasePort.Mask = "0000";
             this.nexusDatabasePort.Name = "nexusDatabasePort";
-            this.nexusDatabasePort.Size = new System.Drawing.Size(130, 26);
+            this.nexusDatabasePort.Size = new System.Drawing.Size(88, 20);
             this.nexusDatabasePort.TabIndex = 11;
             this.nexusDatabasePort.Text = "5433";
             this.nexusDatabasePort.ValidatingType = typeof(int);
@@ -490,48 +491,43 @@
             // databaseDatabaseLabel
             // 
             this.databaseDatabaseLabel.AutoSize = true;
-            this.databaseDatabaseLabel.Location = new System.Drawing.Point(33, 74);
-            this.databaseDatabaseLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.databaseDatabaseLabel.Location = new System.Drawing.Point(22, 48);
             this.databaseDatabaseLabel.Name = "databaseDatabaseLabel";
-            this.databaseDatabaseLabel.Size = new System.Drawing.Size(83, 20);
+            this.databaseDatabaseLabel.Size = new System.Drawing.Size(56, 13);
             this.databaseDatabaseLabel.TabIndex = 5;
             this.databaseDatabaseLabel.Text = "Database:";
             // 
             // nexusDatabaseUser
             // 
-            this.nexusDatabaseUser.Location = new System.Drawing.Point(153, 109);
-            this.nexusDatabaseUser.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.nexusDatabaseUser.Location = new System.Drawing.Point(102, 71);
             this.nexusDatabaseUser.Name = "nexusDatabaseUser";
-            this.nexusDatabaseUser.Size = new System.Drawing.Size(302, 26);
+            this.nexusDatabaseUser.Size = new System.Drawing.Size(203, 20);
             this.nexusDatabaseUser.TabIndex = 9;
             this.nexusDatabaseUser.Text = "NexusUser";
             // 
             // nexusDatabaseUsernameLabel
             // 
             this.nexusDatabaseUsernameLabel.AutoSize = true;
-            this.nexusDatabaseUsernameLabel.Location = new System.Drawing.Point(33, 114);
-            this.nexusDatabaseUsernameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.nexusDatabaseUsernameLabel.Location = new System.Drawing.Point(22, 74);
             this.nexusDatabaseUsernameLabel.Name = "nexusDatabaseUsernameLabel";
-            this.nexusDatabaseUsernameLabel.Size = new System.Drawing.Size(87, 20);
+            this.nexusDatabaseUsernameLabel.Size = new System.Drawing.Size(58, 13);
             this.nexusDatabaseUsernameLabel.TabIndex = 6;
             this.nexusDatabaseUsernameLabel.Text = "Username:";
             // 
             // nexusDatabaseDatabase
             // 
-            this.nexusDatabaseDatabase.Location = new System.Drawing.Point(153, 69);
-            this.nexusDatabaseDatabase.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.nexusDatabaseDatabase.Location = new System.Drawing.Point(102, 45);
             this.nexusDatabaseDatabase.Name = "nexusDatabaseDatabase";
-            this.nexusDatabaseDatabase.Size = new System.Drawing.Size(302, 26);
+            this.nexusDatabaseDatabase.Size = new System.Drawing.Size(203, 20);
             this.nexusDatabaseDatabase.TabIndex = 8;
             this.nexusDatabaseDatabase.Text = "NexusDatabase";
             // 
             // nexusDatabasePasswordLabel
             // 
             this.nexusDatabasePasswordLabel.AutoSize = true;
-            this.nexusDatabasePasswordLabel.Location = new System.Drawing.Point(33, 160);
-            this.nexusDatabasePasswordLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.nexusDatabasePasswordLabel.Location = new System.Drawing.Point(22, 104);
             this.nexusDatabasePasswordLabel.Name = "nexusDatabasePasswordLabel";
-            this.nexusDatabasePasswordLabel.Size = new System.Drawing.Size(82, 20);
+            this.nexusDatabasePasswordLabel.Size = new System.Drawing.Size(56, 13);
             this.nexusDatabasePasswordLabel.TabIndex = 7;
             this.nexusDatabasePasswordLabel.Text = "Password:";
             // 
@@ -547,21 +543,18 @@
             this.paymentsDatabaseSettingsGroupBox.Controls.Add(this.paymentsDatabaseUsernameLabel);
             this.paymentsDatabaseSettingsGroupBox.Controls.Add(this.paymentsDatabaseDatabase);
             this.paymentsDatabaseSettingsGroupBox.Controls.Add(this.paymentsDatabasePasswordLabel);
-            this.paymentsDatabaseSettingsGroupBox.Location = new System.Drawing.Point(21, 235);
-            this.paymentsDatabaseSettingsGroupBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.paymentsDatabaseSettingsGroupBox.Location = new System.Drawing.Point(14, 153);
             this.paymentsDatabaseSettingsGroupBox.Name = "paymentsDatabaseSettingsGroupBox";
-            this.paymentsDatabaseSettingsGroupBox.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.paymentsDatabaseSettingsGroupBox.Size = new System.Drawing.Size(994, 211);
+            this.paymentsDatabaseSettingsGroupBox.Size = new System.Drawing.Size(663, 137);
             this.paymentsDatabaseSettingsGroupBox.TabIndex = 16;
             this.paymentsDatabaseSettingsGroupBox.TabStop = false;
             this.paymentsDatabaseSettingsGroupBox.Text = "Payments Database";
             // 
             // paymentsDatabasePassword
             // 
-            this.paymentsDatabasePassword.Location = new System.Drawing.Point(153, 149);
-            this.paymentsDatabasePassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.paymentsDatabasePassword.Location = new System.Drawing.Point(102, 97);
             this.paymentsDatabasePassword.Name = "paymentsDatabasePassword";
-            this.paymentsDatabasePassword.Size = new System.Drawing.Size(302, 26);
+            this.paymentsDatabasePassword.Size = new System.Drawing.Size(203, 20);
             this.paymentsDatabasePassword.TabIndex = 15;
             this.paymentsDatabasePassword.Text = "paymentsPassword";
             this.paymentsDatabasePassword.UseSystemPasswordChar = true;
@@ -569,29 +562,26 @@
             // paymentsDatabasePortLabel
             // 
             this.paymentsDatabasePortLabel.AutoSize = true;
-            this.paymentsDatabasePortLabel.Location = new System.Drawing.Point(495, 40);
-            this.paymentsDatabasePortLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.paymentsDatabasePortLabel.Location = new System.Drawing.Point(330, 26);
             this.paymentsDatabasePortLabel.Name = "paymentsDatabasePortLabel";
-            this.paymentsDatabasePortLabel.Size = new System.Drawing.Size(42, 20);
+            this.paymentsDatabasePortLabel.Size = new System.Drawing.Size(29, 13);
             this.paymentsDatabasePortLabel.TabIndex = 14;
             this.paymentsDatabasePortLabel.Text = "Port:";
             // 
             // paymentsDatabaseHost
             // 
-            this.paymentsDatabaseHost.Location = new System.Drawing.Point(153, 29);
-            this.paymentsDatabaseHost.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.paymentsDatabaseHost.Location = new System.Drawing.Point(102, 19);
             this.paymentsDatabaseHost.Name = "paymentsDatabaseHost";
-            this.paymentsDatabaseHost.Size = new System.Drawing.Size(302, 26);
+            this.paymentsDatabaseHost.Size = new System.Drawing.Size(203, 20);
             this.paymentsDatabaseHost.TabIndex = 3;
             this.paymentsDatabaseHost.Text = "localhost";
             // 
             // paymentsDatabasePort
             // 
-            this.paymentsDatabasePort.Location = new System.Drawing.Point(552, 31);
-            this.paymentsDatabasePort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.paymentsDatabasePort.Location = new System.Drawing.Point(368, 20);
             this.paymentsDatabasePort.Mask = "0000";
             this.paymentsDatabasePort.Name = "paymentsDatabasePort";
-            this.paymentsDatabasePort.Size = new System.Drawing.Size(130, 26);
+            this.paymentsDatabasePort.Size = new System.Drawing.Size(88, 20);
             this.paymentsDatabasePort.TabIndex = 13;
             this.paymentsDatabasePort.Text = "5433";
             this.paymentsDatabasePort.ValidatingType = typeof(int);
@@ -599,67 +589,62 @@
             // paymentsDatabaseHostLabel
             // 
             this.paymentsDatabaseHostLabel.AutoSize = true;
-            this.paymentsDatabaseHostLabel.Location = new System.Drawing.Point(33, 35);
-            this.paymentsDatabaseHostLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.paymentsDatabaseHostLabel.Location = new System.Drawing.Point(22, 23);
             this.paymentsDatabaseHostLabel.Name = "paymentsDatabaseHostLabel";
-            this.paymentsDatabaseHostLabel.Size = new System.Drawing.Size(47, 20);
+            this.paymentsDatabaseHostLabel.Size = new System.Drawing.Size(32, 13);
             this.paymentsDatabaseHostLabel.TabIndex = 4;
             this.paymentsDatabaseHostLabel.Text = "Host:";
             // 
             // paymentsDatabaseDatabaseLabel
             // 
             this.paymentsDatabaseDatabaseLabel.AutoSize = true;
-            this.paymentsDatabaseDatabaseLabel.Location = new System.Drawing.Point(33, 74);
-            this.paymentsDatabaseDatabaseLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.paymentsDatabaseDatabaseLabel.Location = new System.Drawing.Point(22, 48);
             this.paymentsDatabaseDatabaseLabel.Name = "paymentsDatabaseDatabaseLabel";
-            this.paymentsDatabaseDatabaseLabel.Size = new System.Drawing.Size(83, 20);
+            this.paymentsDatabaseDatabaseLabel.Size = new System.Drawing.Size(56, 13);
             this.paymentsDatabaseDatabaseLabel.TabIndex = 5;
             this.paymentsDatabaseDatabaseLabel.Text = "Database:";
             // 
             // paymentsDatabaseUser
             // 
-            this.paymentsDatabaseUser.Location = new System.Drawing.Point(153, 109);
-            this.paymentsDatabaseUser.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.paymentsDatabaseUser.Location = new System.Drawing.Point(102, 71);
             this.paymentsDatabaseUser.Name = "paymentsDatabaseUser";
-            this.paymentsDatabaseUser.Size = new System.Drawing.Size(302, 26);
+            this.paymentsDatabaseUser.Size = new System.Drawing.Size(203, 20);
             this.paymentsDatabaseUser.TabIndex = 9;
             this.paymentsDatabaseUser.Text = "paymentsUser";
             // 
             // paymentsDatabaseUsernameLabel
             // 
             this.paymentsDatabaseUsernameLabel.AutoSize = true;
-            this.paymentsDatabaseUsernameLabel.Location = new System.Drawing.Point(33, 114);
-            this.paymentsDatabaseUsernameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.paymentsDatabaseUsernameLabel.Location = new System.Drawing.Point(22, 74);
             this.paymentsDatabaseUsernameLabel.Name = "paymentsDatabaseUsernameLabel";
-            this.paymentsDatabaseUsernameLabel.Size = new System.Drawing.Size(87, 20);
+            this.paymentsDatabaseUsernameLabel.Size = new System.Drawing.Size(58, 13);
             this.paymentsDatabaseUsernameLabel.TabIndex = 6;
             this.paymentsDatabaseUsernameLabel.Text = "Username:";
             // 
             // paymentsDatabaseDatabase
             // 
-            this.paymentsDatabaseDatabase.Location = new System.Drawing.Point(153, 69);
-            this.paymentsDatabaseDatabase.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.paymentsDatabaseDatabase.Location = new System.Drawing.Point(102, 45);
             this.paymentsDatabaseDatabase.Name = "paymentsDatabaseDatabase";
-            this.paymentsDatabaseDatabase.Size = new System.Drawing.Size(302, 26);
+            this.paymentsDatabaseDatabase.Size = new System.Drawing.Size(203, 20);
             this.paymentsDatabaseDatabase.TabIndex = 8;
             this.paymentsDatabaseDatabase.Text = "PaymentsDatabase";
             // 
             // paymentsDatabasePasswordLabel
             // 
             this.paymentsDatabasePasswordLabel.AutoSize = true;
-            this.paymentsDatabasePasswordLabel.Location = new System.Drawing.Point(33, 160);
-            this.paymentsDatabasePasswordLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.paymentsDatabasePasswordLabel.Location = new System.Drawing.Point(22, 104);
             this.paymentsDatabasePasswordLabel.Name = "paymentsDatabasePasswordLabel";
-            this.paymentsDatabasePasswordLabel.Size = new System.Drawing.Size(82, 20);
+            this.paymentsDatabasePasswordLabel.Size = new System.Drawing.Size(56, 13);
             this.paymentsDatabasePasswordLabel.TabIndex = 7;
             this.paymentsDatabasePasswordLabel.Text = "Password:";
             // 
             // settingsSaveButton
             // 
             this.settingsSaveButton.AutoSize = true;
-            this.settingsSaveButton.Location = new System.Drawing.Point(882, 674);
+            this.settingsSaveButton.Location = new System.Drawing.Point(588, 438);
+            this.settingsSaveButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.settingsSaveButton.Name = "settingsSaveButton";
-            this.settingsSaveButton.Size = new System.Drawing.Size(134, 46);
+            this.settingsSaveButton.Size = new System.Drawing.Size(89, 30);
             this.settingsSaveButton.TabIndex = 2;
             this.settingsSaveButton.Text = "Save";
             this.settingsSaveButton.UseVisualStyleBackColor = true;
@@ -667,16 +652,18 @@
             // 
             // saveLocation
             // 
-            this.saveLocation.Location = new System.Drawing.Point(164, 28);
+            this.saveLocation.Location = new System.Drawing.Point(109, 18);
+            this.saveLocation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.saveLocation.Name = "saveLocation";
-            this.saveLocation.Size = new System.Drawing.Size(964, 26);
+            this.saveLocation.Size = new System.Drawing.Size(644, 20);
             this.saveLocation.TabIndex = 1;
             // 
             // configSaveLocation
             // 
-            this.configSaveLocation.Location = new System.Drawing.Point(21, 20);
+            this.configSaveLocation.Location = new System.Drawing.Point(14, 13);
+            this.configSaveLocation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.configSaveLocation.Name = "configSaveLocation";
-            this.configSaveLocation.Size = new System.Drawing.Size(136, 40);
+            this.configSaveLocation.Size = new System.Drawing.Size(91, 26);
             this.configSaveLocation.TabIndex = 0;
             this.configSaveLocation.Text = "Save Location";
             this.configSaveLocation.UseVisualStyleBackColor = true;
@@ -687,14 +674,27 @@
             this.droleupdate.Interval = 120000;
             this.droleupdate.Tick += new System.EventHandler(this.droleupdate_Tick);
             // 
+            // generateCurrentLedgerButton
+            // 
+            this.generateCurrentLedgerButton.AutoSize = true;
+            this.generateCurrentLedgerButton.Location = new System.Drawing.Point(928, 494);
+            this.generateCurrentLedgerButton.Margin = new System.Windows.Forms.Padding(2);
+            this.generateCurrentLedgerButton.Name = "generateCurrentLedgerButton";
+            this.generateCurrentLedgerButton.Size = new System.Drawing.Size(134, 30);
+            this.generateCurrentLedgerButton.TabIndex = 5;
+            this.generateCurrentLedgerButton.Text = "Generate Current Ledger";
+            this.generateCurrentLedgerButton.UseVisualStyleBackColor = true;
+            this.generateCurrentLedgerButton.Click += new System.EventHandler(this.generateCurrentLedgerButton_Click);
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(2662, 1422);
+            this.ClientSize = new System.Drawing.Size(1775, 924);
             this.Controls.Add(this.mainTabControl);
             this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form1";
             this.Text = "Form1";
             this.mainTabControl.ResumeLayout(false);
@@ -778,6 +778,7 @@
         private System.Windows.Forms.TextBox discordTestMessage;
         private System.Windows.Forms.TextBox channelDiscordID;
         private System.Windows.Forms.TextBox discordToken;
+        private System.Windows.Forms.Button generateCurrentLedgerButton;
     }
 }
 
