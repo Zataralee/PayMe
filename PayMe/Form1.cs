@@ -34,6 +34,8 @@ namespace PayMe
         private DataTable _playerDataTable;
         private DataTable _rewardsDataTable;
 
+        private List<string> _discordRolesList;
+
         private void LoadConfiguration()
         {
             if (File.Exists(defaultConfigPath))
@@ -185,6 +187,7 @@ namespace PayMe
             playerGridView.DataSource = _playerDataTable;
             rewardsGridView.DataSource = _rewardsDataTable;
 
+            _discordRolesList = new List<string>();
             // Register the MessageReceived event
             _client.MessageReceived += MessageReceivedAsync;
 
@@ -298,9 +301,11 @@ namespace PayMe
                     discordroleslist.Invoke((MethodInvoker)delegate
                     {
                         discordroleslist.Items.Clear();
+                        _discordRolesList.Clear();
                         foreach (var role in guild.Roles)
                         {
                             discordroleslist.Items.Add(role.Name);
+                            _discordRolesList.Add(role.Name);
                         }
                     });
                 }
@@ -650,7 +655,7 @@ namespace PayMe
                 foreach (DataRow row in _rewardsDataTable.Rows)
                 {
                     if (!row["ID"].ToString().Equals(""))
-                        _paymentDatabase.UpsertData(new RewardsData { id = new Guid(row["ID"].ToString()), name = row["Name"].ToString(), discordRole = row["Discord Role"].ToString(), command = row["Command"].ToString() });//, runOnAll = (bool)row["Run On All Servers"], autoClaim = (bool)row["Auto Claim"] });//, triggerInterval = new TimeSpan(row["Trigger Interval"].ToString()), expireInterval = TimeSpan(row["Expire Interval"].ToString()) });
+                        _paymentDatabase.UpsertData(new RewardsData { id = new Guid(row["ID"].ToString()), name = row["Name"].ToString(), discordRole = row["Discord Role"].ToString(), command = row["Command"].ToString(), runOnAll = row["Run On All Servers"].ToString().Equals("True"), autoClaim = row["Auto Claim"].ToString().Equals("True"), transferable = row["Transferable"].ToString().Equals("True") });//, triggerInterval = new TimeSpan(row["Trigger Interval"].ToString()), expireInterval = TimeSpan(row["Expire Interval"].ToString()) });
                 }
 
                 // Update the DataGridView from the database
@@ -755,6 +760,7 @@ namespace PayMe
 //            details.triggerInterval = _rewardsDataTable.Rows[e.RowIndex]["Trigger Interval"].ToString();
 //            details.expireInterval = _rewardsDataTable.Rows[e.RowIndex]["Expire Interval"].ToString();
             details.transferable = _rewardsDataTable.Rows[e.RowIndex]["Transferable"].ToString().Equals("True");
+            details.discordRoles = _discordRolesList;
             if (details.ShowDialog() == DialogResult.OK)
             {
 //                _rewardsDataTable.Rows[e.RowIndex]["ID"] = details.id;

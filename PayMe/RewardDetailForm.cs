@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DSharpPlus.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,6 +22,7 @@ namespace PayMe
         public TimeSpan triggerInterval { get; set; }
         public TimeSpan expireInterval { get; set; }
         public bool transferable { get; set; }
+        public List<string> discordRoles { get; set; }
 
         public RewardDetailForm()
         {
@@ -33,6 +35,7 @@ namespace PayMe
         private void RewardDetailForm_Load(object sender, EventArgs e)
         {
             guidTextBox.Text = id.ToString();
+            discordRoleComboBox.DataSource = discordRoles;
             discordRoleComboBox.Text = discordRole;
             nameTextBox.Text = name;
             commandTextBox.Text = command;
