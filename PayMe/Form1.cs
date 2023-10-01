@@ -543,10 +543,10 @@ namespace PayMe
                 {
                     if (row.claimed)
                         _claimedLedgerDataTable.Rows.Add(row.id, row.name, row.ownerId, row.triggerDate, row.expireDate, row.claimed, row.claimDate);
-                    else if (true) //row.expireDate < row.triggerDate + DateTime.Now) // TODO: fix this line to actually work
-                        _unclaimedLedgerDataTable.Rows.Add(row.id, row.name, row.ownerId, row.triggerDate, row.expireDate, row.claimed, row.claimDate);
-                    else
+                    else if (row.expireDate > DateTime.Now)
                         _expiredLedgerDataTable.Rows.Add(row.id, row.name, row.ownerId, row.triggerDate, row.expireDate, row.claimed, row.claimDate);
+                    else
+                        _unclaimedLedgerDataTable.Rows.Add(row.id, row.name, row.ownerId, row.triggerDate, row.expireDate, row.claimed, row.claimDate);
                 }
 
                 // Update the DataGridView
@@ -739,7 +739,36 @@ namespace PayMe
 
                 //_rewardsDataTable.Rows[e.RowIndex][e.ColumnIndex] = Guid.NewGuid();
             }
-            //Console.WriteLine(_rewardsDataTable.Rows[e.RowIndex][e.ColumnIndex].ToString());
+            Console.WriteLine(_rewardsDataTable.Rows[e.RowIndex][e.ColumnIndex].ToString());
+            RewardDetailForm details = new RewardDetailForm();
+            string guidString = _rewardsDataTable.Rows[e.RowIndex]["ID"].ToString();
+            if (!guidString.Equals(""))
+                details.id = new Guid(_rewardsDataTable.Rows[e.RowIndex]["ID"].ToString());
+            else 
+                details.id = Guid.NewGuid();
+            Console.WriteLine(details.id.ToString());
+            details.name = _rewardsDataTable.Rows[e.RowIndex]["Name"].ToString();
+            details.discordRole = _rewardsDataTable.Rows[e.RowIndex]["Discord Role"].ToString();
+            details.command = _rewardsDataTable.Rows[e.RowIndex]["Command"].ToString();
+            details.runOnAll = _rewardsDataTable.Rows[e.RowIndex]["Run On All Servers"].ToString().Equals("True");
+            details.autoClaim = _rewardsDataTable.Rows[e.RowIndex]["Auto Claim"].ToString().Equals("True");
+//            details.triggerInterval = _rewardsDataTable.Rows[e.RowIndex]["Trigger Interval"].ToString();
+//            details.expireInterval = _rewardsDataTable.Rows[e.RowIndex]["Expire Interval"].ToString();
+            details.transferable = _rewardsDataTable.Rows[e.RowIndex]["Transferable"].ToString().Equals("True");
+            if (details.ShowDialog() == DialogResult.OK)
+            {
+//                _rewardsDataTable.Rows[e.RowIndex]["ID"] = details.id;
+                _rewardsDataTable.Rows[e.RowIndex]["Name"] = details.name;
+                _rewardsDataTable.Rows[e.RowIndex]["Discord Role"] = details.discordRole;
+                _rewardsDataTable.Rows[e.RowIndex]["Command"] = details.command;
+                _rewardsDataTable.Rows[e.RowIndex]["Run On All Servers"] = details.runOnAll;
+                _rewardsDataTable.Rows[e.RowIndex]["Auto Claim"] = details.autoClaim;
+                _rewardsDataTable.Rows[e.RowIndex]["Trigger Interval"] = details.triggerInterval;
+                _rewardsDataTable.Rows[e.RowIndex]["Expire Interval"] = details.expireInterval;
+                _rewardsDataTable.Rows[e.RowIndex]["Transferable"] = details.transferable;
+            }
+            
+
         }
 
         private void configSaveButton_Click(object sender, EventArgs e)
