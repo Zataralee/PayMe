@@ -103,7 +103,6 @@ public class PaymentDatabase
         {
             if (reader[property.Name] != DBNull.Value)
             {
-                Console.WriteLine(reader[property.Name].ToString());
                 property.SetValue(instance, reader[property.Name]);
             }
         }

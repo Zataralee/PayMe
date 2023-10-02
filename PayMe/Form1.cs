@@ -18,6 +18,7 @@ using DSharpPlus.Entities;
 using System.Collections.ObjectModel;
 using Npgsql;
 using System.Xml.Linq;
+using System.Runtime.CompilerServices;
 
 namespace PayMe
 {
@@ -93,7 +94,9 @@ namespace PayMe
             LoadConfiguration();
             this.Load += Form1_Load;  // Register the Load event
 
-            _client = new DiscordSocketClient();
+            _client = new DiscordSocketClient(new DiscordSocketConfig { GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.GuildMembers });
+            
+            //_client.GatewayIntents = GatewayIntents.GuildMembers;
             _client.Log += LogAsync;
             //_client.Ready += ReadyAsync;
             _client.Ready += Client_Ready; // Hook the Ready event
@@ -303,7 +306,11 @@ namespace PayMe
                     {
                         discordroleslist.Items.Clear();
                         _discordRolesList.Clear();
-                        foreach (var role in guild.Roles)
+
+                        // Order roles by their position
+                        var orderedRoles = guild.Roles.OrderByDescending(r => r.Position);
+
+                        foreach (var role in orderedRoles)
                         {
                             discordroleslist.Items.Add(role.Name);
                             _discordRolesList.Add(role.Name);
@@ -357,6 +364,59 @@ namespace PayMe
             // Initial update of roles
             await UpdateRolesAsync();
 
+        }
+        public List<string> GetUserRoles(long discordId)
+        {
+            List<string> userRoles = new List<string>();
+            
+            if (_client?.LoginState == LoginState.LoggedIn)
+            {
+                var guild = _client.Guilds.FirstOrDefault();
+                if (guild == null)
+                {
+                    Console.WriteLine("Guild not found.");
+                    return null;
+                }
+
+                var user = guild.GetUser((ulong)discordId);
+                if (user != null)
+                {
+                    userRoles = user.Roles.Select(r => r.Name).Cast<string>().ToList();
+                }
+                else
+                {
+                    Console.WriteLine($"User with ID {discordId} not found in the guild.");
+                }
+            }
+            return userRoles;
+        }
+
+        
+        public async Task<List<string>> GetUserRolesAsync(long discordId)
+        {
+            List<string> userRoles = new List<string>();
+
+            if (_client?.LoginState == LoginState.LoggedIn)
+            {
+                var guild = _client.Guilds.FirstOrDefault();
+                if (guild == null)
+                {
+                    Console.WriteLine("Guild not found.");
+                    return null;
+                }
+
+                await guild.DownloadUsersAsync();// (ulong)discordId);
+                var user = guild.GetUser((ulong) discordId);
+                if (user != null)
+                {
+                    userRoles = user.Roles.Select(r => r.Name).Cast<string>().ToList();
+                }
+                else
+                {
+                    Console.WriteLine($"User with ID {discordId} not found in the guild.");
+                }
+            }
+            return userRoles;
         }
 
         //respond to payme command
@@ -728,7 +788,7 @@ namespace PayMe
         private void rewardsGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
              //Console.WriteLine($"cell contents clicked: {e.ToString()} {sender.ToString()}");
-            if (_rewardsDataTable.Rows.Count <= e.RowIndex)
+/*            if (_rewardsDataTable.Rows.Count <= e.RowIndex)
                 _rewardsDataTable.Rows.Add(Guid.NewGuid());
             else if ((e.ColumnIndex == 0) && (_rewardsDataTable.Rows[e.RowIndex][e.ColumnIndex].ToString().Equals("")))
             {
@@ -739,14 +799,14 @@ namespace PayMe
 
                 //_rewardsDataTable.Rows[e.RowIndex][e.ColumnIndex] = Guid.NewGuid();
             }
-            Console.WriteLine(_rewardsDataTable.Rows[e.RowIndex][e.ColumnIndex].ToString());
+*/
             RewardDetailForm details = new RewardDetailForm();
             string guidString = _rewardsDataTable.Rows[e.RowIndex]["ID"].ToString();
             if (!guidString.Equals(""))
                 details.id = new Guid(_rewardsDataTable.Rows[e.RowIndex]["ID"].ToString());
             else 
                 details.id = Guid.NewGuid();
-            Console.WriteLine(details.id.ToString());
+            //Console.WriteLine(details.id.ToString());
             details.name = _rewardsDataTable.Rows[e.RowIndex]["Name"].ToString();
             details.discordRole = _rewardsDataTable.Rows[e.RowIndex]["Discord Role"].ToString();
             details.command = _rewardsDataTable.Rows[e.RowIndex]["Command"].ToString();
@@ -819,18 +879,32 @@ namespace PayMe
 
         }
 
-        private void generateCurrentLedgerButton_Click(object sender, EventArgs e)
+        private async void generateCurrentLedgerButton_Click(object sender, EventArgs e)
         {
             // update from the database
             LoadRewardsData();
             LoadPlayerData();
+
+            List<Tuple<long, List<string>>> userRoles = new List<Tuple<long, List<string>>>();
+            //GetUserRolesAsync(0L);
+
+            foreach (DataRow playerRow in _playerDataTable.Rows)
+            {
+                long discordId = long.Parse(playerRow["DiscordID"].ToString());
+                userRoles.Add(new Tuple<long,List<string>>(discordId, await GetUserRolesAsync(discordId)));
+            }
+
+            Console.WriteLine(userRoles.ToString());
 
             foreach (DataRow row in _rewardsDataTable.Rows)
             {
                 if (true) //(row["Trigger Interval"] >= something complicated about dates)
                 {
                     // get player ids with the corresponding roles
-                    var playersWithRole = new List<long>{ 251104128321716235, 231532191690129408, 516691397126914079};
+                    List<long> playersWithRole = userRoles
+                                .Where(tuple => tuple.Item2.Contains(row["Discord Role"].ToString()))
+                                .Select(tuple => tuple.Item1)
+                                .ToList();
                     foreach (var player in playersWithRole)
                     {
                         if (row["Auto Claim"].ToString().Equals("True"))
@@ -922,6 +996,23 @@ namespace PayMe
             {
                 MessageBox.Show("Could not find the specified channel.");
             }
+        }
+
+        private void clearRewardLedgerButton_Click(object sender, EventArgs e)
+        {
+            foreach (DataRow row in _expiredLedgerDataTable.Rows)
+            {
+                _paymentDatabase.RemoveData(new PaymentData { id = new Guid(row["ID"].ToString()) });
+            }
+            foreach (DataRow row in _unclaimedLedgerDataTable.Rows)
+            {
+                _paymentDatabase.RemoveData(new PaymentData { id = new Guid(row["ID"].ToString()) });
+            }
+            foreach (DataRow row in _claimedLedgerDataTable.Rows)
+            {
+                _paymentDatabase.RemoveData(new PaymentData { id = new Guid(row["ID"].ToString()) });
+            }
+            LoadLedgerData();
         }
     }
 }
