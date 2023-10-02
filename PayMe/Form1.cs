@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using DSharpPlus.Entities;
 using System.Collections.ObjectModel;
 using Npgsql;
+using System.Xml.Linq;
 
 namespace PayMe
 {
@@ -167,6 +168,7 @@ namespace PayMe
             _playerDataTable.Columns.Add("SteamName", typeof(string)); // Updated column name
             _playerDataTable.Columns.Add("DiscordID", typeof(long));
             _playerDataTable.Columns.Add("DiscordName", typeof(string));
+            _playerDataTable.PrimaryKey = new DataColumn[] { _playerDataTable.Columns["DiscordID"] };
 
 
             // Initialize the Rewards DataTable
@@ -833,7 +835,14 @@ namespace PayMe
                     {
                         if (row["Auto Claim"].ToString().Equals("True"))
                         {
-                            runServerCommand(row["Command"].ToString());
+                            string serverID = "";
+                            if (row["Run On All Servers"].ToString().Equals("True"))
+                                serverID = "!";
+                            else
+                                serverID = "";
+                            string command = row["Command"].ToString();
+                            string steamID = _playerDataTable.Rows.Find(player)["SteamID"].ToString();
+                            runServerCommand(command.Replace("{ServerID}", serverID).Replace("{SteamID}", steamID).Replace("{DiscordID}", player.ToString()));
                             _paymentDatabase.UpsertData(new PaymentData { id = Guid.NewGuid(), name = row["Name"].ToString(), ownerId = player, command = row["Command"].ToString(), triggerDate = DateTime.Now, expireDate = DateTime.Now + new TimeSpan(1,0,0), claimed = true, claimDate = DateTime.Now, transferable = row["Transferable"].ToString().Equals("True") });
 
                         }
@@ -894,9 +903,25 @@ namespace PayMe
 
         }
 
-        private void runServerCommand(string command)
+        private async void runServerCommand(string command)
         {
-            Console.WriteLine(command);
+            var channelID = ulong.Parse(channelDiscordID.Text);
+
+            if (_client.LoginState != LoginState.LoggedIn)
+            {
+                MessageBox.Show("Please connect to Discord first.");
+                return;
+            }
+
+            var channel = (IMessageChannel)_client.GetChannel(channelID);
+            if (channel != null)
+            {
+                await channel.SendMessageAsync(command);
+            }
+            else
+            {
+                MessageBox.Show("Could not find the specified channel.");
+            }
         }
     }
 }
